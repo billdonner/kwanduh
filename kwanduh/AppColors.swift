@@ -1,0 +1,164 @@
+import SwiftUI
+
+typealias ColorSpec = (backname: String, forename: String, backrgb: (Double, Double, Double), forergb: (Double, Double, Double))
+
+
+typealias ColorSchemeName = Int
+//enum ColorSchemeName: Int, Codable {
+//    case bleak = 0
+//    case winter = 1
+//    case spring = 2
+//    case summer = 3
+//    case autumn = 4
+//}
+
+class AppColors {
+  
+  static func colorForSchemeAndTopic(scheme schmindx:ColorSchemeName,index topicIndex:Int) -> ColorTriple {
+    let theScheme = Self.allSchemes[schmindx]
+    return theScheme.mappedColors[topicIndex]
+  }
+  static func pretty(for colorIndex:Int) -> String {
+    switch colorIndex {
+    case 0: return "bleak"
+    case 1: return "winter"
+    case 2: return "spring"
+    case 3: return "summer"
+    default: return "autumn"
+    }
+  }
+    static func colorForTopicIndex(index: Int, gs: GameState) -> ColorTriple {
+      colorForSchemeAndTopic(scheme: gs.currentscheme, index:index)
+    }
+    
+    // Define the color schemes
+    static let spring =
+  AppColorScheme(name: 2,//.spring,
+              colors: [
+       // ("Spring Green", "Dark Green", (34, 139, 34), (0, 100, 0)), // Darker
+        ("Light Yellow", "Gold", (255, 223, 0), (255, 215, 0)), // Light
+        ("Deep Pink", "Hot Pink", (255, 20, 147), (255, 105, 180)), // Light
+        ("Light Blue", "Royal Blue", (65, 105, 225), (0, 0, 139)), // Darker
+        ("Peach", "Dark Orange", (255, 140, 0), (255, 69, 0)), // Darker
+        ("Lavender", "Dark Violet", (148, 0, 211), (138, 43, 226)), // Darker
+        ("Mint", "Dark Green", (0, 100, 0), (0, 128, 0)), // Darker
+        ("Light Coral", "Crimson", (220, 20, 60), (220, 20, 60)), // Darker
+      //  ("Lilac", "Indigo", (75, 0, 130), (153, 50, 204)), // Darker
+        ("Aqua", "Teal", (0, 128, 128), (0, 128, 128)), // Darker
+        ("Lemon", "Dark Orange", (255, 140, 0), (255, 140, 0)), // Darker
+        ("Sky Blue", "Navy", (0, 0, 128), (0, 0, 205)) // Darker
+    ])
+    
+  static let summer =
+  AppColorScheme(name:3,
+              colors: [
+      ("Sky Blue", "Midnight Blue", (135, 206, 235), (25, 25, 112)), // Light
+      ("Sunshine Yellow", "Goldenrod", (255, 255, 0), (218, 165, 32)), // Light
+     // ("Sunset Orange", "Dark Red", (255, 99, 71), (139, 0, 0)), // Light
+      ("Ocean Blue", "Navy", (0, 105, 148), (0, 34, 64)), // Darker
+      ("Seafoam", "Teal", (70, 240, 220), (0, 128, 128)), // Light
+      ("Palm Green", "Forest Green", (34, 139, 34), (0, 100, 0)), // Darker
+      ("Coral", "Crimson", (255, 127, 80), (220, 20, 60)), // Light
+     // ("Citrus", "Orange", (255, 165, 0), (255, 69, 0)), // Darker
+      ("Lagoon", "Deep Teal", (72, 209, 204), (0, 128, 128)), // Darker
+     ("Shell", "Chocolate", (210, 105, 30), (139, 69, 19)), // Darker
+      ("Coconut", "Brown", (139, 69, 19), (139, 69, 19)), // Darker
+    ("Pineapple", "Dark Orange", (255, 223, 0), (255, 140, 0)) // Light
+  ])
+    
+    static let autumn =
+    AppColorScheme(name: 4,//.autumn,
+                colors: [
+        ("Burnt Orange", "Dark Orange", (204, 85, 0), (255, 140, 0)), // Darker
+        ("Golden Yellow", "Dark Goldenrod", (255, 223, 0), (184, 134, 11)), // Light
+        ("Crimson Red", "Dark Red", (139, 0, 0), (139, 0, 0)), // Darker
+       // ("Forest Green", "Dark Green", (0, 100, 0), (0, 100, 0)), // Darker
+        ("Pumpkin", "Orange Red", (255, 117, 24), (255, 69, 0)), // Darker
+        ("Chestnut", "Saddle Brown", (149, 69, 53), (139, 69, 19)), // Darker
+        ("Harvest Gold", "Dark Goldenrod", (218, 165, 32), (184, 134, 11)), // Darker
+        ("Amber", "Dark Orange", (255, 191, 0), (255, 69, 0)), // Light
+        ("Maroon", "Dark Red", (139, 0, 0), (139, 0, 0)), // Darker
+       // ("Olive", "Dark Olive Green", (85, 107, 47), (85, 107, 47)), // Darker
+        ("Russet", "Brown", (165, 42, 42), (165, 42, 42)), // Darker
+        ("Moss Green", "Dark Olive Green", (85, 107, 47), (85, 107, 47)) // Darker
+    ])
+    
+    static let winter =
+    AppColorScheme(name:1,// .winter,
+                colors: [
+        ("Ice Blue", "Dark Blue", (176, 224, 230), (0, 0, 139)), // Light
+       // ("Snow", "Dark Red", (255, 250, 250), (139, 0, 0)), // Light
+        ("Midnight Blue", "Alice Blue", (25, 25, 112), (240, 248, 255)), // Darker
+        ("Frost", "Steel Blue", (70, 130, 180), (70, 130, 180)), // Darker
+        ("Slate", "Dark Slate Gray", (47, 79, 79), (47, 79, 79)), // Darker
+        ("Silver", "Dark Gray", (169, 169, 169), (169, 169, 169)), // Darker
+        ("Pine", "Dark Green", (0, 100, 0), (0, 100, 0)), // Darker
+        ("Berry", "Dark Red", (139, 0, 0), (139, 0, 0)), // Darker
+        ("Evergreen", "Dark Green", (0, 100, 0), (0, 100, 0)), // Darker
+       // ("Charcoal", "Gray", (54, 69, 79), (54, 69, 79)), // Darker
+        ("Storm", "Dark Gray", (119, 136, 153), (119, 136, 153)), // Darker
+        ("Holly", "Dark Green", (0, 128, 0), (0, 128, 0)) // Darker
+    ])
+    
+//  static let autumn = // trial1 =
+//  ColorScheme(name: .autumn, colors: [
+//         ("Light Orange", "None", (241, 203, 89), (0, 0, 0)), // Darker
+//         ("Light Blue", "None", (91, 179, 245), (0, 0, 0)), // Light
+//         ("Light Purple", "None", (181, 112, 219), (0, 0, 0)), // Light
+//         ("Weird Green", "None", (150, 200, 193), (0, 0, 0)), // Darker
+//         ("Fushcia", "None", (218, 47, 216), (0, 0, 0)), // Darker
+//         ("Yellow", "None", (247, 230, 118), (0, 0, 0)), // Darker
+//         ("Medium Blue", "None", (87, 113, 159), (0, 0, 0)), // Darker
+//         ("Light Coral", "None", (239, 143, 174), (0, 0, 0)), // Darker
+//         ("Magenta", "None", (225, 49, 133), (0, 0, 0)), //
+//         ("Black", "White", (0,0,0), (255,255,255))// temp
+//  ])
+    static let bleak =
+    AppColorScheme(name: 0,//.bleak, 
+                colors: [
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+        ("Black", "White", (0,0,0), (255,255,255)),
+      //  ("Black", "White", (0,0,0), (255,255,255)),
+      //  ("Black", "White", (0,0,0), (255,255,255))
+    ])
+    
+    static let allSchemes = [bleak, winter, spring, summer, autumn]
+}
+
+class AppColorScheme {
+    internal init(name: ColorSchemeName, colors: [ColorSpec]) {
+        self.name = name
+     self.colors = colors
+    }
+    
+    let name: ColorSchemeName
+    let colors: [ColorSpec]
+    var _mappedColors: [ColorTriple]? = nil
+    
+    /// Maps the colors to SwiftUI Color objects and calculates contrasting text colors.
+    var mappedColors: [ColorTriple] {
+        if _mappedColors == nil {
+            _mappedColors = colors.map {
+                let bgColor = Color(red: $0.backrgb.0 / 255, green: $0.backrgb.1 / 255, blue: $0.backrgb.2 / 255)
+                let textColor = Self.contrastingTextColor(for: $0.backrgb)
+                return (bgColor, textColor, UUID())
+            }
+        }
+        return _mappedColors!
+    }
+    
+    /// Determines the contrasting text color (black or white) for a given background color.
+   static func contrastingTextColor(for rgb: (Double, Double, Double)) -> Color {
+        let luminance = 0.299 * rgb.0 + 0.587 * rgb.1 + 0.114 * rgb.2
+        return luminance > 186 ? .black : .white
+    }
+
+}

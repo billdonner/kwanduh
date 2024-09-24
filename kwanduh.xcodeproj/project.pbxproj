@@ -6,15 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		88A318FA2CA318C2005D0DF3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 88A318E12CA318C1005D0DF3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 88A318E82CA318C1005D0DF3;
-			remoteInfo = kwanduh;
-		};
-		88A319042CA318C2005D0DF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 88A318E12CA318C1005D0DF3 /* Project object */;
 			proxyType = 1;
@@ -26,7 +23,7 @@
 /* Begin PBXFileReference section */
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		88A319032CA318C2005D0DF3 /* kwanduhUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88A319162CA3194F005D0DF3 /* playdata-mini.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "playdata-mini.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,11 +35,6 @@
 		88A318FC2CA318C2005D0DF3 /* kwanduhTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = kwanduhTests;
-			sourceTree = "<group>";
-		};
-		88A319062CA318C2005D0DF3 /* kwanduhUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = kwanduhUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -62,22 +54,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		88A319002CA318C2005D0DF3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		88A318E02CA318C1005D0DF3 = {
 			isa = PBXGroup;
 			children = (
+				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A318EB2CA318C1005D0DF3 /* kwanduh */,
 				88A318FC2CA318C2005D0DF3 /* kwanduhTests */,
-				88A319062CA318C2005D0DF3 /* kwanduhUITests */,
 				88A318EA2CA318C1005D0DF3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,7 +72,6 @@
 			children = (
 				88A318E92CA318C1005D0DF3 /* kwanduh.app */,
 				88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */,
-				88A319032CA318C2005D0DF3 /* kwanduhUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,29 +124,6 @@
 			productReference = 88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		88A319022CA318C2005D0DF3 /* kwanduhUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 88A319132CA318C2005D0DF3 /* Build configuration list for PBXNativeTarget "kwanduhUITests" */;
-			buildPhases = (
-				88A318FF2CA318C2005D0DF3 /* Sources */,
-				88A319002CA318C2005D0DF3 /* Frameworks */,
-				88A319012CA318C2005D0DF3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				88A319052CA318C2005D0DF3 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				88A319062CA318C2005D0DF3 /* kwanduhUITests */,
-			);
-			name = kwanduhUITests;
-			packageProductDependencies = (
-			);
-			productName = kwanduhUITests;
-			productReference = 88A319032CA318C2005D0DF3 /* kwanduhUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -177,10 +138,6 @@
 						CreatedOnToolsVersion = 16.0;
 					};
 					88A318F82CA318C2005D0DF3 = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = 88A318E82CA318C1005D0DF3;
-					};
-					88A319022CA318C2005D0DF3 = {
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 88A318E82CA318C1005D0DF3;
 					};
@@ -202,7 +159,6 @@
 			targets = (
 				88A318E82CA318C1005D0DF3 /* kwanduh */,
 				88A318F82CA318C2005D0DF3 /* kwanduhTests */,
-				88A319022CA318C2005D0DF3 /* kwanduhUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -212,17 +168,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		88A318F72CA318C2005D0DF3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		88A319012CA318C2005D0DF3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -246,13 +196,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		88A318FF2CA318C2005D0DF3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -260,11 +203,6 @@
 			isa = PBXTargetDependency;
 			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
 			targetProxy = 88A318FA2CA318C2005D0DF3 /* PBXContainerItemProxy */;
-		};
-		88A319052CA318C2005D0DF3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
-			targetProxy = 88A319042CA318C2005D0DF3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -484,40 +422,6 @@
 			};
 			name = Release;
 		};
-		88A319142CA318C2005D0DF3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanduhUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = kwanduh;
-			};
-			name = Debug;
-		};
-		88A319152CA318C2005D0DF3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanduhUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = kwanduh;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -544,15 +448,6 @@
 			buildConfigurations = (
 				88A319112CA318C2005D0DF3 /* Debug */,
 				88A319122CA318C2005D0DF3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		88A319132CA318C2005D0DF3 /* Build configuration list for PBXNativeTarget "kwanduhUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				88A319142CA318C2005D0DF3 /* Debug */,
-				88A319152CA318C2005D0DF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
