@@ -20,7 +20,7 @@ struct GameScreenBottomButtons : View {
     HStack {
      Image(systemName:gs.startincorners ? "skew" : "character.duployan")
           .font(.title)
-          .foregroundColor(.accent)
+         // .foregroundColor(.accent)
           .frame(width: isIpad ? 70 : 50 , height: isIpad ? 70 : 50)
                  .padding(.leading, 15)
                  .gesture( DragGesture(minimumDistance: gs.gamestate == .playingNow ? 0 : .infinity)

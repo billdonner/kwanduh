@@ -1,23 +1,14 @@
 //
-//  kwanduhApp.swift
-//  kwanduh
+//  mainapp.swift
+//  basic
 //
-//  Created by bill donner on 9/24/24.
+//  Created by bill donner on 7/8/24.
 //
-//
-//  kwanduhApp.swift
-//  kwanduh
-//
-//  Created by bill donner on 9/16/24.
-//
-
 
 import SwiftUI
-
-let gameTitle = "Kwanduh"
-let playDataURL  = Bundle.main.url(forResource: "playdata-mini.json", withExtension: nil)
-
-let starting_size = 8 // Example size, can be 3 to 8
+let gameTitle = "q a n d a"
+let playDataURL  = Bundle.main.url(forResource: "playdata.json", withExtension: nil)
+let starting_size = 3 // Example size, can be 3 to 8
 let spareHeightFactor = isIpad ? 1.15:1.75// controls layout of grid if too small
 let cornerradius = 0.0 // something like 8 makes nice rounded corners in main grid
 var isDebugModeEnabled: Bool = false
@@ -30,8 +21,9 @@ let shouldAssert = true //// External flag to control whether assertions should 
 // Assuming a mock PlayData JSON file in the main bundle
 
 
+// The app's main entry point
 @main
-struct kwanduhApp: App {
+struct QandaApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @AppStorage("OnboardingDone") private var onboardingdone = false
   @State var leaderboardService = LeaderboardService()
@@ -62,6 +54,4 @@ struct kwanduhApp: App {
     }
   }
 }
-
-
 
