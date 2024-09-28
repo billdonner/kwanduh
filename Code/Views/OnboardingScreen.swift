@@ -16,36 +16,23 @@ import SwiftUI
  struct OB01: View {
    @Binding var isPresented:Bool
    var body: some View {
-     VStack {
-         
-     MatrixView(
-             rows: 6, cols: 6,
-             matrix:
-              
-              PDMatrix(rows: 6, cols: 6, pdms: [
-               PDM((row: 0, col: 0), move: Move(.correct, text: ntoSF(1))),
-               PDM((row: 1, col: 1), move: Move(.incorrect, text: ntoSF(2))),
-               PDM((row: 0, col: 1), move: Move(.correct, text: ntoSF(3))),
-               PDM((row: 1, col: 2), move: Move(.correct, text: ntoSF(4))),
-               PDM((row: 2, col: 2), move: Move(.correct, text: ntoSF(5))),
-               PDM((row: 3, col: 3), move: Move(.correct, text: ntoSF(6))),
-               PDM((row: 4, col: 4), move: Move(.incorrect, text: ntoSF(7))),
-               PDM((row: 4, col: 3), move: Move(.correct, text: ntoSF(8))),
-               PDM((row: 5, col: 4), move: Move(.correct, text: ntoSF(9))),
-               PDM((row: 5, col: 5), move: Move(.correct, text: ntoSF(10))),
-             ]),
-             topLabel:nil,
-             bottomLabel: nil,
-             correctColor: .green,
-             incorrectColor: .red,
-             isPresented: $isPresented
-           )
-         Text("Welcome to QANDA Game!")
+     ZStack {
+       
+       WrappedDismissButton(isPresented: $isPresented)
+       VStack {
+         Image("Picture")
+           .resizable()
+           .scaledToFit()
+           .padding()
+         Text("Welcome to Qanda !")
            .font(.title)
            .padding()
+         
+
          Text("Welcome to QANDA! In this game, you'll answer trivia questions to connect two diagonal corners on a grid. Answer questions correctly to complete a path from one corner to its opposite corner.")
            .padding()
        }
+     }
      }
 }
 
