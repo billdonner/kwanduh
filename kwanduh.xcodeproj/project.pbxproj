@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
-		88A3198D2CA32074005D0DF3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198C2CA32074005D0DF3 /* README.md */; };
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +46,7 @@
 			);
 			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
 		};
-		88A319E12CA32390005D0DF3 /* Exceptions for "kwanduh" folder in "qanda" target */ = {
+		88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AnsweredInfo.swift,
@@ -108,7 +107,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				88A319892CA31C90005D0DF3 /* Exceptions for "kwanduh" folder in "kwanduh" target */,
-				88A319E12CA32390005D0DF3 /* Exceptions for "kwanduh" folder in "qanda" target */,
 			);
 			path = kwanduh;
 			sourceTree = "<group>";
@@ -126,6 +124,14 @@
 		88A319A62CA3212C005D0DF3 /* qandaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = qandaTests;
+			sourceTree = "<group>";
+		};
+		88A319F22CA8666A005D0DF3 /* Code */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */,
+			);
+			path = Code;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -168,6 +174,7 @@
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
 				88A3198C2CA32074005D0DF3 /* README.md */,
+				88A319F22CA8666A005D0DF3 /* Code */,
 				88A318EB2CA318C1005D0DF3 /* kwanduh */,
 				88A318FC2CA318C2005D0DF3 /* kwanduhTests */,
 				88A319952CA3212B005D0DF3 /* qanda */,
@@ -204,6 +211,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				88A318EB2CA318C1005D0DF3 /* kwanduh */,
+				88A319F22CA8666A005D0DF3 /* Code */,
 			);
 			name = kwanduh;
 			packageProductDependencies = (
@@ -334,7 +342,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
-				88A3198D2CA32074005D0DF3 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

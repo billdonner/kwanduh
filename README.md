@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.39 dont alert when adjusting topics unless gimmeeecount is 0
 - version 0.7.38 repack for new github 
 - version 0.7.37 mintopics is now 1
 - version 0.7.36 testflight only
