@@ -59,7 +59,7 @@ class CloudKitManager  {
   
   func saveLogRecord(message: String, sentiment: String, predefinedFeeling: String, timestamp: Date, challengeIdentifier: String, completion: @escaping (Result<CKRecord, Error>) -> Void) {
     
-    if !cloudKitBypass , let container = container , let publicDatabase = publicDatabase  {
+    if !cloudKitBypass , let container = container   {
       
       
       container.fetchUserRecordID { [weak self] recordID, error in
