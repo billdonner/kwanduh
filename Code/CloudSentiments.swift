@@ -37,83 +37,93 @@ struct LogRecord: Identifiable {
 }
 @Observable
 class CloudKitManager  {
-    static let shared = CloudKitManager()
-    private let container: CKContainer
-    private let publicDatabase: CKDatabase
-    
- var logRecords: [LogRecord] = []
+  static let shared = CloudKitManager()
+  private let container: CKContainer?
+  private let publicDatabase: CKDatabase?
+  
+  var logRecords: [LogRecord] = []
   var errorMessage: String? = nil
+  
+  private init() {
+    if cloudKitBypass {
+      container = nil
+      publicDatabase = nil 
+      return }
     
-    private init() {
-        // Use the default container or specify your custom container identifier
-        container = // CKContainer.default() // or
-      CKContainer(identifier: "iCloud.com.billdonner.QandASentiments")
-        publicDatabase = container.publicCloudDatabase
-    }
-    
-    
+    // Use the default container or specify your custom container identifier
+    container = // CKContainer.default() // or
+    CKContainer(identifier: "iCloud.com.billdonner.QandASentiments")
+    publicDatabase = container?.publicCloudDatabase
+  }
+  
+  
   func saveLogRecord(message: String, sentiment: String, predefinedFeeling: String, timestamp: Date, challengeIdentifier: String, completion: @escaping (Result<CKRecord, Error>) -> Void) {
-        container.fetchUserRecordID { [weak self] recordID, error in
-            guard let self = self, let recordID = recordID, error == nil else {
-                self?.errorMessage = error?.localizedDescription
-                completion(.failure(error!))
-                return
-            }
-            
-            let record = CKRecord(recordType: "LogRecord")
-            record["message"] = message as CKRecordValue
-            record["timestamp"] = timestamp as CKRecordValue
-            record["userIdentifier"] = recordID.recordName as CKRecordValue
-            record["sentiment"] = sentiment as CKRecordValue
-            record["predefinedFeeling"] = predefinedFeeling as CKRecordValue
-            record["challengeIdentifier"] = challengeIdentifier as CKRecordValue
-            
-            self.publicDatabase.save(record) { savedRecord, error in
-                if let error = error {
-                    self.errorMessage = error.localizedDescription
-                    completion(.failure(error))
-                } else if let savedRecord = savedRecord {
-                    self.errorMessage = nil
-                    completion(.success(savedRecord))
-                }
-            }
-        }
-    }
     
-    func fetchLogRecords() {
-        let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: "LogRecord", predicate: predicate)
-      publicDatabase.fetch(withQuery: query, inZoneWith: nil){result in
-
+    if !cloudKitBypass , let container = container , let publicDatabase = publicDatabase  {
+      
+      
+      container.fetchUserRecordID { [weak self] recordID, error in
+        guard let self = self, let recordID = recordID, error == nil else {
+          self?.errorMessage = error?.localizedDescription
+          completion(.failure(error!))
+          return
+        }
+        
+        let record = CKRecord(recordType: "LogRecord")
+        record["message"] = message as CKRecordValue
+        record["timestamp"] = timestamp as CKRecordValue
+        record["userIdentifier"] = recordID.recordName as CKRecordValue
+        record["sentiment"] = sentiment as CKRecordValue
+        record["predefinedFeeling"] = predefinedFeeling as CKRecordValue
+        record["challengeIdentifier"] = challengeIdentifier as CKRecordValue
+        
+        self.publicDatabase?.save(record) { savedRecord, error in
+          if let error = error {
+            self.errorMessage = error.localizedDescription
+            completion(.failure(error))
+          } else if let savedRecord = savedRecord {
+            self.errorMessage = nil
+            completion(.success(savedRecord))
+          }
+        }
+      }
+    }
+  }
+  
+  func fetchLogRecords() {
+    if !cloudKitBypass {
+      
+      let predicate = NSPredicate(value: true)
+      let query = CKQuery(recordType: "LogRecord", predicate: predicate)
+      publicDatabase?.fetch(withQuery: query, inZoneWith: nil){result in
+        
         switch result {
         case .success(let (matchResults, _)):
-          
- 
-            // Handle each record
+          // Handle each record
           self.logRecords = []
-            for (recordID, result) in matchResults {
-                switch result {
-                case .success(let record):
-                  self.logRecords.append (
-                    LogRecord(id: record.recordID,
-                            message: record["message"] as? String ?? "",
-                            timestamp: record["timestamp"] as? Date ?? Date(),
-                            userIdentifier: record["userIdentifier"] as? String ?? "",
-                            sentiment: record["sentiment"] as? String ?? "",
-                            predefinedFeeling: record["predefinedFeeling"] as? String ?? "",
-                            challengeIdentifier: record["challengeIdentifier"] as? String ?? "")
-                  )
-                case .failure(let error):
-                    print("Failed to fetch record with ID \(recordID): \(error.localizedDescription)")
-                }
+          for (recordID, result) in matchResults {
+            switch result {
+            case .success(let record):
+              self.logRecords.append (
+                LogRecord(id: record.recordID,
+                          message: record["message"] as? String ?? "",
+                          timestamp: record["timestamp"] as? Date ?? Date(),
+                          userIdentifier: record["userIdentifier"] as? String ?? "",
+                          sentiment: record["sentiment"] as? String ?? "",
+                          predefinedFeeling: record["predefinedFeeling"] as? String ?? "",
+                          challengeIdentifier: record["challengeIdentifier"] as? String ?? "")
+              )
+            case .failure(let error):
+              print("Failed to fetch record with ID \(recordID): \(error.localizedDescription)")
             }
+          }
         case .failure(let error):
-            print("Query failed with error: \(error.localizedDescription)")
-          
+          print("Query failed with error: \(error.localizedDescription)")
         }
-
-        }
+      }
     }
+    
+  }
 }
 
 

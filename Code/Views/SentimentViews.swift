@@ -39,22 +39,27 @@ struct CommentsView: View {
           
           // Submit Button
           Button(action: {
-            let timestamp = Date()
-            cloudKitManager.saveLogRecord(
-              message: message,
-              sentiment: "Comment",
-              predefinedFeeling: selectedFeeling,
-              timestamp: timestamp,
-              challengeIdentifier: UUID().uuidString
-            ) { result in
-              switch result {
-              case .success(let record):
-                print("Successfully saved comment record: \(record)")
-                dismiss()
-              case .failure(let error):
-                print("Error saving comment record: \(error)")
-                showAlert = true
+            if !cloudKitBypass {
+              
+              let timestamp = Date()
+              cloudKitManager.saveLogRecord(
+                message: message,
+                sentiment: "Comment",
+                predefinedFeeling: selectedFeeling,
+                timestamp: timestamp,
+                challengeIdentifier: UUID().uuidString
+              ) { result in
+                switch result {
+                case .success(let record):
+                  print("Successfully saved comment record: \(record)")
+                  dismiss()
+                case .failure(let error):
+                  print("Error saving comment record: \(error)")
+                  showAlert = true
+                }
               }
+            } else {
+              dismiss() // dont send to cloudkit
             }
           }) {
             Text("Submit Comment")
@@ -116,22 +121,28 @@ struct PositiveSentimentView: View {
         .padding()
         
         Button(action: {
-          let timestamp = Date()
-          cloudKitManager.saveLogRecord(
-            message: message,
-            sentiment: "Positive",
-            predefinedFeeling: selectedFeeling,
-            timestamp: timestamp,
-            challengeIdentifier: id
-          ) { result in
-            switch result {
-            case .success(let record):
-              print("Successfully saved positive sentiment record: \(record)")
-              dismiss()
-            case .failure(let error):
-              print("Error saving positive sentiment record: \(error)")
-              showAlert = true
+          if !cloudKitBypass {
+            
+            let timestamp = Date()
+            cloudKitManager.saveLogRecord(
+              message: message,
+              sentiment: "Positive",
+              predefinedFeeling: selectedFeeling,
+              timestamp: timestamp,
+              challengeIdentifier: id
+            ) { result in
+              switch result {
+              case .success(let record):
+                print("Successfully saved positive sentiment record: \(record)")
+                dismiss()
+              case .failure(let error):
+                print("Error saving positive sentiment record: \(error)")
+                showAlert = true
+              }
             }
+          }
+          else {
+            dismiss() // dont send to cloudkit
           }
         }) {
           Text("Submit Positive Sentiment")
@@ -188,21 +199,24 @@ struct NegativeSentimentView: View {
         .padding()
         
         Button(action: {
-          let timestamp = Date()
-          cloudKitManager.saveLogRecord(
-            message: message,
-            sentiment: "Negative",
-            predefinedFeeling: selectedFeeling,
-            timestamp: timestamp,
-            challengeIdentifier: id
-          ) { result in
-            switch result {
-            case .success(let record):
-              print("Successfully saved negative sentiment record: \(record)")
-              dismiss()
-            case .failure(let error):
-              print("Error saving negative sentiment record: \(error)")
-              showAlert = true
+          if !cloudKitBypass {
+            
+            let timestamp = Date()
+            cloudKitManager.saveLogRecord(
+              message: message,
+              sentiment: "Negative",
+              predefinedFeeling: selectedFeeling,
+              timestamp: timestamp,
+              challengeIdentifier: id
+            ) { result in
+              switch result {
+              case .success(let record):
+                print("Successfully saved negative sentiment record: \(record)")
+                dismiss()
+              case .failure(let error):
+                print("Error saving negative sentiment record: \(error)")
+                showAlert = true
+              }
             }
           }
         }) {

@@ -40,93 +40,106 @@ struct PlayerScore: Identifiable {
 }
 @Observable
 class LeaderboardService {
-    private let container: CKContainer
-    private let publicDatabase: CKDatabase
+    private let container: CKContainer?
+    private let publicDatabase: CKDatabase?
     var scores: [PlayerScore] = []
 
     init() {
+      if cloudKitBypass {
+        self.container = nil
+        self.publicDatabase = nil
+      } else {
         self.container = CKContainer(identifier:  "iCloud.com.billdonner.leiders")
-        self.publicDatabase = container.publicCloudDatabase
+        self.publicDatabase = container?.publicCloudDatabase
         fetchScores()
+      }
     }
 
     func fetchScores() {
+      if !cloudKitBypass {
+        
         let query = CKQuery(recordType: "PlayerScore", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
-
+        
         let operation = CKQueryOperation(query: query)
-
+        
         operation.recordMatchedBlock = { recordID, result in
-            switch result {
-            case .success(let record):
-                DispatchQueue.main.async {
-                    let score = PlayerScore(record: record)
-                    self.scores.append(score)
-                }
-            case .failure(let error):
-                print("Error fetching record: \(error.localizedDescription)")
+          switch result {
+          case .success(let record):
+            DispatchQueue.main.async {
+              let score = PlayerScore(record: record)
+              self.scores.append(score)
             }
+          case .failure(let error):
+            print("Error fetching record: \(error.localizedDescription)")
+          }
         }
-
+        
         operation.queryResultBlock = { [weak self] result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self?.scores.sort { $0.score > $1.score }
-                }
-            case .failure(let error):
-                print("Error completing query: \(error.localizedDescription)")
+          switch result {
+          case .success:
+            DispatchQueue.main.async {
+              self?.scores.sort { $0.score > $1.score }
             }
+          case .failure(let error):
+            print("Error completing query: \(error.localizedDescription)")
+          }
         }
-
-        publicDatabase.add(operation)
+        
+        publicDatabase?.add(operation)
+      }
     }
 
     // Re-adding the addScore method
     func addScore(playerName: String, score: Int) {
+      if cloudKitBypass {
         let newScore = PlayerScore(playerName: playerName, score: score, date: Date())
         let record = newScore.toCKRecord()
+        
+        publicDatabase?.save(record) { [weak self] _, error in
+          if let error = error {
+            print("Error saving score: \(error.localizedDescription)")
+          } else {
+            DispatchQueue.main.async {
+              self?.scores.append(newScore)
+              self?.scores.sort { $0.score > $1.score }
+            }
+          }
+        }
+      }
+    }
 
-        publicDatabase.save(record) { [weak self] _, error in
+  func clearScores() {
+    if !cloudKitBypass {
+      
+      let query = CKQuery(recordType: "PlayerScore", predicate: NSPredicate(value: true))
+      let operation = CKQueryOperation(query: query)
+      
+      operation.recordMatchedBlock = { recordID, result in
+        switch result {
+        case .success(_):
+          self.publicDatabase?.delete(withRecordID: recordID) { _, error in
             if let error = error {
-                print("Error saving score: \(error.localizedDescription)")
-            } else {
-                DispatchQueue.main.async {
-                    self?.scores.append(newScore)
-                    self?.scores.sort { $0.score > $1.score }
-                }
+              print("Error deleting record: \(error.localizedDescription)")
             }
+          }
+        case .failure(let error):
+          print("Error fetching record: \(error.localizedDescription)")
         }
+      }
+      
+      operation.queryResultBlock = { [weak self] result in
+        switch result {
+        case .success:
+          DispatchQueue.main.async {
+            self?.scores.removeAll()
+          }
+        case .failure(let error):
+          print("Error completing query: \(error.localizedDescription)")
+        }
+      }
+      
+      publicDatabase?.add(operation)
     }
-
-    func clearScores() {
-        let query = CKQuery(recordType: "PlayerScore", predicate: NSPredicate(value: true))
-        let operation = CKQueryOperation(query: query)
-
-        operation.recordMatchedBlock = { recordID, result in
-            switch result {
-            case .success(_):
-                self.publicDatabase.delete(withRecordID: recordID) { _, error in
-                    if let error = error {
-                        print("Error deleting record: \(error.localizedDescription)")
-                    }
-                }
-            case .failure(let error):
-                print("Error fetching record: \(error.localizedDescription)")
-            }
-        }
-
-        operation.queryResultBlock = { [weak self] result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self?.scores.removeAll()
-                }
-            case .failure(let error):
-                print("Error completing query: \(error.localizedDescription)")
-            }
-        }
-
-        publicDatabase.add(operation)
-    }
+  }
 }

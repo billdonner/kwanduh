@@ -14,6 +14,7 @@ let cornerradius = 0.0 // something like 8 makes nice rounded corners in main gr
 var isDebugModeEnabled: Bool = false
 var debugBorderColor: Color = .red
 let shouldAssert = true //// External flag to control whether assertions should be enforced
+let cloudKitBypass = true 
 
 
 
