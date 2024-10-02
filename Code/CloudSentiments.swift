@@ -52,7 +52,7 @@ class CloudKitManager  {
     
     // Use the default container or specify your custom container identifier
     container = // CKContainer.default() // or
-    CKContainer(identifier: "iCloud.com.billdonner.QandASentiments")
+    CKContainer(identifier: cloudKitSentimentsContainerID)
     publicDatabase = container?.publicCloudDatabase
   }
   
@@ -91,38 +91,39 @@ class CloudKitManager  {
   }
   
   func fetchLogRecords() {
-    if !cloudKitBypass {
-      
-      let predicate = NSPredicate(value: true)
-      let query = CKQuery(recordType: "LogRecord", predicate: predicate)
-      publicDatabase?.fetch(withQuery: query, inZoneWith: nil){result in
-        
-        switch result {
-        case .success(let (matchResults, _)):
-          // Handle each record
-          self.logRecords = []
-          for (recordID, result) in matchResults {
-            switch result {
-            case .success(let record):
-              self.logRecords.append (
-                LogRecord(id: record.recordID,
-                          message: record["message"] as? String ?? "",
-                          timestamp: record["timestamp"] as? Date ?? Date(),
-                          userIdentifier: record["userIdentifier"] as? String ?? "",
-                          sentiment: record["sentiment"] as? String ?? "",
-                          predefinedFeeling: record["predefinedFeeling"] as? String ?? "",
-                          challengeIdentifier: record["challengeIdentifier"] as? String ?? "")
-              )
-            case .failure(let error):
-              print("Failed to fetch record with ID \(recordID): \(error.localizedDescription)")
-            }
+      if !cloudKitBypass {
+          let predicate = NSPredicate(value: true)
+          let query = CKQuery(recordType: "LogRecord", predicate: predicate)
+          
+          // Sort by timestamp in descending order
+          query.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+          
+          publicDatabase?.fetch(withQuery: query, inZoneWith: nil) { result in
+              switch result {
+              case .success(let (matchResults, _)):
+                  // Handle each record
+                  self.logRecords = []
+                  for (recordID, result) in matchResults {
+                      switch result {
+                      case .success(let record):
+                          self.logRecords.append(
+                              LogRecord(id: record.recordID,
+                                        message: record["message"] as? String ?? "",
+                                        timestamp: record["timestamp"] as? Date ?? Date(),
+                                        userIdentifier: record["userIdentifier"] as? String ?? "",
+                                        sentiment: record["sentiment"] as? String ?? "",
+                                        predefinedFeeling: record["predefinedFeeling"] as? String ?? "",
+                                        challengeIdentifier: record["challengeIdentifier"] as? String ?? "")
+                          )
+                      case .failure(let error):
+                          print("Failed to fetch record with ID \(recordID): \(error.localizedDescription)")
+                      }
+                  }
+              case .failure(let error):
+                  print("Query failed with error: \(error.localizedDescription)")
+              }
           }
-        case .failure(let error):
-          print("Query failed with error: \(error.localizedDescription)")
-        }
       }
-    }
-    
   }
 }
 

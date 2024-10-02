@@ -49,7 +49,7 @@ class LeaderboardService {
         self.container = nil
         self.publicDatabase = nil
       } else {
-        self.container = CKContainer(identifier:  "iCloud.com.billdonner.leiders")
+        self.container = CKContainer(identifier:  cloudKitLeaderBoardContainerID)
         self.publicDatabase = container?.publicCloudDatabase
         fetchScores()
       }
@@ -92,7 +92,7 @@ class LeaderboardService {
 
     // Re-adding the addScore method
     func addScore(playerName: String, score: Int) {
-      if cloudKitBypass {
+      if !cloudKitBypass {
         let newScore = PlayerScore(playerName: playerName, score: score, date: Date())
         let record = newScore.toCKRecord()
         

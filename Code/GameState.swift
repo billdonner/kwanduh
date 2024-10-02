@@ -491,7 +491,7 @@ class GameState : Codable {
   private func indexOfTopic(_ topic: String) -> Int? {
     Self.indexOfTopic(topic,within: self.topicsinplay)
   }
-  func colorForTopic(_ topic:String) ->   ColorTriple{
+  func colorTripleForTopic(_ topic:String) ->   ColorTriple{
     colorForTopic(topic,within:self.topicsinplay)
   }
  func colorForTopic(_ topic:String,within:[String]) ->   ColorTriple {

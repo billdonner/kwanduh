@@ -66,8 +66,8 @@ struct DebugBorderTestView: View {
 struct DebugBorderTestView_Previews: PreviewProvider {
     static var previews: some View {
         // You can toggle the global debug mode here to see the effect
-        isDebugModeEnabled = true // Set to true or false for testing
-        debugBorderColor = .red
+       // isDebugModeEnabled = true // Set to true or false for testing
+       //klkmlmlk debugBorderColor = .red
 
         return DebugBorderTestView()
     }

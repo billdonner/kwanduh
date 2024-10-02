@@ -1,20 +1,18 @@
 import SwiftUI
-func convertColorSpecToColorTriple(colorSpec: ColorSpec) -> ColorTriple {
-    return ColorTriple(
-        red: colorSpec.backrgb.red / 255.0,
-        green: colorSpec.backrgb.green / 255.0,
-        blue: colorSpec.backrgb.blue / 255.0
-    )
-}
-func convertColorTripleToColorSpec(colorTriple: ColorTriple, backname: String, forename: String) -> ColorSpec {
+//func convertColorSpecToColorTriple(colorSpec: ColorSpec) -> ColorTriple {
+//    return ColorTriple(
+//        red: colorSpec.backrgb.red / 255.0,
+//        green: colorSpec.backrgb.green / 255.0,
+//        blue: colorSpec.backrgb.blue / 255.0
+//    )
+//}
+func convertColorTripleToColorSpec(colorTriple: ColorTriple, backname: String = "", forename: String = "") -> ColorSpec {
     return ColorSpec(
         backname: backname,
         forename: forename,
-        backrgb: RGB(red: colorTriple.red * 255.0,
-                      green: colorTriple.green * 255.0,
-                      blue: colorTriple.blue * 255.0),
-        forergb: RGB(red: 0, green: 0, blue: 0) // You can adjust this based on your requirements
-    )
+        backrgb:   colorToRGB(color: colorTriple.0),
+        forergb: colorToRGB(color: colorTriple.1))
+    
 }
 struct SettingsScreen: View {
     
@@ -57,15 +55,14 @@ struct SettingsScreen: View {
         // Initialize l_topicsinplay with TopicColor
       l_topicsinplay = []
       
-      for (idx,t) in gs.topicsinplay.enumerated(){
-        
-        l_topicsinplay.append(   TopicColor(name: t , colorSpec:convertColorTripleToColorSpec(colorTriple:   AppColors.colorForTopicIndex(index: idx, gs: gs),backname:"", forename:"")))
-        
-      }
-      
-      
-      
-
+      print("settings gs =- Topics in play: \(gs.topicsinplay)")
+     
+      _l_topicsinplay = State(initialValue:gs.topicsinplay.map {
+          TopicColor(name: $0 ,
+                     colorSpec:convertColorTripleToColorSpec(colorTriple:
+                                                              gs.colorTripleForTopic($0) ))
+      })
+      print("settings =- Topics in play: \(l_topicsinplay)")
     }
     
     var colorPicker: some View {
@@ -90,6 +87,7 @@ struct SettingsScreen: View {
                     }
                     .disabled(gs.gimmees <= 0)
                     .fullScreenCover(isPresented: $showTopicSelector) {
+                      let _ = print("onwayoutofsettings topicsinplay:",$l_topicsinplay)
                         TopicSelectorView(allTopics: chmgr.everyTopicName,
                                           selectedTopics: $l_topicsinplay, // Pass the new array of TopicColor
                                           selectedScheme: $l_currentScheme,

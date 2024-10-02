@@ -76,6 +76,14 @@ struct CommentsView: View {
         .padding()
         .navigationTitle("Send Comment")
         .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button("Dismiss") {
+                    // Dismiss the keyboard
+                    hideKeyboard()
+                }
+            }
+        }
+        .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
               dismiss()

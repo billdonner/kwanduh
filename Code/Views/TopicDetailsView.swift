@@ -93,7 +93,7 @@ struct TopicDetailsView: View {
           }
         }
       }
-      .dismissButton(backgroundColor: gs.colorForTopic(topic).0) // put a dismiss button up there
+      .dismissButton(backgroundColor: gs.colorTripleForTopic(topic).0) // put a dismiss button up there
       
       .fullScreenCover(isPresented: $showGamesLog) {
         GameLogScreen(gs:gs, chmgr: chmgr)
@@ -107,5 +107,5 @@ struct TopicDetailsView: View {
 
 #Preview {
   TopicDetailsView(topic:"Fun",gs:GameState.mock,
-                   chmgr: ChaMan.mock, colortrip: GameState.mock.colorForTopic("Fun"))
+                   chmgr: ChaMan.mock, colortrip: GameState.mock.colorTripleForTopic("Fun"))
 }

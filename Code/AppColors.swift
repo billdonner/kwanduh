@@ -5,7 +5,24 @@ struct RGB: Codable {
     let green: Double
     let blue: Double
 }
+// Function to convert SwiftUI Color to RGB
+func colorToRGB(color: Color) -> RGB {
+    // Convert to UIColor (iOS)
+    let uiColor = UIColor(color)
 
+    // Extract RGB components
+    var red: CGFloat = 0
+    var green: CGFloat = 0
+    var blue: CGFloat = 0
+    var alpha: CGFloat = 0
+
+    uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+
+    // Return RGB as a struct
+    return RGB(red: Double(red) * 255.0,
+                green: Double(green) * 255.0,
+                blue: Double(blue) * 255.0)
+}
 struct ColorSpec: Codable {
     let backname: String
     let forename: String

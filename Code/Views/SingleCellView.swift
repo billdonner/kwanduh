@@ -49,7 +49,7 @@ struct SingleCellView: View {
   
   var textbody: some View {
     let challenge = chidx < 0 ? Challenge.amock : chmgr.everyChallenge[chidx]
-    let colormix = gs.colorForTopic(challenge.topic)
+    let colormix = gs.colorTripleForTopic(challenge.topic)
     return   Text(gs.facedown ? "" : challenge.question)
       .font(isIpad ? .title:.caption)
       .padding(10)
@@ -123,7 +123,7 @@ struct SingleCellView: View {
               .symbolEffect(.breathe.pulse.byLayer)
               .font(.largeTitle)
               .foregroundColor(
-                foregroundColorFrom(backgroundColor:gs.colorForTopic (challenge.topic ).0)).opacity(0.4)
+                foregroundColorFrom(backgroundColor:gs.colorTripleForTopic (challenge.topic ).0)).opacity(0.4)
               .frame(width: cellSize, height: cellSize)
           }
           //Layer

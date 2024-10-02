@@ -28,7 +28,7 @@ extension QandAScreen {
    let paddingWidth = geometry.size.width * 0.1
    let contentWidth = geometry.size.width - paddingWidth
     let ch = chmgr.everyChallenge[gs.board[row][col]]
-    let topicColor =   gs.colorForTopic(ch.topic).0
+    let topicColor =   gs.colorTripleForTopic(ch.topic).0
     
     return ZStack {
       RoundedRectangle(cornerRadius: 10).fill(topicColor.opacity(1.0))

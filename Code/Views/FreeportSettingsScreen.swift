@@ -81,23 +81,23 @@ struct FreeportSettingsScreen: View {
         Text("Freeport Controls")
         Form {
           Section(header: Text("Not For Civilians")) {
-            VStack(alignment: .leading) {
-              Text("SIZE Current: \( elementWidth, specifier: "%.0f")")
-              Slider(value:  $elementWidth, in: 60...300, step: 1.0)
-            }
-            VStack(alignment: .leading) {
-              Text("FONTSIZE Current: \( fontsize, specifier: "%.0f")")
-              Slider(value:  $fontsize, in: 8...40, step: 2.0)
-            }
-            VStack(alignment: .leading) {
-              Text("PADDING Current: \( padding, specifier: "%.0f")")
-              Slider(value:  $padding, in: 1...40, step: 1.0)
-            }
-            VStack(alignment: .leading) {
-              Text("BORDER Current: \( border, specifier: "%.0f")")
-              Slider(value:  $border, in: 0...20, step: 1.0)
-            }
-            
+//            VStack(alignment: .leading) {
+//              Text("SIZE Current: \( elementWidth, specifier: "%.0f")")
+//              Slider(value:  $elementWidth, in: 60...300, step: 1.0)
+//            }
+//            VStack(alignment: .leading) {
+//              Text("FONTSIZE Current: \( fontsize, specifier: "%.0f")")
+//              Slider(value:  $fontsize, in: 8...40, step: 2.0)
+//            }
+//            VStack(alignment: .leading) {
+//              Text("PADDING Current: \( padding, specifier: "%.0f")")
+//              Slider(value:  $padding, in: 1...40, step: 1.0)
+//            }
+//            VStack(alignment: .leading) {
+//              Text("BORDER Current: \( border, specifier: "%.0f")")
+//              Slider(value:  $border, in: 0...20, step: 1.0)
+//            }
+//            
             Button(action:{ showOnBoarding.toggle() }) {
               Text("Replay OnBoarding")
             }.padding(.vertical)

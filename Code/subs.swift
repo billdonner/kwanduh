@@ -137,7 +137,12 @@ func testcc() {
   print("haschangec ",hasChanged1,hasChanged2,hasChanged3)
   
 }
-
+// Helper function to dismiss the keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
 
 
 func deleteFiles(at fileURLs: [URL]) {

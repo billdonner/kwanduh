@@ -55,6 +55,7 @@ struct TopicSelectorView: View {
     }
 
     var body: some View {
+      let _ =   print("topicselectorview =- Topics in play: \(selectedTopics)")
         NavigationView {
             VStack(spacing: 10) {
                 Text("You currently have \(gimms) gimmees").font(.footnote)
