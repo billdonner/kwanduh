@@ -116,7 +116,7 @@ struct PositiveSentimentView: View {
   var body: some View {
     NavigationView {
       VStack {
-        TextField("Enter positive sentiment message", text: $message)
+        TextField("Enter thumbs up message", text: $message)
           .textFieldStyle(RoundedBorderTextFieldStyle())
           .padding()
         
@@ -134,7 +134,7 @@ struct PositiveSentimentView: View {
             let timestamp = Date()
             cloudKitManager.saveLogRecord(
               message: message,
-              sentiment: "Positive",
+              sentiment: "Thumbs Up",
               predefinedFeeling: selectedFeeling,
               timestamp: timestamp,
               challengeIdentifier: id
@@ -153,7 +153,7 @@ struct PositiveSentimentView: View {
             dismiss() // dont send to cloudkit
           }
         }) {
-          Text("Submit Positive Sentiment")
+          Text("Submit Thumbs Up")
             .padding()
             .background(Color.green)
             .foregroundColor(.white)
@@ -164,7 +164,7 @@ struct PositiveSentimentView: View {
         }
       }
       .padding()
-      .navigationTitle("Send Positive Sentiment")
+      .navigationTitle("Send Thumbs Up")
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: {
@@ -194,7 +194,7 @@ struct NegativeSentimentView: View {
   var body: some View {
     NavigationView {
       VStack {
-        TextField("Enter negative sentiment message", text: $message)
+        TextField("Enter thumbsdown message", text: $message)
           .textFieldStyle(RoundedBorderTextFieldStyle())
           .padding()
         
@@ -212,7 +212,7 @@ struct NegativeSentimentView: View {
             let timestamp = Date()
             cloudKitManager.saveLogRecord(
               message: message,
-              sentiment: "Negative",
+              sentiment: "Thumbs Down",
               predefinedFeeling: selectedFeeling,
               timestamp: timestamp,
               challengeIdentifier: id
@@ -228,7 +228,7 @@ struct NegativeSentimentView: View {
             }
           }
         }) {
-          Text("Submit Negative Sentiment")
+          Text("Submit Thumbs Down")
             .padding()
             .background(Color.red)
             .foregroundColor(.white)
@@ -239,7 +239,7 @@ struct NegativeSentimentView: View {
         }
       }
       .padding()
-      .navigationTitle("Send Negative Sentiment")
+      .navigationTitle("Send Thubs Down")
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: {

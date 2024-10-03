@@ -15,8 +15,7 @@ let isDebugModeEnabled: Bool = false
 let debugBorderColor: Color = .red
 let shouldAssert = true //// External flag to control whether assertions should be enforced
 let cloudKitBypass = false
-let cloudKitLeaderBoardContainerID = "iCloud.com.billdonner.leiders"
-let cloudKitSentimentsContainerID = "iCloud.com.billdonner.QandASentiments"
+
 
 
 

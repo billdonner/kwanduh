@@ -70,7 +70,7 @@ struct FreeportSettingsScreen: View {
   @State var addToLeaderboard = false
   @State var showReset = false
   @State var showDebug = false
-  
+  @State var showEnvDump = false
   @State var showSentimentsLog = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
   
@@ -80,24 +80,19 @@ struct FreeportSettingsScreen: View {
       VStack {
         Text("Freeport Controls")
         Form {
+       
+              Section(header: Text("App Information")) {
+                  Text("App Name: \(Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "Unknown")")
+                  Text("Version: \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown")")
+                  Text("Build: \(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown")")
+                  Text("Bundle Identifier: \(Bundle.main.bundleIdentifier ?? "Unknown")")
+              }
+              .padding()
+          Section(header: Text("CloudKit Configuration")) {
+            Text("cloudKitLeaderBoardContainerID: \(cloudKitLeaderBoardContainerID)")
+            Text("cloudKitSentimentsContainerID: \(cloudKitSentimentsContainerID)")
+                 }
           Section(header: Text("Not For Civilians")) {
-//            VStack(alignment: .leading) {
-//              Text("SIZE Current: \( elementWidth, specifier: "%.0f")")
-//              Slider(value:  $elementWidth, in: 60...300, step: 1.0)
-//            }
-//            VStack(alignment: .leading) {
-//              Text("FONTSIZE Current: \( fontsize, specifier: "%.0f")")
-//              Slider(value:  $fontsize, in: 8...40, step: 2.0)
-//            }
-//            VStack(alignment: .leading) {
-//              Text("PADDING Current: \( padding, specifier: "%.0f")")
-//              Slider(value:  $padding, in: 1...40, step: 1.0)
-//            }
-//            VStack(alignment: .leading) {
-//              Text("BORDER Current: \( border, specifier: "%.0f")")
-//              Slider(value:  $border, in: 0...20, step: 1.0)
-//            }
-//            
             Button(action:{ showOnBoarding.toggle() }) {
               Text("Replay OnBoarding")
             }.padding(.vertical)
@@ -112,10 +107,12 @@ struct FreeportSettingsScreen: View {
             Button(action:{ showSentimentsLog.toggle() }) {
               Text("Show Sentiments Log")
             }.padding(.vertical)
+            Button(action:{ showEnvDump.toggle() }) {
+              Text("Show Environment Dump")
+            }.padding(.vertical)
             Button(action:{ showDebug.toggle() }) {
               Text("Show Debug")
             }.padding(.vertical)
-            
             Button(action:{ //showReset.toggle()
                     let _ = gs.resetBoardReturningUnplayed()
                      chmgr.totalresetofAllChallengeStatuses(gs: gs)
@@ -137,7 +134,9 @@ struct FreeportSettingsScreen: View {
         .sheet(isPresented: $showSentimentsLog) {
           FetcherView( )
         }
-     
+        .sheet(isPresented: $showEnvDump) {
+          EnvironmentDumpView()
+        }
         .fullScreenCover(isPresented: $showDebug) {
           AllocatorView(chmgr:chmgr,gs:gs)
         }

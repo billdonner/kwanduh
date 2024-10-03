@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
+		88A31A012CAF4A43005D0DF3 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */; };
+		88A31A022CAF4A68005D0DF3 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 		88A3198E2CA32097005D0DF3 /* playdata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playdata.json; sourceTree = "<group>"; };
 		88A319942CA3212B005D0DF3 /* qanda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qanda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A319A32CA3212C005D0DF3 /* qandaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qandaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -72,6 +75,7 @@
 				Views/DebugBorderViewModifier.swift,
 				Views/DebugView.swift,
 				Views/DismissButtonModifier.swift,
+				Views/EnvironmentDumpView.swift,
 				Views/FreeportSettingsScreen.swift,
 				Views/GameLogScreen.swift,
 				Views/GameScreen.swift,
@@ -171,6 +175,7 @@
 		88A318E02CA318C1005D0DF3 = {
 			isa = PBXGroup;
 			children = (
+				88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
 				88A3198C2CA32074005D0DF3 /* README.md */,
@@ -374,6 +379,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A31A012CAF4A43005D0DF3 /* CloudKitConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A31A022CAF4A68005D0DF3 /* CloudKitConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
