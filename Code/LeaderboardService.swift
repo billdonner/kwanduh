@@ -51,6 +51,7 @@ class LeaderboardService {
       } else {
         self.container = CKContainer(identifier:  cloudKitLeaderBoardContainerID)
         self.publicDatabase = container?.publicCloudDatabase
+     
         fetchScores()
       }
     }
