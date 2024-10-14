@@ -42,13 +42,13 @@ extension ChaMan {
   
 }
 extension GameState {
-  static let mockTopics = [
-      "Fantasy Geography", "History", "Science", "Literature",
-      "Cuisine"
-  ]
+  static let mockTopics:[String:FreeportColor] = [
+    "Fantasy Geography":.myAqua, "History":.myAliceBlue, "Art":.myAqua, "Music":.myAliceBlue, "Science":.myBerry, "Literature":.myBurntOrange,
+    "Cuisine":.myTeal, "Sports":.myLightYellow, "Technology":.myDarkGreen]
+ 
   static var starting = {
     // when starting, a size of 1 triggers a load of gamestate
-    let x = GameState(size:1,topics:[],  challenges:Challenge.mockChallenges)
+    let x = GameState(size:1,topics:mockTopics,  challenges:Challenge.mockChallenges)
 //    x.movenumber = 1
 //    x.moveindex[0][0] = 1
 //    x.lastmove = .init(row: 0, col: 0)

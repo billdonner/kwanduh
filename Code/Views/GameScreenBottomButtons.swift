@@ -43,7 +43,7 @@ struct GameScreenBottomButtons : View {
         showingHelp = true
       }) {
         Image(systemName:"questionmark")
-          .font(.title)
+          .font(.headline)
           .frame(width: isIpad ? 70 : 50, height: isIpad ? 70 : 50)
                  .padding(.trailing, 15)
       }

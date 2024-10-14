@@ -54,7 +54,7 @@ struct AlreadyPlayedView : View {
   var body: some View {
     GeometryReader { geometry in
        
-        let topicColor =   gs.colorTripleForTopic(ch.topic).0
+      let topicColor =   gs.topicsinplay[ch.topic]?.toColor() ?? .red
         VStack {
           Spacer()
           VStack (spacing:30){

@@ -62,6 +62,8 @@
 				ChaManExt.swift,
 				CloudSentiments.swift,
 				CustomAlerts.swift,
+				dmangler.swift,
+				FreeportColor.swift,
 				GameState.swift,
 				HowToGuts.swift,
 				LeaderboardService.swift,
@@ -87,6 +89,7 @@
 				Views/GameScreenBottomButtons.swift,
 				Views/GameScreenExt.swift,
 				Views/HappyGloomyView.swift,
+				Views/HighWaterMarkCircleView.swift,
 				Views/HowToPlayScreen.swift,
 				Views/LeaderboardScreen.swift,
 				Views/MainGridView.swift,
@@ -557,7 +560,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -588,7 +591,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;

@@ -4,22 +4,14 @@ import SwiftUI
 // MARK: - Views
 struct LeaderboardScreen: View {
   let leaderboardService:LeaderboardService
-
+//  var button: some View {
+//    Button( action: {}, label: { Image(systemName: "x.circle")})
+//  }
+//  
     var body: some View {
-        NavigationView {
+     ZStack{
+       DismissButtonView()
             VStack {
-                HStack {
-//                    Button(action: {
-//                        leaderboardService.clearScores()
-//                    }) {
-//                        Text("Clear Leaderboard")
-//                            .font(.headline)
-//                            .foregroundColor(.red)
-//                    }
-//                    .padding()
-
-                    Spacer()
-                }
 
                 Text("Leaderboard")
                     .font(.largeTitle)
@@ -32,10 +24,11 @@ struct LeaderboardScreen: View {
                         Text("\(score.score) pts")
                     }
                 }
-                .navigationBarTitle("Leaderboard", displayMode: .inline)
+              //  .navigationBarTitle("Leaderboard", displayMode: .inline)
 //                .navigationBarItems(trailing: NavigationLink(destination: AddScoreView(leaderboardService: leaderboardService)) {
 //                    Text("Add Score")
 //                })
+           //     .navigationBarItems(trailing: )
             }
         }
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-
+typealias ColorSchemeName = Int
 
 
 struct DismissableModifier: ViewModifier {

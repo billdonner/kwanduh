@@ -28,14 +28,19 @@ class GameState : Codable {
   var totaltime: TimeInterval // aka Double
   
   var veryfirstgame:Bool
+  // @ObservationIgnored
+   var currentscheme: ColorSchemeName
+  // in chaman we can fetch counts to make % from Tinfo
+  //chmgr.tinfo[topic]
+ // var tinfo: [String: TopicInfo]  // Dictionary indexed by topic
+  //all topics is in chmgr.everyTopicName
  // @ObservationIgnored
-  var topicsinplay: [String] // a subset of allTopics (which is constant and maintained in ChaMan)
+  var topicsinplay: [String:FreeportColor] // a subset of allTopics (which is constant and maintained in ChaMan)
  // @ObservationIgnored
   var onwinpath: [[Bool]] // only set after win detected
  // @ObservationIgnored
   var gimmees: Int  // Number of "gimmee" actions available
- // @ObservationIgnored
-  var currentscheme: ColorSchemeName
+
  // @ObservationIgnored
   var facedown:Bool
  // @ObservationIgnored
@@ -102,7 +107,7 @@ class GameState : Codable {
 
   
   
-  init(size: Int, topics: [String], challenges: [Challenge]) {
+  init(size: Int, topics: [String:FreeportColor], challenges: [Challenge]) {
     self.topicsinplay = topics //*****4
     self.boardsize = size
     self.board = Array(repeating: Array(repeating: -1, count: size), count: size)
@@ -132,7 +137,7 @@ class GameState : Codable {
   // Codable conformance: decode the properties
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.topicsinplay = try container.decode([String].self,forKey:.topicsinplay)
+    self.topicsinplay = try container.decode([String:FreeportColor].self,forKey:.topicsinplay)
     self.boardsize = try container.decode(Int.self,forKey:.boardsize)
     self.board = try container.decode([[Int]].self,forKey:.board)
     self.cellstate = try container.decode([[GameCellState]].self,forKey:.cellstate)
@@ -207,7 +212,7 @@ class GameState : Codable {
     // give player a few gimmees depending on boardsize
     self.gimmees += boardsize - 1
     // use topicsinplay and allocated fresh challenges
-    let result:AllocationResult = chmgr.allocateChallenges(forTopics: topicsinplay, count: boardsize * boardsize)
+    let result:AllocationResult = chmgr.allocateChallenges(forTopics: Array(topicsinplay.keys), count: boardsize * boardsize)
     switch result {
     case .success(let x):
       conditionalAssert(x.count == boardsize*boardsize)
@@ -482,31 +487,22 @@ class GameState : Codable {
   }
   
   func basicTopics()->[BasicTopic] {
-    return topicsinplay.map {BasicTopic(name: $0)}
+    return topicsinplay.keys.map {BasicTopic(name: $0)}
   }
 
   private static func indexOfTopic(_ topic: String,within:[String]) -> Int? {
       return  within.firstIndex(where: { $0 == topic })
   }
   private func indexOfTopic(_ topic: String) -> Int? {
-    Self.indexOfTopic(topic,within: self.topicsinplay)
+    Self.indexOfTopic(topic,within: Array(self.topicsinplay.keys))
   }
-  func colorTripleForTopic(_ topic:String) ->   ColorTriple{
-    colorForTopic(topic,within:self.topicsinplay)
-  }
- func colorForTopic(_ topic:String,within:[String]) ->   ColorTriple {
-    if let index = Self.indexOfTopic(topic,within:within ) {
-      return AppColors.colorForTopicIndex(index:index,gs:self)
-    } else {
-      return (Color.white, Color.black, UUID())
-    }
-  }
+
   
   func previewColorMatrix(size:Int,scheme:ColorSchemeName) -> [[Color]] {
     var cm     = Array(repeating: Array(repeating:Color.black, count: size), count: size)
     for row in 0..<size {
       for col in 0..<size {
-        cm[row][col]=AppColors.colorForSchemeAndTopic(scheme: scheme, index: (row*size+col) % 10).0
+        cm[row][col] = colorForSchemeAndTopic(scheme: scheme, index: (row*size+col) % 10).toColor()
       }
     }
     return cm
@@ -567,7 +563,7 @@ class GameState : Codable {
   }
   
   func saveGameState( ) {
-    TSLog("SAVE GAMESTATE")
+    //TSLog("SAVE GAMESTATE")
     let filePath = Self.getGameStateFilePath()
     do {
       let data = try JSONEncoder().encode(self)

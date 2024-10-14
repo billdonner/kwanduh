@@ -1,19 +1,5 @@
 import SwiftUI
-//func convertColorSpecToColorTriple(colorSpec: ColorSpec) -> ColorTriple {
-//    return ColorTriple(
-//        red: colorSpec.backrgb.red / 255.0,
-//        green: colorSpec.backrgb.green / 255.0,
-//        blue: colorSpec.backrgb.blue / 255.0
-//    )
-//}
-func convertColorTripleToColorSpec(colorTriple: ColorTriple, backname: String = "", forename: String = "") -> ColorSpec {
-    return ColorSpec(
-        backname: backname,
-        forename: forename,
-        backrgb:   colorToRGB(color: colorTriple.0),
-        forergb: colorToRGB(color: colorTriple.1))
-    
-}
+
 struct SettingsScreen: View {
     
     @Bindable var chmgr: ChaMan
@@ -28,7 +14,7 @@ struct SettingsScreen: View {
     @State private var l_doubleDiag: Bool
     @State private var l_currentScheme: ColorSchemeName
     @State private var l_difficultyLevel: Int
-    @State private var l_topicsinplay: [TopicColor] // Updated to use TopicColor
+  @State private var l_topicsinplay: [String:FreeportColor] // Updated to use TopicColor
     @State private var l_scheme: ColorSchemeName // hack //summer
     
     @State var firstOnAppear = true
@@ -39,37 +25,41 @@ struct SettingsScreen: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    init(chmgr: ChaMan, gs: GameState, lrdb: LeaderboardService, showSettings: Binding<Bool>) {
-        self.chmgr = chmgr
-        self.gs = gs
-        self.lrdb = lrdb
-        self._showSettings = showSettings 
-      l_facedown = gs.facedown
-      l_boardsize = gs.boardsize
-      l_doubleDiag = gs.doublediag
-      l_currentScheme = gs.currentscheme
-      l_difficultyLevel = gs.difficultylevel
-      l_startInCorners = gs.startincorners
-      l_scheme = gs.currentscheme
-      l_gimms = gs.gimmees
-        // Initialize l_topicsinplay with TopicColor
-      l_topicsinplay = []
-      
-      print("settings gs =- Topics in play: \(gs.topicsinplay)")
-     
-      _l_topicsinplay = State(initialValue:gs.topicsinplay.map {
-          TopicColor(name: $0 ,
-                     colorSpec:convertColorTripleToColorSpec(colorTriple:
-                                                              gs.colorTripleForTopic($0) ))
-      })
-      print("settings =- Topics in play: \(l_topicsinplay)")
-    }
+  init(chmgr: ChaMan, gs: GameState, lrdb: LeaderboardService, showSettings: Binding<Bool>) {
+    self.chmgr = chmgr
+    self.gs = gs
+    self.lrdb = lrdb
+    self._showSettings = showSettings
+    l_facedown = gs.facedown
+    l_boardsize = gs.boardsize
+    l_doubleDiag = gs.doublediag
+    l_currentScheme = gs.currentscheme
+    l_difficultyLevel = gs.difficultylevel
+    l_startInCorners = gs.startincorners
+    l_scheme = gs.currentscheme
+    l_gimms = gs.gimmees
+    l_topicsinplay = gs.topicsinplay
     
+  }
+//        // Initialize l_topicsinplay with TopicColor
+//      l_topicsinplay = []
+//      
+//      print("settings gs =- Topics in play: \(gs.topicsinplay)")
+//     
+//      _l_topicsinplay = State(initialValue:gs.topicsinplay.map {
+//          TopicColor(name: $0 ,
+//                     colorSpec:convertColorTripleToColorSpec(colorTriple:
+//                                                              gs.colorTripleForTopic($0) ))
+//      ))})
+//      print("settings =- Topics in play: \(l_topicsinplay)")
+//    }
+  let allSchemeNames: [String] = ["Bleak","Winter","Spring","Summer","Autumn"]
+
     var colorPicker: some View {
         Picker("Color Palette", selection: $l_scheme) {
-            ForEach(AppColors.allSchemes.indices.sorted(), id: \.self) { idx in
-                Text("\(AppColors.pretty(for: AppColors.allSchemes[idx].name))")
-                    .tag(idx)
+            ForEach( allSchemeNames, id: \.self) { name in
+              Text(name)
+                    .tag(name)
             }
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -80,44 +70,47 @@ struct SettingsScreen: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Topics")) {
-                    Text("You need gimmees to edit topics...").font(.footnote)
-                    Button(action: { showTopicSelector.toggle() }) {
-                        Text("Edit Topics")
-                    }
-                    .disabled(gs.gimmees <= 0)
-                    .fullScreenCover(isPresented: $showTopicSelector) {
-                      let _ = print("onwayoutofsettings topicsinplay:",$l_topicsinplay)
-                        TopicSelectorView(allTopics: chmgr.everyTopicName,
-                                          selectedTopics: $l_topicsinplay, // Pass the new array of TopicColor
-                                          selectedScheme: $l_currentScheme,
-                                          chmgr: chmgr,
-                                          gs: gs,
-                                          minTopics: GameState.minTopicsForBoardSize(l_boardsize),
-                                          maxTopics: GameState.maxTopicsForBoardSize(l_boardsize),
-                                          gimms: $l_gimms)
-                    }
-                }
+//                Section(header: Text("Topics")) {
+//                    Text("You need gimmees to edit topics...").font(.footnote)
+//                    Button(action: { showTopicSelector.toggle() }) {
+//                        Text("Edit Topics")
+//                    }
+//                    .disabled(gs.gimmees <= 0)
+//                    .fullScreenCover(isPresented: $showTopicSelector) {
+//                      let _ = print("onwayoutofsettings topicsinplay:",$l_topicsinplay)
+//                        TopicSelectorView(allTopics: chmgr.everyTopicName,
+//                                          selectedTopics: $l_topicsinplay, // Pass the new array of TopicColor
+//                                          selectedScheme: $l_currentScheme,
+//                                          chmgr: chmgr,
+//                                          gs: gs,
+//                                          minTopics: GameState.minTopicsForBoardSize(l_boardsize),
+//                                          maxTopics: GameState.maxTopicsForBoardSize(l_boardsize),
+//                                          gimms: $l_gimms)
+//                    }
+//                }
                 
-                Section(header: Text("Board")) {
-                    VStack(alignment: .center) {
-                        SizePickerView(chosenSize: $l_boardsize)
-                            .onChange(of: l_boardsize) {
-                                switch l_boardsize {
-                                default: l_facedown = true; l_startInCorners = true
-                                }
-                            }
-                        PreviewGridView(gs: gs, chmgr: chmgr, boardsize: $l_boardsize, scheme: $l_currentScheme)
-                            .frame(width: 200, height: 200)
-                        colorPicker
-                            .onChange(of: l_scheme) {
-                                withAnimation {
-                                    l_currentScheme = l_scheme
-                                }
-                            }
+              Section(header: Text("Board")) {
+                VStack(alignment: .center) {
+                  SizePickerView(chosenSize: $l_boardsize)
+                    .onChange(of: l_boardsize) {
+                      switch l_boardsize {
+                      default: l_facedown = true; l_startInCorners = true
+                      }
                     }
+                  PreviewGridView(gs: gs, chmgr: chmgr, boardsize: $l_boardsize, scheme: $l_currentScheme)
+                    .frame(width: 200, height: 200)
                 }
-                
+              }
+                  
+                  Section(header: Text("Color Scheme")) {
+                    
+                    colorPicker
+                      .onChange(of: l_scheme) {
+                        withAnimation {
+                          l_currentScheme = l_scheme
+                        }
+                      }
+                  } 
                 Section(header: Text("About QANDA")) {
                     VStack {
                         HStack { Spacer()
@@ -170,7 +163,7 @@ struct SettingsScreen: View {
         gs.moveindex = Array(repeating: Array(repeating: -1, count: l_boardsize), count: l_boardsize)
         gs.onwinpath = Array(repeating: Array(repeating: false, count: l_boardsize), count: l_boardsize)
         gs.replaced = Array(repeating: Array(repeating: [], count: l_boardsize), count: l_boardsize)
-        gs.topicsinplay = l_topicsinplay.map { $0.name } // Convert back to [String] for GameState
+        gs.topicsinplay = l_topicsinplay//.map { $0.name } // Convert back to [String] for GameState
         gs.currentscheme = l_currentScheme
         chmgr.checkAllTopicConsistency("GameSettingScreen onDonePressed")
         gs.saveGameState()

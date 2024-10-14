@@ -11,7 +11,8 @@ struct GameScreen: View {
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
-  @Binding  var topics: [String]
+  @Bindable var dmangler: Dmangler
+  @Binding  var topics: [String:FreeportColor]
   @Binding  var size:Int
   
   @State var isTouching: Bool = false
@@ -22,10 +23,77 @@ struct GameScreen: View {
   @State   var showCantStartAlert = false
   @State   var showSettings =  false // force it up
   @State   var showLeaderboard = false
+  @State   var showSendComment = false
+  @State var showTopicSelector = false
   @State var marqueeMessage =  "Hit Play to Start a New Game"
   
   @State var chal: IdentifiablePoint? = nil
   @State var isPresentingDetailView = false
+  @State var isPlayingButtonState = false
+ 
+  var actionMenu: some View {
+    Menu {
+      Button(action: {
+      showSettings.toggle()
+      }) {
+        Text("Settings")
+      }
+      
+      Button(action: {
+        showTopicSelector.toggle()
+      }) {
+        Text("Topics")
+      }
+      
+      Button(action: {
+        showLeaderboard.toggle()
+      }) {
+        Text("Leaderboard")
+      }
+      Button(action: {
+        showSendComment.toggle()
+      }) {
+        Text("Contact Us")
+      }
+    } label: {
+      Image(systemName: "ellipsis.circle")
+        .font(.body)
+    }
+    .sheet(isPresented: $showSettings) {
+      SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
+    }
+    .sheet(isPresented: $showTopicSelector) {
+//      TopicSelectorView(allTopics: chmgr.everyTopicName,
+//                        selectedTopics: $gs.topicsinplay, // Pass the new array of TopicColor
+//                        selectedScheme: $gs.currentscheme,
+//                        chmgr: chmgr,
+//                        gs: gs,
+//                        minTopics: GameState.minTopicsForBoardSize(l_boardsize),
+//                        maxTopics: GameState.maxTopicsForBoardSize(l_boardsize),
+//                        gimms: $l_gimms)
+      Color.red  
+    }
+    .sheet(isPresented: $showLeaderboard) {
+      LeaderboardScreen(leaderboardService: lrdb)
+    }
+    .sheet(isPresented: $showSendComment) {
+      CommentsView()
+    }
+  }
+
+
+  struct SheetView: View {
+    var title: String
+    
+    var body: some View {
+      VStack {
+        Text(title)
+          .font(.largeTitle)
+          .padding()
+        Spacer()
+      }
+    }
+  }
 
   var bodyMsg: String {
     let t =  """
@@ -39,19 +107,20 @@ struct GameScreen: View {
 
   }
   var body: some View {
- 
-    VStack(spacing:0) {
-      topButtonsVeew.padding(.horizontal)      .debugBorder()
-      
-    //fixed, immovable height
-          MarqueeMessageView(
-            message: $marqueeMessage,
-            fadeInDuration: 1.0,
-            fadeOutDuration: 3.0,
-            displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
-          ).opacity(marqueeMessage.isEmpty ? 0:1)
-        .frame(height:20).debugBorder()
-  
+    NavigationView {
+      VStack(spacing:0) {
+        //   topButtonsVeew.padding(.horizontal)
+        //   .debugBorder()
+        
+        //fixed, immovable height
+        MarqueeMessageView(
+          message: $marqueeMessage,
+          fadeInDuration: 1.0,
+          fadeOutDuration: 3.0,
+          displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
+        ).opacity(marqueeMessage.isEmpty ? 0:1)
+          .frame(height:20).debugBorder()
+        
         
         if gs.boardsize > 1 {
           
@@ -62,8 +131,8 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage)
             .debugBorder()
-          
-          TopicIndexView(gs:gs,chmgr:chmgr,inPlayTopics:$gs.topicsinplay,scheme: $gs.currentscheme)
+          TopicIndexView(dmangler: dmangler,selectedTopics:$gs.topicsinplay)
+//          TopicIndexView(gs:gs,chmgr:chmgr,inPlayTopics:$gs.topicsinplay,scheme: $gs.currentscheme)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
@@ -89,91 +158,50 @@ struct GameScreen: View {
                    bodyMessage: bodyMsg, buttonTitle: "OK"){
         onYouWin()
       }
-      .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
+                   .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
                                  bodyMessage: bodyMsg, buttonTitle: "OK"){
                      onYouLose()
+                   }
+                                 .onAppear() {TSLog("GameScreen onAppear")  }
+        .navigationBarTitle(gameTitle, displayMode: .inline)
+        .navigationBarItems(trailing: actionMenu)
+        .navigationBarItems(leading: playToggleButton)
     }
-  .onAppear() {TSLog("GameScreen onAppear")  }
     
   }
-  
-  var topButtonsVeew : some View{
-    HStack(alignment:.center ){
+  var playToggleButton: some View {
+    Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End" : "Play"  ,  action: {
+      isPlayingButtonState.toggle()
       if gs.gamestate !=  StateOfPlay.playingNow {
-        //Start Game
-        Button(action: {
-          withAnimation {
-            let ok =  onStartGame(boardsize: gs.boardsize)
-            if !ok {
-              showCantStartAlert = true
-            }
-            chmgr.checkAllTopicConsistency("GameScreen StartGamePressed")
-            conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+        withAnimation {
+          let ok =  onStartGame(boardsize: gs.boardsize)
+          if !ok {
+            showCantStartAlert = true
           }
-        }) {
-          Text("Play")
-            .frame(width: isIpad ? 70:50, height: isIpad ? 70 : 50)
-            .padding(5)
-          //.background(.blue.opacity(0.8))
-          // .foregroundColor(.white)
-          //  .cornerRadius(8)
-            .font(isIpad ? .title:.body)
+          chmgr.checkAllTopicConsistency("GameScreen StartGamePressed")
+          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+        }
+        
+      } else {
+        
+        // this one has been trouble
+        // conditionalAssert(gs.checkVsChaMan(chmgr: chmgr)) //cant check after endgamepressed
+        isTouching = true
+        onEndGamePressed()  //should estore consistency
+        chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
+        
+        
+      }
+    }).font(.body)
+    .alert("Can't start new Game - consider changing the topics or hit Full Reset",isPresented: $showCantStartAlert){
+      Button("OK", role: .cancel) {
+        withAnimation {
+          onCantStartNewGameAction()
         }
       }
-      else {
-        // END GAME
-        Button(action: {
-          withAnimation {
-            // this one has been trouble
-            // conditionalAssert(gs.checkVsChaMan(chmgr: chmgr)) //cant check after endgamepressed
-            isTouching = true
-            onEndGamePressed()  //should estore consistency
-            chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
-          }
-        }) {
-          Text("End")
-            .frame(width: isIpad ? 70:50, height: isIpad ? 70:50)
-            .padding(5)
-          // .background(.red.opacity(0.8))
-          // .foregroundColor(.white)
-          //  .cornerRadius(8)
-            .font(isIpad ? .title:.body)
-        }
-      }
-        
-      Spacer()
-      Text(gameTitle).font(.largeTitle).bold()
-          .onLongPressGesture{
-            showLeaderboard = true
-          }
-      Spacer()
-        
-      Button(action: {  withAnimation {showSettings = true } } ) {
-        Image(systemName:"gearshape")
-          .font(.title)
-        .frame(width: isIpad ? 70:50, height: isIpad ? 70:50)
-
-      }.disabled(gs.gamestate == .playingNow)
-        .opacity(gs.gamestate == .playingNow ? 0.5:1.0)
-        .alert("Can't start new Game - consider changing the topics or hit Full Reset",isPresented: $showCantStartAlert){
-          Button("OK", role: .cancel) {
-            withAnimation {
-              onCantStartNewGameAction()
-            }
-          }
-        }
-      }  
-    .font(.body)
-    .sheet(isPresented: $showLeaderboard)
-    {
-    LeaderboardScreen(leaderboardService: lrdb)
     }
-      .fullScreenCover(isPresented: $showSettings){
-        SettingsScreen(chmgr: chmgr, gs: gs,lrdb:lrdb,showSettings:$showSettings)
       }
-  }
-  
-  
+
   var loadingVeew: some View {
     Text("Loading...")
       .onAppear {
@@ -190,23 +218,23 @@ struct GameScreen: View {
 
 #Preview ("GameScreen") {
       GameScreen(
-        gs:GameState.mock ,
-        chmgr: ChaMan(playData: PlayData.mock),
-        lrdb: LeaderboardService(),
+        gs:GameState.mock ,chmgr:
+          ChaMan.mock, lrdb: LeaderboardService() ,
+        dmangler: Dmangler(),
         topics:.constant(GameState.mock.topicsinplay),
-        size:.constant(3)
+       size:.constant(3)
         
       ).preferredColorScheme( .light)
     }
 
 
 #Preview ("Dark") {
-      GameScreen(
-        gs:GameState.mock ,
-        chmgr: ChaMan(playData: PlayData.mock),
-        lrdb: LeaderboardService(),
-        topics:.constant(GameState.mock.topicsinplay),
-        size:.constant(3)
+  GameScreen(
+    gs:GameState.mock ,chmgr:
+      ChaMan.mock, lrdb: LeaderboardService() ,
+    dmangler: Dmangler(),
+    topics:.constant(GameState.mock.topicsinplay),
+   size:.constant(3)
        
       ).preferredColorScheme( .dark)
     }

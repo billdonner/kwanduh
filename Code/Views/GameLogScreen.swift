@@ -23,53 +23,56 @@ struct GameLogScreen: View {
         Text("Game #\(gs.gamenumber)").font(.title)
         Text("\(gs.gamestart)").font(.footnote)
         Text("\(Int(gs.totaltime)) secs").font(.footnote)
-        Text("\(joinWithCommasAnd(gs.topicsinplay))").font(.footnote)
-        /** List {
-         ForEach(movehistory, id:\.self ) { move in
-         let row = move.row
-         let col = move.col
-         let reps = gs.replaced[row][col] // a vector of challenge indices
-         let ch = chmgr.everyChallenge[gs.board[row][col]]
-         let ansinfo = chmgr.ansinfo[ch.id]
-         let sym = switch gs.cellstate[row][col] {
-         case .playedCorrectly:
-         "✅"
-         case .playedIncorrectly:
-         "❌"
-         case .unplayed:
-         ""
-         }
-         Text("\(move.movenumber) : @(\(row),\(col))\(ch.topic)")
-         
-         HStack {
-         Text("\(ch.question)")
-         Spacer()
-         Image(systemName: "chevron.right")
-         .foregroundColor(.gray)
-         }.onTapGesture {
-         showDetails = ch
-         }
-         .fullScreenCover(item: $showDetails)
-         { challenge in
-         AlreadyPlayedView(ch: challenge, gs: gs, chmgr: chmgr)
-         }
-         Text("correct answer: \(ch.correct)")
-         HStack {
-         Text("your answer: \(ansinfo?.answer ?? "none" )")
-         Spacer()
-         Text("\(sym)").font(.caption)
-         }
-         if reps.count > 0 {
-         // Text("Question: \(ch.question)")
-         ForEach(reps,id:\.self) { rep in
-         let cha = chmgr.everyChallenge[rep]
-         Text(">>>Replaced: \(cha.question)")
-         }
-         }
-         }
-         }// list
-         
-         */
+        Text("\(joinWithCommasAnd(Array(gs.topicsinplay.keys)))").font(.footnote)
+        
+        List {
+          ForEach($movehistory, id:\.self ) { $move in
+            let row = move.row
+            let col = move.col
+            let reps = gs.replaced[row][col] // a vector of challenge indices
+            let ch = chmgr.everyChallenge[gs.board[row][col]]
+            let ansinfo = chmgr.ansinfo[ch.id]
+            let sym = switch gs.cellstate[row][col] {
+            case .playedCorrectly:
+              "✅"
+            case .playedIncorrectly:
+              "❌"
+            case .unplayed:
+              ""
+            }
+            Text("\(move.movenumber) : @(\(row),\(col))\(ch.topic)")
+            
+            HStack {
+              Text("\(ch.question)")
+              Spacer()
+              Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
+            }.onTapGesture {
+              showDetails = ch
+            }
+            .fullScreenCover(item: $showDetails)
+            { challenge in
+              if let ansinfo = ansinfo {
+                AlreadyPlayedView(ch: challenge, ansinfo: ansinfo, gs: gs)
+              }
+            }
+            Text("correct answer: \(ch.correct)")
+            HStack {
+              Text("your answer: \(ansinfo?.answer ?? "none" )")
+              Spacer()
+              Text("\(sym)").font(.caption)
+            }
+            if reps.count > 0 {
+              // Text("Question: \(ch.question)")
+              ForEach(reps,id:\.self) { rep in
+                let cha = chmgr.everyChallenge[rep]
+                Text(">>>Replaced: \(cha.question)")
+              }
+            }
+          }
+        }// list
+        
+        
         switch gs.gamestate {
         case .initializingApp:
           Text("You are not currently playing")

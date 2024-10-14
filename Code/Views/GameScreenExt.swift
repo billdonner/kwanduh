@@ -66,7 +66,7 @@ extension GameScreen /* actions */ {
    // print("//GameScreen onStartGame after")
     // chmgr.dumpTopics()
     if !ok {
-      print("Failed to allocate \(gs.boardsize*gs.boardsize) challenges for topics \(gs.topicsinplay.joined(separator: ","))")
+      print("Failed to allocate \(gs.boardsize*gs.boardsize) challenges for topics \(gs.topicsinplay.keys.joined(separator: ","))")
       print("Consider changing the topics in setting and trying again ...")
     } else {
       firstMove = true

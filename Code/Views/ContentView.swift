@@ -1,32 +1,41 @@
 import SwiftUI
-
+func colorize(scheme:ColorSchemeName,topics:[String]) -> [String:FreeportColor] {
+  let colors = availableColorsForScheme(  scheme)
+  assert(topics.count <= colors.count,"Too many topics \(topics.count) for \(colors.count) colors")
+  let colorMap: [String:FreeportColor] = zip(topics,colors).reduce(into: [:]) { result, pair in
+    result[pair.0] = pair.1
+  }
+  return colorMap
+}
 struct ContentView: View {
   @State var restartCount = 0
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
+  @Bindable var dmangler: Dmangler
   @State var current_size: Int = starting_size
-  @State var current_topics: [String] = []
+  @State var current_topics: [String:FreeportColor] = [:]
 
   
   var body: some View {
     // GeometryReader { geometry in
-       VStack(spacing:isIpad ? 20: 0) {
-         GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size) 
+//    NavigationView {
+//      VStack(spacing:isIpad ? 20: 0) {
+    GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, dmangler: dmangler, topics: $current_topics, size: $current_size)
           .onAppear {
             if gs.veryfirstgame {
               chmgr.loadAllData(gs: gs)
               chmgr.checkAllTopicConsistency("ContentView onAppear0")
               current_size = gs.boardsize
               if gs.topicsinplay.count == 0 {
-                gs.topicsinplay = getRandomTopics(GameState.minTopicsForBoardSize(current_size),
-                                                  from: chmgr.everyTopicName)
+                gs.topicsinplay = colorize(scheme:gs.currentscheme,  topics: getRandomTopics(GameState.minTopicsForBoardSize(current_size),
+                                                  from: chmgr.everyTopicName))
               }
-              current_topics = gs.topicsinplay
+              //current_topics = gs.topicsinplay
               chmgr.checkAllTopicConsistency("ContentView onAppear2")
-       TSLog("//ContentView first onAppear size:\(current_size) topics:\(current_topics) restartcount \(restartCount)")
+              TSLog("//ContentView first onAppear size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)")
             } else {
-              TSLog("//ContentView onAppear restart size:\(current_size) topics:\(current_topics) restartcount \(restartCount)")
+              TSLog("//ContentView onAppear restart size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)")
             }
             restartCount += 1
             gs.veryfirstgame = false
@@ -34,19 +43,19 @@ struct ContentView: View {
           .onDisappear {
             print("Yikes the ContentView is Disappearing!")
           }
-
-         
-          
-        }
+        
       }
- // }
-}
+//     .navigationBarTitle("Actions Menu", displayMode: .inline)
+//      .navigationBarItems(trailing: actionMenu)
+ //   }
+  }
+  
 
 #Preview ("light"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService(), dmangler: Dmangler())
 }
 #Preview ("dark"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService(), dmangler: Dmangler())
     .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 }
 

@@ -91,10 +91,11 @@ fileprivate struct TopicCountsView: View {
     )
   }
   var body: some View {
+    let topicColor =   gs.topicsinplay[topic]?.toColor() ?? .gray
     HStack {
       RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 5.0))
         .frame(width: 24, height: 24)
-        .foregroundStyle(gs.colorTripleForTopic(topic).0)
+        .foregroundStyle(topicColor)
       Text(topic )
       Spacer()
       counts

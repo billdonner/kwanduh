@@ -22,7 +22,7 @@ extension ChaMan {
     }
   // Save the challenge statuses to a file
   func saveChallengeStatuses(_ statuses: [ChallengeStatus]) {
-    TSLog("SAVE CHALLENGE STATUSES")
+    //TSLog("SAVE CHALLENGE STATUSES")
     let filePath = Self.getChallengeStatusesFilePath()
     do {
       let data = try JSONEncoder().encode(statuses)

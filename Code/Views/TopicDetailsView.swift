@@ -22,7 +22,8 @@ struct TopicDetailsView: View {
   let topic:String
   let gs:GameState
   let chmgr:ChaMan
-  let colortrip: ColorTriple
+  let background:Color
+  let foreground:Color
   
   @State private var showApview:Challenge?  = nil
   @State var  showGamesLog =  false
@@ -35,7 +36,7 @@ struct TopicDetailsView: View {
 
       VStack {
         ZStack {
-          colortrip.0
+          background
             .ignoresSafeArea(edges: .top)
           
           VStack {
@@ -48,7 +49,7 @@ struct TopicDetailsView: View {
               .font(.footnote)
             //  .shadow(color: .black, radius: 1, x: 0, y: 1)
           }
-          .foregroundColor(colortrip.1)
+          .foregroundColor(foreground)
           .padding()
         }
         List {
@@ -93,7 +94,7 @@ struct TopicDetailsView: View {
           }
         }
       }
-      .dismissButton(backgroundColor: gs.colorTripleForTopic(topic).0) // put a dismiss button up there
+      .dismissButton(backgroundColor:gs.topicsinplay[ topic]?.toColor() ?? .red) // put a dismiss button up there
       
       .fullScreenCover(isPresented: $showGamesLog) {
         GameLogScreen(gs:gs, chmgr: chmgr)
@@ -106,6 +107,12 @@ struct TopicDetailsView: View {
 }
 
 #Preview {
-  TopicDetailsView(topic:"Fun",gs:GameState.mock,
-                   chmgr: ChaMan.mock, colortrip: GameState.mock.colorTripleForTopic("Fun"))
+ let topic = "Fun"
+  let gs = GameState.mock
+  if let freeportColor = gs.topicsinplay[topic] {
+    let bkg = freeportColor.toColor()
+    TopicDetailsView(topic:"topic",gs:gs,
+                     chmgr: ChaMan.mock, background:bkg , foreground: contrastingTextColor(for: colorToRGB(color: bkg)))
+    
+  }
 }

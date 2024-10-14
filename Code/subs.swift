@@ -6,6 +6,22 @@
 //
 
 import SwiftUI
+
+
+func flattenDictionaryKeys<K, V>(_ dictionary: [K: V]) -> [K] {
+    return Array(dictionary.keys)
+}
+func flattenDictionaryValues<K, V>(_ dictionary: [K: V]) -> [V] {
+    return Array(dictionary.values)
+}
+func removeInstances<T: Equatable>(from array: [T], removing elements: [T]) -> [T] {
+    return array.filter { !elements.contains($0) }
+}
+
+
+
+
+
 extension Color {
   static let offBlack = Color(red: 0.1, green: 0.1, blue: 0.1)
   static let offWhite = Color(red: 0.95, green: 0.95, blue: 0.95)

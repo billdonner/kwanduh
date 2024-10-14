@@ -9,7 +9,6 @@ import Foundation
 
 struct TopicInfo : Codable {
       let name: String
-      var colorinfo: ColorSpec?
       var alloccount: Int
       var freecount: Int
       var replacedcount: Int
@@ -19,10 +18,7 @@ struct TopicInfo : Codable {
   
   
   static var mock : Self = {
-    TopicInfo(name:"mock",colorinfo:
-                ColorSpec (backname: "Peach", forename: "Dark Orange",
-                           backrgb: RGB(red: 255, green: 140, blue: 0),
-                           forergb: RGB(red: 255, green: 69, blue: 0)),
+    TopicInfo(name:"mock",
            alloccount: 1,freecount:1,replacedcount: 0,rightcount: 1,wrongcount: 0,challengeIndices: [1,2,3])
   }()
 
@@ -48,7 +44,7 @@ struct TopicInfo : Codable {
   }
   // Save the topicInfo to a file
   static func saveTopicInfo (_ info:[String:TopicInfo]) {
-    TSLog("SAVE TOPIC INFO")
+    //TSLog("SAVE TOPIC INFO")
     let filePath = Self.getTopicInfoFilePath()
       do {
           let data = try JSONEncoder().encode(info)
@@ -98,7 +94,7 @@ extension ChaMan {
     
     // back thru all the topics
     for topic in playData.topicData.topics {
-      let ti = TopicInfo(name: topic.name, colorinfo: nil, alloccount:  0,
+      let ti = TopicInfo(name: topic.name,alloccount:  0,
                          freecount: freeCountByTopic[topic.name ] ?? 0,
                          replacedcount:0,
                          rightcount: 0,

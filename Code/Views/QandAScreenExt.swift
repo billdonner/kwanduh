@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+extension FreeportColor {
+ func toColor() -> Color {
+   ColorManager.mycolors[self.rawValue].1
+  }
+  func toColorName() -> String {
+    ColorManager.mycolors[self.rawValue].2
+  }
+  
+}
 extension QandAScreen {
   func questionAndAnswersSectionVue(ch:Challenge,geometry: GeometryProxy,colorScheme: ColorScheme,answerGiven:Binding<Bool>,answerCorrect:Binding<Bool> ) -> some View {
 
@@ -28,7 +37,7 @@ extension QandAScreen {
    let paddingWidth = geometry.size.width * 0.1
    let contentWidth = geometry.size.width - paddingWidth
     let ch = chmgr.everyChallenge[gs.board[row][col]]
-    let topicColor =   gs.colorTripleForTopic(ch.topic).0
+    let topicColor =   gs.topicsinplay[ch.topic]?.toColor() ?? .red
     
     return ZStack {
       RoundedRectangle(cornerRadius: 10).fill(topicColor.opacity(1.0))

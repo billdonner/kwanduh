@@ -23,14 +23,15 @@ struct mainApp : App {
   @AppStorage("OnboardingDone") private var onboardingdone = false
   @State var leaderboardService = LeaderboardService()
   @State var showOnboarding = false
+  @State var dmangler = Dmangler()
   @State var chmgr = ChaMan(playData: PlayData.mock )
   @State var gs = GameState(size: starting_size,
-                            topics:[],
+                            topics:[:],
                             challenges:Challenge.mockChallenges)
   
   var body: some Scene {
     WindowGroup {
-      ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
+      ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService, dmangler: dmangler)
         .padding([.bottom])
        // .statusBar(hidden: true) // Hide the status bar
         .fullScreenCover(isPresented: $showOnboarding) {
