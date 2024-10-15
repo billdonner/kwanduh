@@ -7,12 +7,17 @@
  
 import SwiftUI
 
-
+struct IdentifiableString : Identifiable {
+  let id = UUID()
+  let value: String
+}
 struct TopicIndexView: View {
   let gs: GameState
   let chmgr: ChaMan
     // Binding to the temporary selected topics
   @Binding var  selectedTopics: [String: FreeportColor]
+  
+  @State var presentTopic: IdentifiableString? = nil
 
   @Environment(\.colorScheme) var cs //system light/dark
     var body: some View {
@@ -22,27 +27,38 @@ struct TopicIndexView: View {
               ForEach(selectedTopics.keys.sorted(), id: \.self) { topic in
                // let _ = print("**",topic)
                 if let colorEnum = selectedTopics[topic] {
-                //  let _ = print("colorenum:",colorEnum)
-//                  if   let topicidx = chmgr.everyTopicName.firstIndex(where: { $0 == topic }) {
-                  //  let _ = print("topicidx:",topicidx)
                     VStack(spacing:0) {
                       let x = chmgr.tinfo[topic]?.freecount ?? 0
-                      let pct = Double(x) / 200.0// for now Double(dmangler.allCounts.max()!)
+                      let y = chmgr.tinfo[topic]?.alloccount ?? 1
+                      let pct = Double(x) / Double(y)// for now Double(dmangler.allCounts.max()!)
                       let backColor = ColorManager.backgroundColor(for: colorEnum)
                       
                       HighWaterMarkCircleView(text:"\(x)", percentage: pct,
                                               size: 40, color: backColor)
+                      .onTapGesture {
+                        presentTopic = IdentifiableString(value: topic)
+                      }
                       
                       Text(topic)
                         .lineLimit(3)
-                        .frame(width: 70, height: 40)
+                        .frame(width: 50, height: 40)
                         .foregroundColor(cs == .dark ? .white : .black)
+                        .font(.footnote)
                     }
                   }
                 }
             }
             .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
-        }.background(Color.gray.opacity(0.4))
+        }.background(cs == .dark ? Color.offBlack : .offWhite)
+        .sheet(item: $presentTopic) { s in
+          if let freeportColor = gs.topicsinplay[s.value] {
+            let bkg = freeportColor.toColor()
+            TopicDetailsView(topic: s.value, gs: gs, chmgr: chmgr , background:bkg ,
+                             foreground: contrastingTextColor(for: colorToRGB(color: bkg)))
+          } else {
+            Color.red
+          }
+        }
     }
 }
 struct TopicIndexView_Previews: PreviewProvider {
@@ -51,8 +67,8 @@ struct TopicIndexView_Previews: PreviewProvider {
         // Example selected topics
 @State var  selectedTopics:[String:FreeportColor] = [
           "Topic1": .myNavy,
-          "Topic2": .myAqua,
-          "Topic3": .myMossGreen,
+          "Topic2 is long": .myAqua,
+          "Topic3hasnotspaces": .myMossGreen,
           "Topic4": .myGoldenYellow,
           "Topic5": .myHotPink
         ]

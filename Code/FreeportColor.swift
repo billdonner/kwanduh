@@ -128,6 +128,7 @@ enum FreeportColor: Int, CaseIterable, Comparable,Codable {
         return lhs.rawValue < rhs.rawValue
     }
 }
+
 // this should exactly parallel TopicColor due to rawValue indexing
 struct ColorManager {
     // Static array for background colors
@@ -273,7 +274,10 @@ func colorForSchemeAndTopic(scheme schmindx: Int, index topicIndex: Int) -> Free
 func availableColorsForScheme (_ schmindx: Int) -> [FreeportColor] {
   return allColorSchemes[schmindx]
 }
-/**
+
+ 
+ let allSchemeNames: [String] = ["Bleak","Winter","Spring","Summer","Autumn"]
+ /*
  Rework the basic topics->mycolor dict from one scheme to another, each topic is separately processed
  
  - get the current color for the topic as specified in in dict as its value ;

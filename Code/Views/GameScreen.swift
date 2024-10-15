@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct GameScreen: View {
-
+  
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
@@ -29,20 +29,20 @@ struct GameScreen: View {
   @State var chal: IdentifiablePoint? = nil
   @State var isPresentingDetailView = false
   @State var isPlayingButtonState = false
- 
+  
   var actionMenu: some View {
     Menu {
       Button(action: {
-      showSettings.toggle()
+        showSettings.toggle()
       }) {
         Text("Settings")
-      }
+      }.disabled(gs.gamestate == .playingNow)
       
       Button(action: {
         showTopicSelector.toggle()
       }) {
         Text("Topics")
-      }
+      }.disabled(gs.gamestate == .playingNow)
       
       Button(action: {
         showLeaderboard.toggle()
@@ -63,16 +63,6 @@ struct GameScreen: View {
     }
     .sheet(isPresented: $showTopicSelector) {
       TopicSelectorView(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees)
-      
-//      TopicSelectorView(allTopics: chmgr.everyTopicName,
-//                        selectedTopics: $gs.topicsinplay, // Pass the new array of TopicColor
-//                        selectedScheme: $gs.currentscheme,
-//                        chmgr: chmgr,
-//                        gs: gs,
-//                        minTopics: GameState.minTopicsForBoardSize(l_boardsize),
-//                        maxTopics: GameState.maxTopicsForBoardSize(l_boardsize),
-//                        gimms: $l_gimms)
-      Color.red  
     }
     .sheet(isPresented: $showLeaderboard) {
       LeaderboardScreen(leaderboardService: lrdb)
@@ -81,7 +71,7 @@ struct GameScreen: View {
       CommentsView()
     }
   }
-
+  
   var bodyMsg: String {
     let t =  """
     That was game \(gs.gamenumber) of which:\nyou've won \(gs.woncount) and \nlost \(gs.lostcount) games
@@ -90,8 +80,7 @@ struct GameScreen: View {
   }
   
   func  onSingleTap (_ row:Int, _ col:Int ) {
-       chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
-
+    chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
   }
   var body: some View {
     NavigationView {
@@ -113,15 +102,20 @@ struct GameScreen: View {
                        isTouching: $isTouching,
                        marqueeMessage: $marqueeMessage,
                        onSingleTap: onSingleTap)
-   
+          
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
+          
           TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay)
+          
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
           
             .onChange(of:gs.cellstate) {
               onChangeOfCellState()
+            }
+            .onChange(of:gs.currentscheme) {
+              print("gs.currentscheme has changed to \(gs.currentscheme)")
             }
           
             .onDisappear {
@@ -145,10 +139,12 @@ struct GameScreen: View {
                                  bodyMessage: bodyMsg, buttonTitle: "OK"){
                      onYouLose()
                    }
-        .onAppear() {TSLog("GameScreen onAppear")  }
-        .navigationBarTitle(gameTitle, displayMode: .inline)
-        .navigationBarItems(trailing: actionMenu)
-        .navigationBarItems(leading: playToggleButton)
+                                 .onAppear() {
+                                   TSLog("GameScreen onAppear")
+                                 }
+                                 .navigationBarTitle(gameTitle, displayMode: .inline)
+                                 .navigationBarItems(trailing: actionMenu)
+                                 .navigationBarItems(leading: playToggleButton)
     }
     
   }
@@ -176,15 +172,16 @@ struct GameScreen: View {
         
       }
     }).font(.body)
-    .alert("Can't start new Game - consider changing the topics or hit Full Reset",isPresented: $showCantStartAlert){
-      Button("OK", role: .cancel) {
-        withAnimation {
-          onCantStartNewGameAction()
+    
+      .alert("Can't start new Game - consider changing the topics or hit Full Reset",isPresented: $showCantStartAlert){
+        Button("OK", role: .cancel) {
+          withAnimation {
+            onCantStartNewGameAction()
+          }
         }
       }
-    }
-      }
-
+  }
+  
   var loadingVeew: some View {
     Text("Loading...")
       .onAppear {
@@ -200,14 +197,14 @@ struct GameScreen: View {
 
 
 #Preview ("GameScreen") {
-      GameScreen(
-        gs:GameState.mock ,chmgr:
-          ChaMan.mock, lrdb: LeaderboardService() ,
-        topics:.constant(GameState.mock.topicsinplay),
-       size:.constant(3)
-        
-      ).preferredColorScheme( .light)
-    }
+  GameScreen(
+    gs:GameState.mock ,chmgr:
+      ChaMan.mock, lrdb: LeaderboardService() ,
+    topics:.constant(GameState.mock.topicsinplay),
+    size:.constant(3)
+    
+  ).preferredColorScheme( .light)
+}
 
 
 #Preview ("Dark") {
@@ -215,7 +212,7 @@ struct GameScreen: View {
     gs:GameState.mock ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
-   size:.constant(3)
-       
-      ).preferredColorScheme( .dark)
-    }
+    size:.constant(3)
+    
+  ).preferredColorScheme( .dark)
+}

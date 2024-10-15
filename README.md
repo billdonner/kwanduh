@@ -1,5 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
-- version 0.7.53 brand new topicselectorview and topicindexview
+- version 0.7.53.4 brand new topicselectorview and topicindexview
 - version 0.7.52.1  reworked version number, and 2 per-target Config files
 - version 0.7.50.1 (deliberate) add CloudKitConfig file, configured with single container, and will start with no dashboard configuration ! - except recordName
 - version 0.7.41 cloudkit bypass removed

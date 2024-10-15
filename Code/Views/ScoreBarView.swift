@@ -39,7 +39,7 @@ private struct zz:View {
         if showchars.count > 1 {Text("last game: ").opacity(0.8) }
         Text(showchars).font(showchars.count<=1 ? .title:.footnote)
       }
-    }.padding()
+    }.padding(.horizontal)
     
   }
   }

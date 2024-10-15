@@ -28,8 +28,7 @@ class GameState : Codable {
   var totaltime: TimeInterval // aka Double
   
   var veryfirstgame:Bool
-  // @ObservationIgnored
-   var currentscheme: ColorSchemeName
+  var currentscheme: ColorSchemeName
   // in chaman we can fetch counts to make % from Tinfo
   //chmgr.tinfo[topic]
  // var tinfo: [String: TopicInfo]  // Dictionary indexed by topic
