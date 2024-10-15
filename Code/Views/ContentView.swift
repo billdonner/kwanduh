@@ -12,7 +12,6 @@ struct ContentView: View {
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
-  @Bindable var dmangler: Dmangler
   @State var current_size: Int = starting_size
   @State var current_topics: [String:FreeportColor] = [:]
 
@@ -21,7 +20,7 @@ struct ContentView: View {
     // GeometryReader { geometry in
 //    NavigationView {
 //      VStack(spacing:isIpad ? 20: 0) {
-    GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, dmangler: dmangler, topics: $current_topics, size: $current_size)
+    GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size)
           .onAppear {
             if gs.veryfirstgame {
               chmgr.loadAllData(gs: gs)
@@ -52,10 +51,10 @@ struct ContentView: View {
   
 
 #Preview ("light"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService(), dmangler: Dmangler())
+  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
 }
 #Preview ("dark"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService(), dmangler: Dmangler())
+  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
     .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 }
 

@@ -134,13 +134,14 @@ struct FetcherView: View {
     @State  private var cloudKitManager = CloudKitManager.shared
     
     var body: some View {
-        NavigationView {
+       ZStack{
+         DismissButtonView()
             VStack {
-       
+              Text("Fetcher").font(.title)
                 Button(action: {
                   cloudKitManager.fetchLogRecords()
                 }) {
-                    Text("Fetch All Log Records")
+                    Text("Fetch All Records")
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)

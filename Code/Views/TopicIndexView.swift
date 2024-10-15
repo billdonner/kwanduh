@@ -9,7 +9,8 @@ import SwiftUI
 
 
 struct TopicIndexView: View {
-  @Bindable var dmangler:Dmangler
+  let gs: GameState
+  let chmgr: ChaMan
     // Binding to the temporary selected topics
   @Binding var  selectedTopics: [String: FreeportColor]
 
@@ -22,26 +23,26 @@ struct TopicIndexView: View {
                // let _ = print("**",topic)
                 if let colorEnum = selectedTopics[topic] {
                 //  let _ = print("colorenum:",colorEnum)
-                  if   let topicidx = dmangler.allTopics.firstIndex(where: { $0 == topic }) {
+//                  if   let topicidx = chmgr.everyTopicName.firstIndex(where: { $0 == topic }) {
                   //  let _ = print("topicidx:",topicidx)
                     VStack(spacing:0) {
-                      let pct = Double(dmangler.allCounts[topicidx]) / 200.0// for now Double(dmangler.allCounts.max()!)
+                      let x = chmgr.tinfo[topic]?.freecount ?? 0
+                      let pct = Double(x) / 200.0// for now Double(dmangler.allCounts.max()!)
                       let backColor = ColorManager.backgroundColor(for: colorEnum)
                       
-                      HighWaterMarkCircleView(text:"\(dmangler.allCounts[topicidx])", percentage: pct,
-                                              size: 50, color: backColor)
+                      HighWaterMarkCircleView(text:"\(x)", percentage: pct,
+                                              size: 40, color: backColor)
                       
                       Text(topic)
                         .lineLimit(3)
-                        .frame(width: 70, height: 50)
+                        .frame(width: 70, height: 40)
                         .foregroundColor(cs == .dark ? .white : .black)
                     }
                   }
                 }
-              }
             }
-            .padding()
-        }
+            .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+        }.background(Color.gray.opacity(0.4))
     }
 }
 struct TopicIndexView_Previews: PreviewProvider {
@@ -52,10 +53,11 @@ struct TopicIndexView_Previews: PreviewProvider {
           "Topic1": .myNavy,
           "Topic2": .myAqua,
           "Topic3": .myMossGreen,
-          "Topic4": .myGoldenYellow
+          "Topic4": .myGoldenYellow,
+          "Topic5": .myHotPink
         ]
-      let dm = Dmangler(currentScheme:test_scheme,allCounts:test_allCounts,allTopics:test_allTopics,selectedTopics:test_selected)
-      return TopicIndexView(dmangler:dm, selectedTopics:$selectedTopics)
+
+      return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics)
             .previewLayout(.sizeThatFits)
             .previewDisplayName("Topic Index View")
             .environment(\.colorScheme, .light)  // Test dark mode with .dark if needed

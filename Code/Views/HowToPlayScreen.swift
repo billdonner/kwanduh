@@ -75,7 +75,7 @@ struct FrontMatter :View{
               .font(.title)
               .foregroundStyle(.white)
           }
-          }
+          }.padding()
         }
         Spacer()
         Text("How to Play").font(.largeTitle).foregroundStyle(.white)

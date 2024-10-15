@@ -11,19 +11,18 @@ struct GameScreen: View {
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
-  @Bindable var dmangler: Dmangler
   @Binding  var topics: [String:FreeportColor]
   @Binding  var size:Int
   
   @State var isTouching: Bool = false
-  @State   var firstMove = true
-  @State   var startAfresh = true
-  @State   var showWinAlert = false
-  @State   var showLoseAlert = false
-  @State   var showCantStartAlert = false
-  @State   var showSettings =  false // force it up
-  @State   var showLeaderboard = false
-  @State   var showSendComment = false
+  @State var firstMove = true
+  @State var startAfresh = true
+  @State var showWinAlert = false
+  @State var showLoseAlert = false
+  @State var showCantStartAlert = false
+  @State var showSettings =  false // force it up
+  @State var showLeaderboard = false
+  @State var showSendComment = false
   @State var showTopicSelector = false
   @State var marqueeMessage =  "Hit Play to Start a New Game"
   
@@ -63,6 +62,8 @@ struct GameScreen: View {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
     }
     .sheet(isPresented: $showTopicSelector) {
+      TopicSelectorView(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees)
+      
 //      TopicSelectorView(allTopics: chmgr.everyTopicName,
 //                        selectedTopics: $gs.topicsinplay, // Pass the new array of TopicColor
 //                        selectedScheme: $gs.currentscheme,
@@ -81,20 +82,6 @@ struct GameScreen: View {
     }
   }
 
-
-  struct SheetView: View {
-    var title: String
-    
-    var body: some View {
-      VStack {
-        Text(title)
-          .font(.largeTitle)
-          .padding()
-        Spacer()
-      }
-    }
-  }
-
   var bodyMsg: String {
     let t =  """
     That was game \(gs.gamenumber) of which:\nyou've won \(gs.woncount) and \nlost \(gs.lostcount) games
@@ -109,9 +96,6 @@ struct GameScreen: View {
   var body: some View {
     NavigationView {
       VStack(spacing:0) {
-        //   topButtonsVeew.padding(.horizontal)
-        //   .debugBorder()
-        
         //fixed, immovable height
         MarqueeMessageView(
           message: $marqueeMessage,
@@ -125,15 +109,14 @@ struct GameScreen: View {
         if gs.boardsize > 1 {
           
           MainGridView(gs: gs, chmgr:chmgr,
-                       // boardsize:$gs.boardsize,
-                       firstMove: $firstMove, isTouching: $isTouching, marqueeMessage: $marqueeMessage, onSingleTap: onSingleTap)
-          .debugBorder()
+                       firstMove: $firstMove,
+                       isTouching: $isTouching,
+                       marqueeMessage: $marqueeMessage,
+                       onSingleTap: onSingleTap)
+   
           
-          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage)
-            .debugBorder()
-          TopicIndexView(dmangler: dmangler,selectedTopics:$gs.topicsinplay)
-//          TopicIndexView(gs:gs,chmgr:chmgr,inPlayTopics:$gs.topicsinplay,scheme: $gs.currentscheme)
-          
+          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay)
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
           
@@ -162,7 +145,7 @@ struct GameScreen: View {
                                  bodyMessage: bodyMsg, buttonTitle: "OK"){
                      onYouLose()
                    }
-                                 .onAppear() {TSLog("GameScreen onAppear")  }
+        .onAppear() {TSLog("GameScreen onAppear")  }
         .navigationBarTitle(gameTitle, displayMode: .inline)
         .navigationBarItems(trailing: actionMenu)
         .navigationBarItems(leading: playToggleButton)
@@ -220,7 +203,6 @@ struct GameScreen: View {
       GameScreen(
         gs:GameState.mock ,chmgr:
           ChaMan.mock, lrdb: LeaderboardService() ,
-        dmangler: Dmangler(),
         topics:.constant(GameState.mock.topicsinplay),
        size:.constant(3)
         
@@ -232,7 +214,6 @@ struct GameScreen: View {
   GameScreen(
     gs:GameState.mock ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
-    dmangler: Dmangler(),
     topics:.constant(GameState.mock.topicsinplay),
    size:.constant(3)
        

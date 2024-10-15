@@ -9,10 +9,10 @@
 import SwiftUI
 
 
-let test_allTopics = ["Topic1", "Topic2", "Topic3", "Topic4", "Topic5", "Topic6", "Topic7", "Topic8", "Topic9", "Topic10","Topic11","Topic12","Topic13","Topic14","Topic15","Topic16","Topic17","Topic18","Topic19","Topic20"]
-let test_allCounts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
-let test_scheme = 1
-let test_selected:[String:FreeportColor] = ["Topic1":.myIceBlue]
+//let test_allTopics = ["Topic1", "Topic2", "Topic3", "Topic4", "Topic5", "Topic6", "Topic7", "Topic8", "Topic9", "Topic10","Topic11","Topic12","Topic13","Topic14","Topic15","Topic16","Topic17","Topic18","Topic19","Topic20"]
+//let test_allCounts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
+//let test_scheme = 1
+//let test_selected:[String:FreeportColor] = ["Topic1":.myIceBlue]
 
 
 
@@ -29,7 +29,9 @@ func dumpTopicsAndColors(_ comment:String,from selectedTopics:[String:FreeportCo
 }
 
 struct TopicSelectorView: View {
-  @Bindable var dmangler: Dmangler
+//  @Bindable var dmangler: Dmangler
+  let gs:GameState
+  let chmgr:ChaMan
   @Binding var  gimmeCount: Int // Gimme count passed as a binding
   
   // Temporary state to handle topic selections
@@ -49,7 +51,7 @@ struct TopicSelectorView: View {
     NavigationView {
       VStack {
         // Use the modified TopicIndexView with a binding to tempSelectedTopics
-        TopicIndexView(dmangler: dmangler, selectedTopics: $tempSelectedTopics)
+        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempSelectedTopics)
           .frame(height: 100)
           .padding(.top, 8)
         
@@ -83,7 +85,7 @@ struct TopicSelectorView: View {
         // List of available topics
         List {
           Section(header: Text("Available Topics")) {
-            let tempAvailableTopics = removeInstances(from:  dmangler.allTopics, removing: flattenDictionaryKeys( tempSelectedTopics))
+            let tempAvailableTopics = removeInstances(from: chmgr.everyTopicName, removing: flattenDictionaryKeys( tempSelectedTopics))
             ForEach(tempAvailableTopics, id: \.self) { topic in
               HStack {
                 Text(topic)
@@ -150,14 +152,14 @@ struct TopicSelectorView: View {
       showMaximumSelectionAlert = true
     } else {
       let active = flattenDictionaryValues(tempSelectedTopics)
-      let avail = removeInstances(from: availableColorsForScheme(dmangler.currentScheme), removing: active)
+      let avail = removeInstances(from: availableColorsForScheme(gs.currentscheme), removing: active)
       guard  let color = avail.randomElement()  else {
-        print("Could not get random Color for scheme \(dmangler.currentScheme) in addtopic")
+        print("Could not get random Color for scheme \(gs.currentscheme) in addtopic")
         return}
       // print("Add topic \(topic) with color \(color)")
        tempSelectedTopics[topic] = color
         tempGimmeeCount -= 1
-       dumpTopicsAndColors("added topic \(topic) with color \(color) scheme \(dmangler.currentScheme)",from:tempSelectedTopics)
+       dumpTopicsAndColors("added topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
  
     }
   }
@@ -173,33 +175,30 @@ struct TopicSelectorView: View {
       // print("Remove topic \(topic) with color \(color)")
       tempSelectedTopics.removeValue(forKey: topic)
       tempGimmeeCount -= 1
-      dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(dmangler.currentScheme)",from:tempSelectedTopics)
+      dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
     }
   }
   private func cancelSelection() {  // Restore the initial gimme count
     presentationMode.wrappedValue.dismiss()  // Dismiss without saving changes
   }
-  
 
-  
-  
   private func finalizeSelection() {
     if tempSelectedTopics.count < minTopicCount {
       showMinimumSelectionAlert = true
     } else {
       
       gimmeCount = tempGimmeeCount
-      dmangler.selectedTopics = tempSelectedTopics  // Persist the changes
+      gs.topicsinplay = tempSelectedTopics  // Persist the changes
 
-      dumpTopicsAndColors("finalized selection for scheme \(dmangler.currentScheme)", from: dmangler.selectedTopics)
+      dumpTopicsAndColors("finalized selection for scheme \(gs.currentscheme)", from: gs.topicsinplay)
       presentationMode.wrappedValue.dismiss()  // Dismiss and save changes
     }
   }
   
   private func setupView() {
     tempGimmeeCount = gimmeCount  // Store the initial gimme count
-    tempSelectedTopics = dmangler.selectedTopics  // Load the selected topics
-    dumpTopicsAndColors("setup view for scheme \(dmangler.currentScheme)", from: dmangler.selectedTopics)
+    tempSelectedTopics = gs.topicsinplay // Load the selected topics
+    dumpTopicsAndColors("setup view for scheme \(gs.currentscheme)", from: gs.topicsinplay)
     if tempGimmeeCount <= 0 {
       showNoGimmeeAlert = true
     }
@@ -209,10 +208,9 @@ struct TopicSelectorView_Previews: PreviewProvider {
   @State static private var gimmeCount: Int = 5  // Example gimme count
   
   static var previews: some View {
-    let dmangler = Dmangler(currentScheme:test_scheme,allCounts:test_allCounts,allTopics:test_allTopics,selectedTopics:test_selected)
+
     
-    
-    return TopicSelectorView(dmangler: dmangler, gimmeCount: $gimmeCount)
+    return TopicSelectorView(gs:GameState.mock, chmgr:ChaMan.mock, gimmeCount: $gimmeCount)
       .previewLayout(.device)
       .previewDisplayName("Topic Selector View")
       .environment(\.colorScheme, .light)  // You can also test dark mode by setting .dark

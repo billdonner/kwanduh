@@ -35,7 +35,7 @@ struct GameScreenBottomButtons : View {
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
           .font(isIpad ? .headline: .caption2)
         }.sheet(isPresented:$showCommentsMaker){
-          CommentsView()
+         // CommentsView()
         }
       Spacer()
       //Help
