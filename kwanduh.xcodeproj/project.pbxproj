@@ -54,6 +54,13 @@
 			);
 			target = 88A319932CA3212B005D0DF3 /* qanda */;
 		};
+		884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppColors.swift,
+			);
+			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
+		};
 		88A319892CA31C90005D0DF3 /* Exceptions for "kwanduh" folder in "kwanduh" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -65,7 +72,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AnsweredInfo.swift,
-				AppColors.swift,
 				ChaMan.swift,
 				ChaManExt.swift,
 				CloudSentiments.swift,
@@ -152,6 +158,7 @@
 		88A319F22CA8666A005D0DF3 /* Code */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */,
 				88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */,
 			);
 			path = Code;

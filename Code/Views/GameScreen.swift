@@ -80,7 +80,7 @@ struct GameScreen: View {
       LeaderboardScreen(leaderboardService: lrdb)
     }
     .sheet(isPresented: $showScheme) {
-      SchemePickerView(gs:gs)
+      SchemePickerView(gs:gs,chmgr:chmgr)
     }
     .sheet(isPresented: $showSendComment) {
       CommentsView()
@@ -121,20 +121,17 @@ struct GameScreen: View {
                        marqueeMessage: $marqueeMessage,
                        onSingleTap: onSingleTap)
           
-          
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
-          Text ("\(gs.currentscheme)").font(.caption)
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay)
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, opType: .showDetails)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
-          
           
             .onChange(of:gs.cellstate) {
               onChangeOfCellState()
             }
             .onChange(of:gs.currentscheme) {
-              print("gs.currentscheme has changed to \(gs.currentscheme)")
+              //print("gs.currentscheme has changed to \(gs.currentscheme)")
               gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys))
               gs.saveGameState()
             }

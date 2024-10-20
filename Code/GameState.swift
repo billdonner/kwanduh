@@ -531,16 +531,16 @@ class GameState : Codable {
   }
   
   static  func preselectedTopicsForBoardSize(_ size:Int) -> Int {
-    return minTopicsForBoardSize(size)
-//    switch size  {
-//    case 3: return 2
-//    case 4: return 2
-//    case 5: return 2
-//    case 6: return 2
-//    case 7: return 2
-//    case 8: return 2
-//    default: return 2
-//    }
+ 
+    switch size  {
+    case 3: return 3
+    case 4: return 3
+    case 5: return 3
+    case 6: return 4
+    case 7: return 5
+    case 8: return 6
+    default: return 7
+    }
   }
   // this returns unplayed challenges and their indices in the challengestatus array
   func resetBoardReturningUnplayed() ->   [Int] {
