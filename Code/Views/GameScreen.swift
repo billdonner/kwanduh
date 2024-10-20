@@ -74,7 +74,7 @@ struct GameScreen: View {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
     }
     .sheet(isPresented: $showTopicSelector) {
-      TopicSelectorView(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees)
+      TopicSelectorView(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees, isTouching: $isTouching)
     }
     .sheet(isPresented: $showLeaderboard) {
       LeaderboardScreen(leaderboardService: lrdb)
@@ -123,7 +123,7 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, opType: .showDetails)
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, opType: .showDetails,isTouching: $isTouching)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
@@ -191,7 +191,7 @@ struct GameScreen: View {
       }
     }).font(.body)
     
-      .alert("Can't start new Game - consider changing the topics or hit Full Reset",isPresented: $showCantStartAlert){
+      .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
         Button("OK", role: .cancel) {
           withAnimation {
             onCantStartNewGameAction()

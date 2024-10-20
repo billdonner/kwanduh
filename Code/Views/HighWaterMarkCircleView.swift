@@ -13,14 +13,24 @@ struct HighWaterMarkCircleView: View {
     let percentage: Double // Value between 0 and 1 for the high water mark
     let size: CGFloat      // Circle size
     let color: Color       // Color used for gradient
+  let plainTopicIndex: Bool
+  @Binding var isTouching: Bool
 
   var body: some View {
     
     if plainTopicIndex
     {
+      ZStack {
       Circle()
         .fill(color)
         .frame(width: size, height: size)
+      // Show the text inside the circle
+      if isTouching {
+        Text(text)
+          .font(.system(size: size * 0.2, weight: .bold))
+          .foregroundColor(.primary)
+      }
+    }
     } else {
       ZStack {
         // Background circle with low opacity color (always visible)
@@ -78,7 +88,9 @@ struct TestView : View {
                         text: texts[index],
                         percentage: percentages[index],
                         size: circleSize,
-                        color: colors[index]
+                        color: colors[index],
+                        plainTopicIndex: true,
+                        isTouching: .constant(true)
                     )
                 }
             }

@@ -180,7 +180,7 @@ fileprivate struct YouLoseAlert: View {
         .cornerRadius(16)
         .padding()
         .onAppear {
-            playSadMusic()
+            //playSadMusic()
         }
         .frame(height:300)
     }
@@ -453,7 +453,7 @@ fileprivate struct YouLoseAlertModifier: ViewModifier {
                   bodyMessage: bodyMessage,
                   buttonTitle: buttonTitle,
                   onButtonTapped: {
-                    withAnimation(.easeInOut(duration: 0.75)) { // Slower dismissal
+                    withAnimation(.easeInOut(duration: 0.25)) {  
                           isPresented = false
                       }
                       onButtonTapped()

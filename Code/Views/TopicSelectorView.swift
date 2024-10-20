@@ -23,6 +23,7 @@ struct TopicSelectorView: View {
   let gs:GameState
   let chmgr:ChaMan
   @Binding var  gimmeCount: Int // Gimme count passed as a binding
+  @Binding var  isTouching: Bool
   
   // Temporary state to handle topic selections
   
@@ -41,13 +42,13 @@ struct TopicSelectorView: View {
     NavigationView {
       VStack {
         // Use the modified TopicIndexView with a binding to tempSelectedTopics
-        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempSelectedTopics, opType: .removeTopic)
+        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempSelectedTopics, opType: .removeTopic, isTouching: $isTouching)
           .frame(height: 100)
           .padding(.top, 8)
         
         // Gimme count display at the top
         Text("Gimmees: \(tempGimmeeCount)")
-          .font(tempGimmeeCount <= 0 ? .title : .body)
+          .font(tempGimmeeCount <= 0 ? .largeTitle : .headline)
           .foregroundColor(.secondary)
           .padding(.top, 8)
         
@@ -200,7 +201,7 @@ struct TopicSelectorView_Previews: PreviewProvider {
   static var previews: some View {
 
     
-    return TopicSelectorView(gs:GameState.mock, chmgr:ChaMan.mock, gimmeCount: $gimmeCount)
+    return TopicSelectorView(gs:GameState.mock, chmgr:ChaMan.mock, gimmeCount: $gimmeCount,isTouching:.constant(true))
       .previewLayout(.device)
       .previewDisplayName("Topic Selector View")
       .environment(\.colorScheme, .light)  // You can also test dark mode by setting .dark

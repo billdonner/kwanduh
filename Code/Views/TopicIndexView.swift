@@ -19,9 +19,9 @@ struct TopicIndexView: View {
   let gs: GameState
   let chmgr: ChaMan
     // Binding to the temporary selected topics
-  @Binding var  selectedTopics: [String: FreeportColor]
-  
+  @Binding var  selectedTopics: [String: FreeportColor] 
   let opType: TopIndexOp
+  @Binding var isTouching: Bool
   @State var presentTopic: IdentifiableString? = nil
 
   @Environment(\.colorScheme) var cs //system light/dark
@@ -40,7 +40,7 @@ struct TopicIndexView: View {
               
               
               HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                      size: 40, color: backColor)
+                                      size: 40, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
               
               .onTapGesture {
                 switch opType {
@@ -101,7 +101,7 @@ struct TopicIndexView_Previews: PreviewProvider {
           "Topic5": .myHotPink
         ]
 
-      return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics, opType: .showDetails)
+      return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics, opType: .showDetails, isTouching: .constant(true))
             .previewLayout(.sizeThatFits)
             .previewDisplayName("Topic Index View")
             .environment(\.colorScheme, .light)  // Test dark mode with .dark if needed
