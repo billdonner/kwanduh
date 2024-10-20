@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SettingsScreen: View {
-    
     @Bindable var chmgr: ChaMan
     @Bindable var gs: GameState
     let lrdb: LeaderboardService
@@ -12,18 +11,15 @@ struct SettingsScreen: View {
     @State private var l_startInCorners: Bool
     @State private var l_facedown: Bool
     @State private var l_doubleDiag: Bool
-   // @State private var l_currentScheme: ColorSchemeName
     @State private var l_difficultyLevel: Int
     @State private var l_topicsinplay: [String:FreeportColor] // Updated to use TopicColor
-    @State private var l_scheme: ColorSchemeName // hack //summer
+    @State private var l_scheme: ColorSchemeName
     
     @State var firstOnAppear = true
-    @State var showTopicSelector = false
-    @State private var showFreeportSettings = false
-    @State private var showCommentsMaker = false
+  @State private var showSizeChangeAlert = false
     @State var cpv: [[Color]] = []
     
-    @Environment(\.presentationMode) var presentationMode
+  @Environment(\.dismiss) var dismiss
     
   init(chmgr: ChaMan, gs: GameState, lrdb: LeaderboardService, showSettings: Binding<Bool>) {
     self.chmgr = chmgr
@@ -33,7 +29,6 @@ struct SettingsScreen: View {
     l_facedown = gs.facedown
     l_boardsize = gs.boardsize
     l_doubleDiag = gs.doublediag
-   // l_currentScheme = gs.currentscheme
     l_difficultyLevel = gs.difficultylevel
     l_startInCorners = gs.startincorners
     l_scheme = gs.currentscheme
@@ -72,14 +67,6 @@ struct SettingsScreen: View {
                 }
               }
                   
-                  Section(header: Text("Color Scheme")) { 
-                    colorPicker
-                      .onChange(of: l_scheme) {
-                        withAnimation {
-                         // l_currentScheme = l_scheme
-                        }
-                      }
-                  } 
                 Section(header: Text("About QANDA")) {
                     VStack {
                         HStack { Spacer()
@@ -90,11 +77,7 @@ struct SettingsScreen: View {
                             )
                             Spacer()
                         }
-                        Button(action: { showFreeportSettings.toggle() }) {
-                            Text("Freeport Settings")
-                        }.sheet(isPresented: $showFreeportSettings) {
-                            FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
-                        }
+                     
                     }
                 }
             }
@@ -106,19 +89,33 @@ struct SettingsScreen: View {
                 cpv = gs.previewColorMatrix(size: l_boardsize, scheme: l_scheme)
                 TSLog("SettingsScreen onAppear")
             }
+            .alert("You will end your game",isPresented: $showSizeChangeAlert) {
+              Button("OK"   ) {
+                finally()
+              }
+              Button("Cancel", role: .cancel) {
+                dismiss()
+              }
+            }
             .navigationBarTitle("Game Settings", displayMode: .inline)
             .navigationBarItems(
                 leading: Button("Cancel") {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 },
                 trailing: Button("Done") {
-                    onDonePressed() // update global state
-                    self.presentationMode.wrappedValue.dismiss()
+                  if l_boardsize != gs.boardsize {
+                    showSizeChangeAlert = true
+                  } else {
+              finally()
+                  }
                 }
             )
         }
     }
-    
+    private func finally () {
+      onDonePressed() // update global state
+     dismiss()
+  }
     private func onDonePressed() {
         // Copy every change into GameState
         gs.gimmees = l_gimms // copy in adjustment from topic selector

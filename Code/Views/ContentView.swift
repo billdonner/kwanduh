@@ -9,7 +9,7 @@ func colorize(scheme:ColorSchemeName,topics:[String]) -> [String:FreeportColor] 
 }
 struct ContentView: View {
   @State var restartCount = 0
-  @Bindable var gs: GameState
+  @Binding var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
   @State var current_size: Int = starting_size
@@ -20,7 +20,7 @@ struct ContentView: View {
     // GeometryReader { geometry in
 //    NavigationView {
 //      VStack(spacing:isIpad ? 20: 0) {
-    GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size)
+    GameScreen(gs: $gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size)
           .onAppear {
             if gs.veryfirstgame {
               chmgr.loadAllData(gs: gs)
@@ -51,10 +51,10 @@ struct ContentView: View {
   
 
 #Preview ("light"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs:.constant( GameState.mock), chmgr: ChaMan.mock, lrdb:LeaderboardService())
 }
 #Preview ("dark"){
-  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs:.constant( GameState.mock), chmgr: ChaMan.mock, lrdb:LeaderboardService())
     .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 }
 

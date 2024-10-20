@@ -18,11 +18,14 @@ struct GameScreenBottomButtons : View {
 
     
     HStack {
-     Image(systemName:gs.startincorners ? "skew" : "character.duployan")
-          .font(.title)
-         // .foregroundColor(.accent)
-          .frame(width: isIpad ? 70 : 50 , height: isIpad ? 70 : 50)
-                 .padding(.leading, 15)
+ //    Image(systemName:gs.startincorners ? "skew" : "character.duployan")
+   //       .font(.title)
+     //    // .foregroundColor(.accent)
+        Image("GameBoard2")
+        
+        .resizable()
+          .frame(width: isIpad ? 65 : 45 , height: isIpad ? 65 : 45)
+                 .padding(.leading, 8)
                  .gesture( DragGesture(minimumDistance: gs.gamestate == .playingNow ? 0 : .infinity)
                                .onChanged { _ in
                                   isTouching = true
@@ -30,20 +33,22 @@ struct GameScreenBottomButtons : View {
                                .onEnded { _ in
                                  isTouching = false
                                }  )
+                 .padding(.leading, 20)
+                 .padding(10)
       Spacer()
       Button (action:{  showCommentsMaker.toggle() }) {
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
           .font(isIpad ? .headline: .caption2)
         }.sheet(isPresented:$showCommentsMaker){
-         // CommentsView()
+          CommentsView()
         }
       Spacer()
       //Help
-      Button(action: { 
+      Button(action: {
         showingHelp = true
       }) {
         Image(systemName:"questionmark")
-          .font(.headline)
+          .font(.title)
           .frame(width: isIpad ? 70 : 50, height: isIpad ? 70 : 50)
                  .padding(.trailing, 15)
       }

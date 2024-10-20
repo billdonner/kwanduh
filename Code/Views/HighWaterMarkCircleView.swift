@@ -14,40 +14,48 @@ struct HighWaterMarkCircleView: View {
     let size: CGFloat      // Circle size
     let color: Color       // Color used for gradient
 
-    var body: some View {
-        ZStack {
-            // Background circle with low opacity color (always visible)
-            Circle()
-                .fill(color.opacity(0.4))
-                .frame(width: size, height: size)
-            
-            // Gradient fill from bottom up to the high water mark
-            Circle()
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [color, color.opacity(0.4)]),
-                        startPoint: .bottom,
-                        endPoint: .top
-                    )
-                )
-                .mask(
-                    Rectangle()
-                        .frame(height: size * percentage)
-                        .offset(y: size * (1 - percentage) / 2)  // Align gradient to bottom
-                )
-                .frame(width: size, height: size)
-            
-            // Border circle
-            Circle()
-                .stroke(Color.gray, lineWidth: size * 0.05)
-                .frame(width: size, height: size)
-            
-            // Show the text inside the circle
-            Text(text)
-                .font(.system(size: size * 0.2, weight: .bold))
-                .foregroundColor(.primary)
-        }
+  var body: some View {
+    
+    if plainTopicIndex
+    {
+      Circle()
+        .fill(color)
+        .frame(width: size, height: size)
+    } else {
+      ZStack {
+        // Background circle with low opacity color (always visible)
+        Circle()
+          .fill(color.opacity(0.4))
+          .frame(width: size, height: size)
+        
+        // Gradient fill from bottom up to the high water mark
+        Circle()
+          .fill(
+            LinearGradient(
+              gradient: Gradient(colors: [color, color.opacity(0.4)]),
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+          .mask(
+            Rectangle()
+              .frame(height: size * percentage)
+              .offset(y: size * (1 - percentage) / 2)  // Align gradient to bottom
+          )
+          .frame(width: size, height: size)
+        
+        // Border circle
+        Circle()
+          .stroke(Color.gray, lineWidth: size * 0.05)
+          .frame(width: size, height: size)
+        
+        // Show the text inside the circle
+        Text(text)
+          .font(.system(size: size * 0.2, weight: .bold))
+          .foregroundColor(.primary)
+      }
     }
+  }
 }
 struct TestView : View {
     // Example percentages, size, and texts for the grid

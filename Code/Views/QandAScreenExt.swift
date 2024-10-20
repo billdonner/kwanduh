@@ -8,13 +8,13 @@
 import SwiftUI
 
 extension FreeportColor {
- func toColor() -> Color {
-   ColorManager.mycolors[self.rawValue].1
-  }
-  func toColorName() -> String {
-    ColorManager.mycolors[self.rawValue].2
-  }
-  
+    func toColor() -> Color {
+        return ColorManager.mycolors[self]?.color ?? Color.clear // Access the color using the enum case
+    }
+    
+    func toColorName() -> String {
+        return ColorManager.mycolors[self]?.name ?? "Unknown Color" // Access the name using the enum case
+    }
 }
 extension QandAScreen {
   func questionAndAnswersSectionVue(ch:Challenge,geometry: GeometryProxy,colorScheme: ColorScheme,answerGiven:Binding<Bool>,answerCorrect:Binding<Bool> ) -> some View {

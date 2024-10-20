@@ -46,6 +46,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		884C9D112CC46F5F0059E758 /* Exceptions for "qanda" folder in "qanda" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				newAssets.xcassets,
+				oldAssets.xcassets,
+			);
+			target = 88A319932CA3212B005D0DF3 /* qanda */;
+		};
 		88A319892CA31C90005D0DF3 /* Exceptions for "kwanduh" folder in "kwanduh" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -98,6 +106,7 @@
 				Views/QandAScreen.swift,
 				Views/QandAScreenExt.swift,
 				Views/QandATopBarView.swift,
+				Views/SchemePickerView.swift,
 				Views/ScoreBarView.swift,
 				Views/SentimentViews.swift,
 				Views/SettingsScreen.swift,
@@ -129,6 +138,9 @@
 		};
 		88A319952CA3212B005D0DF3 /* qanda */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				884C9D112CC46F5F0059E758 /* Exceptions for "qanda" folder in "qanda" target */,
+			);
 			path = qanda;
 			sourceTree = "<group>";
 		};
@@ -559,7 +571,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -590,7 +602,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -658,7 +670,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -688,7 +700,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;

@@ -32,9 +32,11 @@ struct TopicIndexView: View {
                       let y = chmgr.tinfo[topic]?.alloccount ?? 1
                       let pct = Double(x) / Double(y)// for now Double(dmangler.allCounts.max()!)
                       let backColor = ColorManager.backgroundColor(for: colorEnum)
-                      
-                      HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                              size: 40, color: backColor)
+          
+                        
+                        HighWaterMarkCircleView(text:"\(x)", percentage: pct,
+                                                size: 40, color: backColor)
+                   
                       .onTapGesture {
                         presentTopic = IdentifiableString(value: topic)
                       }

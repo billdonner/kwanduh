@@ -8,7 +8,7 @@ import SwiftUI
 
 struct GameScreen: View {
   
-  @Bindable var gs: GameState
+  @Binding var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
   @Binding  var topics: [String:FreeportColor]
@@ -24,6 +24,8 @@ struct GameScreen: View {
   @State var showLeaderboard = false
   @State var showSendComment = false
   @State var showTopicSelector = false
+  @State var showFreeport = false
+  @State var showScheme = false
   @State var marqueeMessage =  "Hit Play to Start a New Game"
   
   @State var chal: IdentifiablePoint? = nil
@@ -50,9 +52,19 @@ struct GameScreen: View {
         Text("Leaderboard")
       }
       Button(action: {
+        showScheme.toggle()
+      }) {
+        Text("Color Scheme")
+      }
+      Button(action: {
         showSendComment.toggle()
       }) {
         Text("Contact Us")
+      }
+      Button(action: {
+        showFreeport.toggle()
+      }) {
+        Text("Freeport Software")
       }
     } label: {
       Image(systemName: "ellipsis.circle")
@@ -67,8 +79,14 @@ struct GameScreen: View {
     .sheet(isPresented: $showLeaderboard) {
       LeaderboardScreen(leaderboardService: lrdb)
     }
+    .sheet(isPresented: $showScheme) {
+      SchemePickerView(gs:$gs)
+    }
     .sheet(isPresented: $showSendComment) {
       CommentsView()
+    }
+    .sheet(isPresented: $showFreeport) {
+      FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
     }
   }
   
@@ -198,7 +216,7 @@ struct GameScreen: View {
 
 #Preview ("GameScreen") {
   GameScreen(
-    gs:GameState.mock ,chmgr:
+    gs:.constant(GameState.mock) ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)
@@ -209,7 +227,7 @@ struct GameScreen: View {
 
 #Preview ("Dark") {
   GameScreen(
-    gs:GameState.mock ,chmgr:
+    gs:.constant(GameState.mock) ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)
