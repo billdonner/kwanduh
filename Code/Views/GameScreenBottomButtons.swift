@@ -13,16 +13,9 @@ struct GameScreenBottomButtons : View {
   
   @Binding   var isTouching:Bool
   @State   var showingHelp = false
-  @State   var showCommentsMaker = false
   var body: some View {
-
-    
     HStack {
- //    Image(systemName:gs.startincorners ? "skew" : "character.duployan")
-   //       .font(.title)
-     //    // .foregroundColor(.accent)
         Image("GameBoard2")
-        
         .resizable()
           .frame(width: isIpad ? 65 : 45 , height: isIpad ? 65 : 45)
                  .padding(.leading, 8)
@@ -36,12 +29,8 @@ struct GameScreenBottomButtons : View {
                  .padding(.leading, 20)
                  .padding(10)
       Spacer()
-      Button (action:{  showCommentsMaker.toggle() }) {
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
           .font(isIpad ? .headline: .caption2)
-        }.sheet(isPresented:$showCommentsMaker){
-          CommentsView()
-        }
       Spacer()
       //Help
       Button(action: {
@@ -57,9 +46,7 @@ struct GameScreenBottomButtons : View {
       .fullScreenCover(isPresented: $showingHelp ){
         HowToPlayScreen (chmgr: chmgr, isPresented: $showingHelp)
          
-      }
-
-    
+      } 
     }
 }
  

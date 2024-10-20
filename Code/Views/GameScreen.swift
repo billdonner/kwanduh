@@ -8,7 +8,7 @@ import SwiftUI
 
 struct GameScreen: View {
   
-  @Binding var gs: GameState
+  @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
   @Binding  var topics: [String:FreeportColor]
@@ -80,7 +80,7 @@ struct GameScreen: View {
       LeaderboardScreen(leaderboardService: lrdb)
     }
     .sheet(isPresented: $showScheme) {
-      SchemePickerView(gs:$gs)
+      SchemePickerView(gs:gs)
     }
     .sheet(isPresented: $showSendComment) {
       CommentsView()
@@ -92,7 +92,7 @@ struct GameScreen: View {
   
   var bodyMsg: String {
     let t =  """
-    That was game \(gs.gamenumber) of which:\nyou've won \(gs.woncount) and \nlost \(gs.lostcount) games
+   you've won \(gs.woncount) and \nlost \(gs.lostcount) games
 """
     return t
   }
@@ -124,6 +124,7 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
+          Text ("\(gs.currentscheme)").font(.caption)
           TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
@@ -134,6 +135,8 @@ struct GameScreen: View {
             }
             .onChange(of:gs.currentscheme) {
               print("gs.currentscheme has changed to \(gs.currentscheme)")
+              gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys))
+              gs.saveGameState()
             }
           
             .onDisappear {
@@ -216,7 +219,7 @@ struct GameScreen: View {
 
 #Preview ("GameScreen") {
   GameScreen(
-    gs:.constant(GameState.mock) ,chmgr:
+    gs:GameState.mock ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)
@@ -227,7 +230,7 @@ struct GameScreen: View {
 
 #Preview ("Dark") {
   GameScreen(
-    gs:.constant(GameState.mock) ,chmgr:
+    gs:GameState.mock ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)

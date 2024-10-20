@@ -28,7 +28,7 @@ extension View {
 
 
 struct SingleCellView: View {
-  let gs:GameState
+  @Bindable var gs:GameState
   let chmgr:ChaMan
   let row:Int
   let col:Int

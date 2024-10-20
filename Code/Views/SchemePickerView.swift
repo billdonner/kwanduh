@@ -1,6 +1,6 @@
 import SwiftUI
 struct SchemePickerView: View {
-    @Binding var gs: GameState
+    @Bindable var gs: GameState
   
     var colorPicker: some View {
         Picker("Color Palette", selection: $gs.currentscheme) {
@@ -46,5 +46,5 @@ struct SchemePickerView: View {
 }
 
 #Preview {
-  SchemePickerView(gs: .constant(GameState.mock))
+  SchemePickerView(gs:GameState.mock)
 }

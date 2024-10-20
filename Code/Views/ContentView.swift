@@ -1,15 +1,8 @@
 import SwiftUI
-func colorize(scheme:ColorSchemeName,topics:[String]) -> [String:FreeportColor] {
-  let colors = availableColorsForScheme(  scheme)
-  assert(topics.count <= colors.count,"Too many topics \(topics.count) for \(colors.count) colors")
-  let colorMap: [String:FreeportColor] = zip(topics,colors).reduce(into: [:]) { result, pair in
-    result[pair.0] = pair.1
-  }
-  return colorMap
-}
+
 struct ContentView: View {
   @State var restartCount = 0
-  @Binding var gs: GameState
+  @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
   @State var current_size: Int = starting_size
@@ -17,10 +10,7 @@ struct ContentView: View {
 
   
   var body: some View {
-    // GeometryReader { geometry in
-//    NavigationView {
-//      VStack(spacing:isIpad ? 20: 0) {
-    GameScreen(gs: $gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size)
+    GameScreen(gs: gs, chmgr: chmgr, lrdb:lrdb, topics: $current_topics, size: $current_size)
           .onAppear {
             if gs.veryfirstgame {
               chmgr.loadAllData(gs: gs)
@@ -44,17 +34,14 @@ struct ContentView: View {
           }
         
       }
-//     .navigationBarTitle("Actions Menu", displayMode: .inline)
-//      .navigationBarItems(trailing: actionMenu)
- //   }
   }
   
 
 #Preview ("light"){
-  ContentView(gs:.constant( GameState.mock), chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs: GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
 }
 #Preview ("dark"){
-  ContentView(gs:.constant( GameState.mock), chmgr: ChaMan.mock, lrdb:LeaderboardService())
+  ContentView(gs:GameState.mock, chmgr: ChaMan.mock, lrdb:LeaderboardService())
     .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 }
 

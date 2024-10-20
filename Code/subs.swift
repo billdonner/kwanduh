@@ -18,7 +18,14 @@ func removeInstances<T: Equatable>(from array: [T], removing elements: [T]) -> [
     return array.filter { !elements.contains($0) }
 }
 
-
+func colorize(scheme:ColorSchemeName,topics:[String]) -> [String:FreeportColor] {
+  let colors = availableColorsForScheme(  scheme)
+  assert(topics.count <= colors.count,"Too many topics \(topics.count) for \(colors.count) colors")
+  let colorMap: [String:FreeportColor] = zip(topics,colors).reduce(into: [:]) { result, pair in
+    result[pair.0] = pair.1
+  }
+  return colorMap
+}
 
 
 

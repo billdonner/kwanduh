@@ -70,7 +70,7 @@ struct AltGridView : View {
   }
 }
 struct MainGridView : View {
-  let gs:GameState
+  @Bindable var  gs:GameState
   let chmgr:ChaMan
 //  @Binding var boardsize: Int
   @Binding var firstMove: Bool
@@ -117,7 +117,7 @@ struct MainGridView : View {
 }
 
 #Preview ("MainGridView") {
-  MainGridView(gs: GameState.mock, 
+  MainGridView(gs:GameState.mock,
                chmgr: ChaMan(playData: PlayData.mock),
               // boardsize: .constant(GameState.mock.boardsize),
                firstMove: .constant(true),

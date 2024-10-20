@@ -30,7 +30,7 @@ struct mainApp : App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView(gs: $gs,chmgr: chmgr,lrdb:leaderboardService)
+      ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
         .padding([.bottom])
        // .statusBar(hidden: true) // Hide the status bar
         .fullScreenCover(isPresented: $showOnboarding) {
