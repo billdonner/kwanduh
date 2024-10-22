@@ -37,7 +37,7 @@ struct GameScreen: View {
       Button(action: {
         showSettings.toggle()
       }) {
-        Text("Settings")
+        Text("Board Size")
       }.disabled(gs.gamestate == .playingNow)
       
       Button(action: {
@@ -103,15 +103,22 @@ struct GameScreen: View {
   var body: some View {
     NavigationView {
       VStack(spacing:0) {
-        //fixed, immovable height
-        MarqueeMessageView(
-          message: $marqueeMessage,
-          fadeInDuration: 1.0,
-          fadeOutDuration: 3.0,
-          displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
-        ).opacity(marqueeMessage.isEmpty ? 0:1)
-          .frame(height:20).debugBorder()
-        
+        VStack {
+          //fixed, immovable height
+          if gs.gamestate ==  StateOfPlay.playingNow {
+            MarqueeMessageView(
+              message: $marqueeMessage,
+              fadeInDuration: 1.0,
+              fadeOutDuration: 3.0,
+              displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
+            ).opacity(marqueeMessage.isEmpty ? 0:1)
+            
+          } else {
+            Color.clear
+          }
+        }
+        .frame(height:20).debugBorder()
+      
         
         if gs.boardsize > 1 {
           

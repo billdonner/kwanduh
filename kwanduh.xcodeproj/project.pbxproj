@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		884C9D172CC822B60059E758 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
+		884C9D182CC822B60059E758 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
 		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
 		88A31A012CAF4A43005D0DF3 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		884C9CF62CBED6740059E758 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		884C9D162CC822B60059E758 /* CommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CommonAssets.xcassets; sourceTree = "<group>"; };
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A319162CA3194F005D0DF3 /* playdata-mini.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "playdata-mini.json"; sourceTree = "<group>"; };
@@ -46,14 +50,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		884C9D112CC46F5F0059E758 /* Exceptions for "qanda" folder in "qanda" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				newAssets.xcassets,
-				oldAssets.xcassets,
-			);
-			target = 88A319932CA3212B005D0DF3 /* qanda */;
-		};
 		884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -61,12 +57,19 @@
 			);
 			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
 		};
-		88A319892CA31C90005D0DF3 /* Exceptions for "kwanduh" folder in "kwanduh" target */ = {
+		884C9D1B2CC827390059E758 /* Exceptions for "kwanduh" folder in "kwanduh" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
+		};
+		884C9D1D2CC827550059E758 /* Exceptions for "qanda" folder in "qanda" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 88A319932CA3212B005D0DF3 /* qanda */;
 		};
 		88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -132,7 +135,7 @@
 		88A318EB2CA318C1005D0DF3 /* kwanduh */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				88A319892CA31C90005D0DF3 /* Exceptions for "kwanduh" folder in "kwanduh" target */,
+				884C9D1B2CC827390059E758 /* Exceptions for "kwanduh" folder in "kwanduh" target */,
 			);
 			path = kwanduh;
 			sourceTree = "<group>";
@@ -145,7 +148,7 @@
 		88A319952CA3212B005D0DF3 /* qanda */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				884C9D112CC46F5F0059E758 /* Exceptions for "qanda" folder in "qanda" target */,
+				884C9D1D2CC827550059E758 /* Exceptions for "qanda" folder in "qanda" target */,
 			);
 			path = qanda;
 			sourceTree = "<group>";
@@ -201,12 +204,14 @@
 		88A318E02CA318C1005D0DF3 = {
 			isa = PBXGroup;
 			children = (
+				884C9D162CC822B60059E758 /* CommonAssets.xcassets */,
 				88A31A002CAF4A43005D0DF3 /* CloudKitConfiguration.swift */,
 				88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */,
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
 				88A3198C2CA32074005D0DF3 /* README.md */,
+				884C9CF62CBED6740059E758 /* Info.plist */,
 				88A319F22CA8666A005D0DF3 /* Code */,
 				88A318EB2CA318C1005D0DF3 /* kwanduh */,
 				88A318FC2CA318C2005D0DF3 /* kwanduhTests */,
@@ -375,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
+				884C9D182CC822B60059E758 /* CommonAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A319F02CA325D8005D0DF3 /* playdata.json in Resources */,
+				884C9D172CC822B60059E758 /* CommonAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,14 +585,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = kwanduh/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -609,14 +616,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = kwanduh/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -677,14 +684,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = qanda/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -707,14 +714,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = qanda/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

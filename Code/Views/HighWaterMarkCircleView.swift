@@ -27,7 +27,7 @@ struct HighWaterMarkCircleView: View {
       // Show the text inside the circle
       if isTouching {
         Text(text)
-          .font(.system(size: size * 0.2, weight: .bold))
+          .font(.system(size: size * 0.4, weight: .bold))
           .foregroundColor(.primary)
       }
     }
@@ -61,7 +61,7 @@ struct HighWaterMarkCircleView: View {
         
         // Show the text inside the circle
         Text(text)
-          .font(.system(size: size * 0.2, weight: .bold))
+          .font(.system(size: size * 0.4, weight: .bold))
           .foregroundColor(.primary)
       }
     }

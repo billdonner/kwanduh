@@ -29,7 +29,8 @@ struct TopicIndexView: View {
     // let _ = print(selectedTopics)
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 16) {
-        ForEach(selectedTopics.keys.sorted(), id: \.self) { topic in
+        //cause insertion on the left
+        ForEach(selectedTopics.keys.sorted(by: > ), id: \.self) { topic in
           // let _ = print("**",topic)
           if let colorEnum = selectedTopics[topic] {
             VStack(spacing:0) {

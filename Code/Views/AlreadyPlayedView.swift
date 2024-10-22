@@ -90,23 +90,23 @@ struct AlreadyPlayedView : View {
 //                else {
  //                 Text ("no explanation was given")
  //               }
-                Spacer()
-                Text("Played in game \(ansinfo.gamenumber) move \(ansinfo.movenumber) at  (\(ansinfo.row),\(ansinfo.col)) ").font(.footnote)
-                Text ("You took \(Int(ansinfo.timetoanswer)) seconds to answer").font(.footnote)
-                HStack {
-                  Text("id: ");
-                  TextField("id", text:.constant("\(ch.id)")).font(.caption)
-                  VStack (alignment: .leading){
-                    Text ("You answered this question on \(ansinfo.timestamp)").font(.footnote)
-                  }
-                  Spacer()
-                }
+//                Spacer()
+//                Text("Played in game \(ansinfo.gamenumber) move \(ansinfo.movenumber) at  (\(ansinfo.row),\(ansinfo.col)) ").font(.footnote)
+//                Text ("You took \(Int(ansinfo.timetoanswer)) seconds to answer").font(.footnote)
+//                HStack {
+//                  Text("id: ");
+//                  TextField("id", text:.constant("\(ch.id)")).font(.caption)
+//                  VStack (alignment: .leading){
+//                    Text ("You answered this question on \(ansinfo.timestamp)").font(.footnote)
+//                  }
+//                  Spacer()
+//                }
                 Spacer()
               }
             }.background(Color.gray.opacity(0.2))
           }.padding(.horizontal)
           
-            .dismissButton(backgroundColor:foregroundColorFrom( backgroundColor: topicColor))
+            .dismissButton(backgroundColor:.primary)
           //  .border( ansinfo.answer == ch.correct ? .green:.red,width:1)
             .sheet(item:$showThumbsDown) { ch in
               NegativeSentimentView(id: ch.id)

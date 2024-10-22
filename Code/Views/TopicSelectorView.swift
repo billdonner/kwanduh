@@ -142,7 +142,7 @@ struct TopicSelectorView: View {
     if tempSelectedTopics.count >= maxTopicCount {
       showMaximumSelectionAlert = true
     } else {
-      let active = flattenDictionaryValues(tempSelectedTopics)
+      let active = flattenDictionaryValues(tempSelectedTopics)// active colors from topics
       let avail = removeInstances(from: availableColorsForScheme(gs.currentscheme), removing: active)
       guard  let color = avail.randomElement()  else {
         print("Could not get random Color for scheme \(gs.currentscheme) in addtopic")
