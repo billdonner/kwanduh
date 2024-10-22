@@ -22,7 +22,7 @@ struct SizePickerView: View {
     
     // Function to return a paragraph of text based on the selected number
     func descriptionForNumber(_ number: Int) -> (String ,String){
-        switch number {
+        switch number { 
         case 3:
             return ("Three is often considered a lucky number in various cultures and represents harmony, wisdom, and understanding.","9 cells, face up, play anywhere")
         case 4:

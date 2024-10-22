@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.53.6 shuffle answers, remove alert about stopping game
 - version 0.7.53.5 new onboarding and assets from carol,reverted topindexcolor, added color scheme selector, fixed many errors in the newer colors tables
 - version 0.7.53.4 brand new topicselectorview and topicindexview
 - version 0.7.52.1  reworked version number, and 2 per-target Config files

@@ -89,14 +89,14 @@ struct SettingsScreen: View {
                 cpv = gs.previewColorMatrix(size: l_boardsize, scheme: l_scheme)
                 TSLog("SettingsScreen onAppear")
             }
-            .alert("You will end your game",isPresented: $showSizeChangeAlert) {
-              Button("OK"   ) {
-                finally()
-              }
-              Button("Cancel", role: .cancel) {
-                dismiss()
-              }
-            }
+//            .alert("You will end your game",isPresented: $showSizeChangeAlert) {
+//              Button("OK"   ) {
+//                finally()
+//              }
+//              Button("Cancel", role: .cancel) {
+//                dismiss()
+//              }
+//            }
             .navigationBarTitle("Game Settings", displayMode: .inline)
             .navigationBarItems(
                 leading: Button("Cancel") {

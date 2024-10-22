@@ -22,7 +22,8 @@ extension QandAScreen {
     VStack(spacing: 10) {
       questionSectionVue(geometry: geometry)
         .frame(maxWidth: max(0, geometry.size.width), maxHeight: max(0, geometry.size.height * 0.4))//make bigger when bottom buttons gone
-      AnswerButtonsView(row: row,col: col,answers: ch.answers, geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect){ answer,row,col in
+      //shuffle the questions
+      AnswerButtonsView(row: row,col: col,answers: ch.answers.shuffled(), geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect){ answer,row,col in
         handleAnswerSelection(answer: answer,row:row,col:col)
       }
     }
