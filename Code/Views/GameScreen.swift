@@ -68,7 +68,7 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-        .font(.custom(mainFont,size:mainFontSize*0.9))
+       // .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
@@ -201,7 +201,7 @@ struct GameScreen: View {
         onEndGamePressed()  //should estore consistency
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
-    }).font(.custom(mainFont,size:mainFontSize*0.9))
+    })//.font(.custom(mainFont,size:mainFontSize*0.9))
       .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
         Button("OK", role: .cancel) {
           withAnimation {

@@ -55,7 +55,7 @@ struct GameLogScreen: View {
               .fullScreenCover(item: $showDetails)
               { challenge in
                 if let ansinfo = ansinfo {
-                  AlreadyPlayedView(ch: challenge, ansinfo: ansinfo, gs: gs)
+                  ReplayingScreen(ch: challenge, ansinfo: ansinfo, gs: gs)
                 }
               }
               Text("correct answer: \(ch.correct)")

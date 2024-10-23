@@ -178,7 +178,7 @@ struct SingleCellView: View {
       }
       .fullScreenCover(item: $alreadyPlayed) { goo in
         if let ansinfo = chmgr.ansinfo [challenge.id] {
-          AlreadyPlayedView(ch: challenge,ansinfo: ansinfo,  gs:gs)
+          ReplayingScreen(ch: challenge,ansinfo: ansinfo,  gs:gs)
         }
       }
       // for some unknown reason, the tap surface area is bigger if placed outside the VStack

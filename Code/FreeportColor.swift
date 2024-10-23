@@ -327,3 +327,12 @@ func reworkColors(topics:[String:FreeportColor],fromscheme:Int, toscheme:Int) ->
 }
 
 
+extension FreeportColor {
+    func toColor() -> Color {
+        return ColorManager.mycolors[self]?.color ?? Color.clear // Access the color using the enum case
+    }
+    
+    func toColorName() -> String {
+        return ColorManager.mycolors[self]?.name ?? "Unknown Color" // Access the name using the enum case
+    }
+}
