@@ -9,7 +9,9 @@
 
 import SwiftUI
 
-let gameTitle = "Kwanduh"
+let gameTitle = "kwanduh"
+let mainFont = "Avenir-Book"
+let mainFontSize = 30.0
 let playDataURL  = Bundle.main.url(forResource: "playdata-mini.json", withExtension: nil)
 
 let starting_size = 8 // Example size, can be 3 to 8

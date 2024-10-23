@@ -68,7 +68,7 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-        .font(.title)
+        .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
@@ -106,13 +106,10 @@ struct GameScreen: View {
       HStack {
         playToggleButton.padding(.horizontal,10)
         Spacer()
-        Text(gameTitle).font(.custom("Georgia-Bold",size:48))
+        Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
         Spacer()
         actionMenu.padding(.horizontal,10)
       }
-
-        
-   
         //fixed, immovable height
         VStack {
           if gs.gamestate ==  StateOfPlay.playingNow {
@@ -128,8 +125,7 @@ struct GameScreen: View {
           }
         }
         .frame(height:20).debugBorder()
-        
-        
+         
         if gs.boardsize > 1 {
           
           MainGridView(gs: gs, chmgr:chmgr,
@@ -198,19 +194,14 @@ struct GameScreen: View {
           chmgr.checkAllTopicConsistency("GameScreen StartGamePressed")
           conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
         }
-        
       } else {
-        
         // this one has been trouble
         // conditionalAssert(gs.checkVsChaMan(chmgr: chmgr)) //cant check after endgamepressed
         isTouching = true
         onEndGamePressed()  //should estore consistency
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
-        
-        
       }
-    }).font(.title)
-    
+    }).font(.custom(mainFont,size:mainFontSize*0.9))
       .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
         Button("OK", role: .cancel) {
           withAnimation {
