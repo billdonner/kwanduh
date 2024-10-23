@@ -24,7 +24,7 @@ extension GameScreen /* actions */ {
   func onYouWin () {
     withAnimation{
       endGame(status: .justWon)
-      marqueeMessage = "Congratulations but there's more to do: Press Play to keep going."
+      marqueeMessage = "Congratulations: Press Play to keep going."
     }
   }
   func onYouLose () {

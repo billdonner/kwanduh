@@ -73,7 +73,7 @@ func colorPaletteBackground(for scheme:ColorSchemeName) -> LinearGradient {
   case 4:// .autumn:
     return LinearGradient(gradient: Gradient(colors: [Color.brown, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
   default://case 0:// .bleak:
-    return LinearGradient(gradient: Gradient(colors: [Color.gray, Color.black]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    return LinearGradient(gradient: Gradient(colors: [Color.gray, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
   }
 }
 func TSLog(_ message: String) {

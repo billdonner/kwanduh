@@ -68,7 +68,7 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-        .font(.body)
+        .font(.title)
     }
     .sheet(isPresented: $showSettings) {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
@@ -101,10 +101,20 @@ struct GameScreen: View {
     chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
   }
   var body: some View {
-    NavigationView {
+    NavigationStack {
       VStack(spacing:0) {
+      HStack {
+        playToggleButton.padding(.horizontal,10)
+        Spacer()
+        Text(gameTitle).font(.custom("Georgia-Bold",size:48))
+        Spacer()
+        actionMenu.padding(.horizontal,10)
+      }
+
+        
+   
+        //fixed, immovable height
         VStack {
-          //fixed, immovable height
           if gs.gamestate ==  StateOfPlay.playingNow {
             MarqueeMessageView(
               message: $marqueeMessage,
@@ -118,7 +128,7 @@ struct GameScreen: View {
           }
         }
         .frame(height:20).debugBorder()
-      
+        
         
         if gs.boardsize > 1 {
           
@@ -156,23 +166,26 @@ struct GameScreen: View {
           loadingVeew
         }
       }
-      .youWinAlert(isPresented: $showWinAlert, title: "You Win",
-                   bodyMessage: bodyMsg, buttonTitle: "OK"){
-        onYouWin()
-      }
-                   .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
-                                 bodyMessage: bodyMsg, buttonTitle: "OK"){
-                     onYouLose()
-                   }
-                                 .onAppear() {
-                                   TSLog("GameScreen onAppear")
-                                 }
-                                 .navigationBarTitle(gameTitle, displayMode: .inline)
-                                 .navigationBarItems(trailing: actionMenu)
-                                 .navigationBarItems(leading: playToggleButton)
+    .youWinAlert(isPresented: $showWinAlert, title: "You Win",
+                 bodyMessage: bodyMsg, buttonTitle: "OK"){
+      onYouWin()
     }
+                 .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
+                               bodyMessage: bodyMsg, buttonTitle: "OK"){
+                   onYouLose()
+                 }
+                               .onAppear() {
+                                 TSLog("GameScreen onAppear")
+                               }
+//                               .navigationTitle("")
+//                               .navigationBarTitleDisplayMode(.inline)
+//                               .navigationBarItems(trailing: actionMenu)
+//                               .navigationBarItems(leading: playToggleButton)
+  }    .navigationViewStyle(StackNavigationViewStyle())
+  
     
   }
+  
   var playToggleButton: some View {
     Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End" : "Play"  ,  action: {
       isPlayingButtonState.toggle()
@@ -196,7 +209,7 @@ struct GameScreen: View {
         
         
       }
-    }).font(.body)
+    }).font(.title)
     
       .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
         Button("OK", role: .cancel) {

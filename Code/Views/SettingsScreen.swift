@@ -32,10 +32,11 @@ struct SettingsScreen: View {
           VStack(alignment: .center) {
             SizePickerView(chosenSize: $l_boardsize)
 
-              }
+          
           PreviewGridView(gs: gs, chmgr: chmgr, boardsize: $l_boardsize, scheme: $gs.currentscheme)
               .frame(width: 200, height: 200)
           }
+        }
         }
         
         Section(header: Text("About QANDA")) {

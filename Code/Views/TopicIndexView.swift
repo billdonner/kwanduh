@@ -26,7 +26,7 @@ struct TopicIndexView: View {
 
   @Environment(\.colorScheme) var cs //system light/dark
   var body: some View {
-    // let _ = print(selectedTopics)
+    VStack {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 16) {
         //cause insertion on the left
@@ -38,10 +38,10 @@ struct TopicIndexView: View {
               let y = chmgr.tinfo[topic]?.alloccount ?? 1
               let pct = Double(x) / Double(y)// for now Double(dmangler.allCounts.max()!)
               let backColor = ColorManager.backgroundColor(for: colorEnum)
-              
-              
-              HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                      size: 40, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
+               
+                
+                HighWaterMarkCircleView(text:"\(x)", percentage: pct,
+                                        size: 40, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
               
               .onTapGesture {
                 switch opType {
@@ -60,28 +60,23 @@ struct TopicIndexView: View {
                 
                 .font(.footnote)
                   .lineLimit(3)
-                  .frame(width: 50, height: 40)
+                  .frame(width: 60, height: 50)
                   .foregroundColor(cs == .dark ? .white : .black)
               }
             }
           }
-        .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
-      }.background(cs == .dark ? Color.offBlack : .offWhite)
-        .sheet(item: $presentTopic) { s in
-          if let freeportColor = gs.topicsinplay[s.value] {
-            // switch s.op
-            // {
-            //  case .showDetails:
-            let bkg = freeportColor.toColor()
-            TopicDetailsView(topic: s.value, gs: gs, chmgr: chmgr , background:bkg ,
-                             foreground: contrastingTextColor(for: colorToRGB(color: bkg)))
-            //  case .removeTopic:
-            // removeThisTopic(s.value)
-            //  }
-          } else {
-            Color.red
-          }
+        .padding(EdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2))
+      }
+      .sheet(item: $presentTopic) { s in
+        if let freeportColor = gs.topicsinplay[s.value] {
+          let bkg = freeportColor.toColor()
+          TopicDetailsView(topic: s.value, gs: gs, chmgr: chmgr , background:bkg ,
+                           foreground: contrastingTextColor(for: colorToRGB(color: bkg)))
+        } else {
+          Color.red
         }
+      }
+        }.background(cs == .dark ? Color.offBlack : .offWhite)
     }
   }
   
