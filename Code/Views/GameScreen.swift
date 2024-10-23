@@ -136,7 +136,7 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, opType: .showDetails,isTouching: $isTouching)
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching: $isTouching)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
@@ -145,7 +145,7 @@ struct GameScreen: View {
             }
             .onChange(of:gs.currentscheme) {
               //print("gs.currentscheme has changed to \(gs.currentscheme)")
-              gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys))
+              gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
               gs.saveGameState()
             }
           

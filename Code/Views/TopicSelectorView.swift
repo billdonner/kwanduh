@@ -28,8 +28,9 @@ struct TopicSelectorView: View {
   // Temporary state to handle topic selections
   
   @State private var tempGimmeeCount: Int = 0
-  @State private var tempSelectedTopics: [String: FreeportColor] = [:]
+  @State private var tempTopicsInPlay: [String: FreeportColor] = [:]
   
+  @State private var tempTopicsInOrder: [String] = []
 
   // Alert state
   @State private var showNoGimmeeAlert = false
@@ -42,7 +43,7 @@ struct TopicSelectorView: View {
     NavigationView {
       VStack {
         // Use the modified TopicIndexView with a binding to tempSelectedTopics
-        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempSelectedTopics, opType: .removeTopic, isTouching: $isTouching)
+        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempTopicsInPlay, topicsInOrder:$tempTopicsInOrder, opType: .removeTopic, isTouching: $isTouching)
           .frame(height: 100)
           .padding(.top, 8)
         
@@ -51,38 +52,20 @@ struct TopicSelectorView: View {
           .font(tempGimmeeCount <= 0 ? .largeTitle : .headline)
           .foregroundColor(.secondary)
           .padding(.top, 8)
-        
-        // List of already selected topics
-//        List {
-//          Section(header: Text("Selected Topics")) {
-//            ForEach(tempSelectedTopics.keys.sorted(), id: \.self) { topic in
-//              if let color = tempSelectedTopics[topic] {
-//                HStack {
-//                  Text(topic)
-//                  Spacer()
-//                  Circle()
-//                    .fill(ColorManager.backgroundColor(for: color))  // Use enum to get Color
-//                    .frame(width: 20, height: 20)
-//                  Button("Remove?") {
-//                    removeTopic(topic)
-//                  }
-//                 // .disabled(tempGimmeeCount <= 0)  // Disable if gimme count is zero or less
-//                }
-//              }
-//            }
-//          }
-//        }
+
         
         // List of available topics
         List {
           Section(header: Text("Available Topics")) {
-            let tempAvailableTopics = removeInstances(from: chmgr.everyTopicName, removing: flattenDictionaryKeys( tempSelectedTopics))
+            let tempAvailableTopics = removeInstances(from: chmgr.everyTopicName, removing: flattenDictionaryKeys( tempTopicsInPlay))
             ForEach(tempAvailableTopics, id: \.self) { topic in
               HStack {
                 Text(topic)
                 Spacer()
                 Button("Add?") {
-                  addTopic(topic)
+                  withAnimation {
+                    addTopic(topic)
+                  }
                 }
                // .disabled(tempGimmeeCount <= 0)  // Disable if gimme count is zero or less
               }
@@ -139,16 +122,17 @@ struct TopicSelectorView: View {
     if tempGimmeeCount <= 0 {
       showNoGimmeeAlert = true
     } else
-    if tempSelectedTopics.count >= maxTopicCount {
+    if tempTopicsInPlay.count >= maxTopicCount {
       showMaximumSelectionAlert = true
     } else {
-      let active = flattenDictionaryValues(tempSelectedTopics)// active colors from topics
+      let active = flattenDictionaryValues(tempTopicsInPlay)// active colors from topics
       let avail = removeInstances(from: availableColorsForScheme(gs.currentscheme), removing: active)
       guard  let color = avail.randomElement()  else {
         print("Could not get random Color for scheme \(gs.currentscheme) in addtopic")
         return}
       // print("Add topic \(topic) with color \(color)")
-       tempSelectedTopics[topic] = color
+       tempTopicsInPlay[topic] = color
+      tempTopicsInOrder.insert(topic,at:0) // to add to left
         tempGimmeeCount -= 1
        //dumpTopicsAndColors("added topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
  
@@ -164,7 +148,12 @@ func removeTopic(_ topic: String) {
 //        return
 //      }
       // print("Remove topic \(topic) with color \(color)")
-      tempSelectedTopics.removeValue(forKey: topic)
+      tempTopicsInPlay.removeValue(forKey: topic)
+      guard let f = tempTopicsInOrder.firstIndex(of: topic) else {
+        print("Could not find index of \(topic) in removetopic")
+        return
+      }
+      tempTopicsInOrder.remove(at:f)
       tempGimmeeCount -= 1
       //dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
     }
@@ -174,13 +163,13 @@ func removeTopic(_ topic: String) {
   }
 
   private func finalizeSelection() {
-    if tempSelectedTopics.count < minTopicCount {
+    if tempTopicsInPlay.count < minTopicCount {
       showMinimumSelectionAlert = true
     } else {
       
       gimmeCount = tempGimmeeCount
-      gs.topicsinplay = tempSelectedTopics  // Persist the changes
-
+      gs.topicsinplay = tempTopicsInPlay  // Persist the changes
+      gs.topicsinorder = tempTopicsInOrder
       //dumpTopicsAndColors("finalized selection for scheme \(gs.currentscheme)", from: gs.topicsinplay)
       presentationMode.wrappedValue.dismiss()  // Dismiss and save changes
     }
@@ -188,8 +177,8 @@ func removeTopic(_ topic: String) {
   
   private func setupView() {
     tempGimmeeCount = gimmeCount  // Store the initial gimme count
-    tempSelectedTopics = gs.topicsinplay // Load the selected topics
-    //dumpTopicsAndColors("setup view for scheme \(gs.currentscheme)", from: gs.topicsinplay)
+    tempTopicsInPlay = gs.topicsinplay // Load the selected topics
+    tempTopicsInOrder = gs.topicsinorder
     if tempGimmeeCount <= 0 {
       showNoGimmeeAlert = true
     }
@@ -207,3 +196,29 @@ struct TopicSelectorView_Previews: PreviewProvider {
       .environment(\.colorScheme, .light)  // You can also test dark mode by setting .dark
   }
 }
+
+
+/**
+ 
+ // List of already selected topics
+//        List {
+//          Section(header: Text("Selected Topics")) {
+//            ForEach(tempSelectedTopics.keys.sorted(), id: \.self) { topic in
+//              if let color = tempSelectedTopics[topic] {
+//                HStack {
+//                  Text(topic)
+//                  Spacer()
+//                  Circle()
+//                    .fill(ColorManager.backgroundColor(for: color))  // Use enum to get Color
+//                    .frame(width: 20, height: 20)
+//                  Button("Remove?") {
+//                    removeTopic(topic)
+//                  }
+//                 // .disabled(tempGimmeeCount <= 0)  // Disable if gimme count is zero or less
+//                }
+//              }
+//            }
+//          }
+//        }
+ 
+ */

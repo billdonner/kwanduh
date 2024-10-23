@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.53.9 in topic selector new added items slide in from left
 - version 0.7.53.8 custom font for title, scheme color gradient fixed,onboarding assets made common assets
 - version 0.7.53.7 factored out common assets, fixed many issues,improve topics index
 - version 0.7.53.6 shuffle answers, remove alert about stopping game

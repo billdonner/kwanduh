@@ -17,6 +17,7 @@ import SwiftUI
 // Assuming a mock PlayData JSON file in the main bundle
 
 
+let spareHeightFactor = isIpad ? 1.15:1.9// controls layout of grid if too small
 @main
 struct mainApp : App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate

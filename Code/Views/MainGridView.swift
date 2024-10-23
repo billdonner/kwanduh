@@ -90,7 +90,7 @@ struct MainGridView : View {
             Spacer(minLength:spacing/2)
             ForEach(0..<gs.boardsize, id: \.self) { col in
               // i keep getting row and col out of bounds, so clamp it
-              if row < gs.boardsize  && col < gs.boardsize
+              if row < gs.boardsize  && col < gs.boardsize && cellSize > 0 //added
               //&&  gs.board[row][col] >= 0
               { // ensure its inbounds and allocated
               // if gs.gamestate == .playingNow {
@@ -103,10 +103,10 @@ struct MainGridView : View {
 //                    .frame(width: cellSize, height: cellSize)
 //                }
               }
-              else {
-                Color.clear
-                  .frame(width: cellSize, height: cellSize)
-              }
+//              else {
+//                Color.clear
+//                  .frame(width: cellSize, height: cellSize)
+//              }
               Spacer(minLength:spacing/2)
             }
           }

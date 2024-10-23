@@ -19,7 +19,8 @@ struct TopicIndexView: View {
   let gs: GameState
   let chmgr: ChaMan
     // Binding to the temporary selected topics
-  @Binding var  selectedTopics: [String: FreeportColor] 
+  @Binding var  selectedTopics: [String: FreeportColor]
+  @Binding var topicsInOrder: [String]
   let opType: TopIndexOp
   @Binding var isTouching: Bool
   @State var presentTopic: IdentifiableString? = nil
@@ -30,7 +31,7 @@ struct TopicIndexView: View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 16) {
         //cause insertion on the left
-        ForEach(selectedTopics.keys.sorted(by: > ), id: \.self) { topic in
+        ForEach(topicsInOrder,  id: \.self) { topic in
           // let _ = print("**",topic)
           if let colorEnum = selectedTopics[topic] {
             VStack(spacing:0) {
@@ -96,8 +97,16 @@ struct TopicIndexView_Previews: PreviewProvider {
           "Topic4": .myGoldenYellow,
           "Topic5": .myHotPink
         ]
+      @State var  topicsInOrder:[String]  = [
+                "Topic1" ,
+                "Topic2 is long",
+                "Topic3hasnotspaces" ,
+                "Topic4" ,
+                "Topic5"
+              ]
+      
 
-      return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics, opType: .showDetails, isTouching: .constant(true))
+      return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics, topicsInOrder:$topicsInOrder, opType: .showDetails, isTouching: .constant(true))
             .previewLayout(.sizeThatFits)
             .previewDisplayName("Topic Index View")
             .environment(\.colorScheme, .light)  // Test dark mode with .dark if needed

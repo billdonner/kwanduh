@@ -35,6 +35,7 @@ class GameState : Codable {
   //all topics is in chmgr.everyTopicName
  // @ObservationIgnored
   var topicsinplay: [String:FreeportColor] // a subset of allTopics (which is constant and maintained in ChaMan)
+  var topicsinorder: [String]
  // @ObservationIgnored
   var onwinpath: [[Bool]] // only set after win detected
  // @ObservationIgnored
@@ -80,6 +81,7 @@ class GameState : Codable {
     case replaced
     case boardsize
     case topicsinplay
+    case topicsinorder
     case gamestate
     case totaltime
     case veryfirstgame
@@ -108,6 +110,7 @@ class GameState : Codable {
   
   init(size: Int, topics: [String:FreeportColor], challenges: [Challenge]) {
     self.topicsinplay = topics //*****4
+    self.topicsinorder = topics.keys.sorted()
     self.boardsize = size
     self.board = Array(repeating: Array(repeating: -1, count: size), count: size)
     self.cellstate = Array(repeating: Array(repeating: .unplayed, count: size), count: size)
@@ -137,6 +140,7 @@ class GameState : Codable {
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.topicsinplay = try container.decode([String:FreeportColor].self,forKey:.topicsinplay)
+    self.topicsinorder = try container.decode([String].self,forKey:.topicsinorder)
     self.boardsize = try container.decode(Int.self,forKey:.boardsize)
     self.board = try container.decode([[Int]].self,forKey:.board)
     self.cellstate = try container.decode([[GameCellState]].self,forKey:.cellstate)
@@ -173,6 +177,7 @@ class GameState : Codable {
     try container.encode(replaced, forKey: .replaced)
     try container.encode(boardsize, forKey: .boardsize)
     try container.encode(topicsinplay, forKey: .topicsinplay)
+    try container.encode(topicsinorder, forKey: .topicsinorder)
     try container.encode(gamestate, forKey: .gamestate)
     try container.encode(totaltime, forKey: .totaltime)
     try container.encode(veryfirstgame, forKey: .veryfirstgame)
@@ -599,34 +604,6 @@ class GameState : Codable {
       return nil
     }
   }
-  
 
 }
-//
-//  enum CodingKeys: String, CodingKey {
-//    case _board = "board"
-//    case _cellstate = "cellstate"
-//    case _boardsize = "boardsize"
-//    case _topicsinplay = "topicsinplay"
-//    case _gamestate = "gamestate"
-//    case _totaltime = "totaltime"
-//    case _gamenumber = "gamenumber"
-//    case _movenumber = "movenumber"
-//    case _woncount = "woncount"
-//    case _lostcount = "lostcount"
-//    case _rightcount = "rightcount"
-//    case _wrongcount = "wrongcount"
-//    case _replacedcount = "replacedcount"
-//    case _facedown = "facedown"
-//    case _gimmees = "gimmees"
-//    case _currentscheme = "currentscheme"
-//    case _veryfirstgame = "veryfirstgame"
-//    case _startincorners = "startincorners"
-//    case _doublediag = "doublediag"
-//    case _difficultylevel = "difficultylevel"
-//    case _moveindex = "moveindex"
-//    case _onwinpath = "onwinpath"
-//    case _replaced = "replaced"
-//    case _gamestart =   "gamestart"
-//   // case _swversion = "swversion"
-//  }
+

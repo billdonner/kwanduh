@@ -15,7 +15,7 @@ struct CellFormatModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
       .frame(width: cellSize, height: cellSize)
-      .cornerRadius(cornerRadius)
+    //  .cornerRadius(cornerRadius)
       .opacity(opacity)
   }
 }

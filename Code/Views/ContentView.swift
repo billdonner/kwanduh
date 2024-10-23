@@ -19,6 +19,7 @@ struct ContentView: View {
               if gs.topicsinplay.count == 0 {
                 gs.topicsinplay = colorize(scheme:gs.currentscheme,  topics: getRandomTopics(GameState.preselectedTopicsForBoardSize(current_size),
                                                   from: chmgr.everyTopicName))
+                gs.topicsinorder = gs.topicsinplay.keys.sorted()
               }
               //current_topics = gs.topicsinplay
               chmgr.checkAllTopicConsistency("ContentView onAppear2")

@@ -55,6 +55,7 @@ extension ChaMan {
        // gs.challengeindices = gb.challengeindices //!!!
         gs.boardsize = gb.boardsize
         gs.topicsinplay = gb.topicsinplay
+        gs.topicsinorder = gb.topicsinorder
         gs.gamestate = gb.gamestate
         gs.totaltime = gb.totaltime
         gs.gamenumber = gb.gamenumber
