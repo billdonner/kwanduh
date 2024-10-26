@@ -41,10 +41,10 @@ class GameState : Codable {
  // @ObservationIgnored
   var gimmees: Int  // Number of "gimmee" actions available
 
- // @ObservationIgnored
-  var facedown:Bool
- // @ObservationIgnored
-  var startincorners:Bool
+// // @ObservationIgnored
+//  var facedown:Bool
+// // @ObservationIgnored
+//  var startincorners:Bool
  // @ObservationIgnored
   var doublediag:Bool
 //  @ObservationIgnored
@@ -88,8 +88,8 @@ class GameState : Codable {
     
     case gimmees
     case currentscheme
-    case facedown
-    case startincorners
+   // case facedown
+   // case startincorners
     case doublediag
     case difficultylevel
     case lastmove
@@ -126,12 +126,12 @@ class GameState : Codable {
     self.wrongcount = 0
     self.replacedcount = 0
     self.totaltime = 0.0
-    self.facedown = true
+  // self.facedown = true
     self.currentscheme = 2//.summer
     self.veryfirstgame = true
     self.doublediag = false
     self.difficultylevel = 0//.easy
-    self.startincorners = true
+  //  self.startincorners = true
     self.gamestart = Date()
     self.swversion = AppVersionProvider.appVersion()
   }
@@ -156,12 +156,12 @@ class GameState : Codable {
     self.wrongcount = try container.decode(Int.self,forKey:.wrongcount)
     self.replacedcount = try container.decode(Int.self,forKey:.replacedcount)
     self.totaltime = try container.decode(TimeInterval.self,forKey:.totaltime)
-    self.facedown = try container.decode(Bool.self,forKey:.facedown)
+  //  self.facedown = try container.decode(Bool.self,forKey:.facedown)
     self.currentscheme = try container.decode(ColorSchemeName.self,forKey:.currentscheme)
     self.veryfirstgame = try container.decode(Bool.self,forKey:.veryfirstgame)
     self.doublediag = try container.decode(Bool.self,forKey:.doublediag)
     self.difficultylevel = try container.decode(Int.self,forKey:.difficultylevel) //0//.easy
-    self.startincorners = try container.decode(Bool.self,forKey:.startincorners)
+ //   self.startincorners = try container.decode(Bool.self,forKey:.startincorners)
     self.gamestart = try container.decode(Date.self,forKey:.gamestart)
     self.swversion = try container.decode(String.self,forKey:.swversion)
     
@@ -184,8 +184,8 @@ class GameState : Codable {
       // `nonObservedProperties`
     try container.encode(gimmees, forKey: .gimmees)
     try container.encode(currentscheme, forKey: .currentscheme)
-    try container.encode(facedown, forKey: .facedown)
-    try container.encode(startincorners, forKey: .startincorners)
+  //  try container.encode(facedown, forKey: .facedown)
+   // try container.encode(startincorners, forKey: .startincorners)
     try container.encode(doublediag, forKey: .doublediag)
     try container.encode(difficultylevel, forKey: .difficultylevel)
     try container.encode(lastmove, forKey: .lastmove)
@@ -357,8 +357,8 @@ class GameState : Codable {
     - wrongcount * 1
     
     let part2 = replacedcount * -2
-    + (startincorners ? 10 : 0)
-    + (facedown ? 5 : 0)
+   // + (startincorners ? 10 : 0)
+   // + (facedown ? 5 : 0)
     
     let part3 = switch difficultylevel {
     case 0://.easy:

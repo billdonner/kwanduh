@@ -64,11 +64,11 @@ extension ChaMan {
         gs.lostcount = gb.lostcount
         gs.woncount = gb.woncount
         gs.replacedcount = gb.replacedcount
-        gs.facedown = gb.facedown
+      //  gs.facedown = gb.facedown
         gs.gimmees = gb.gimmees
         gs.currentscheme = gb.currentscheme
         gs.veryfirstgame = gb.veryfirstgame
-        gs.startincorners = gb.startincorners
+       // gs.startincorners = gb.startincorners
         gs.doublediag = gb.doublediag
         gs.difficultylevel = gb.difficultylevel
         gs.movenumber = gb.movenumber
