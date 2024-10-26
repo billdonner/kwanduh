@@ -19,7 +19,7 @@ func dumpTopicsAndColors(_ comment:String,from selectedTopics:[String:FreeportCo
   }
 }
 
-struct TopicSelectorView: View {
+struct TopicSelectorScreen: View {
   let gs:GameState
   let chmgr:ChaMan
   @Binding var  gimmeCount: Int // Gimme count passed as a binding
@@ -190,7 +190,7 @@ struct TopicSelectorView_Previews: PreviewProvider {
   static var previews: some View {
 
     
-    return TopicSelectorView(gs:GameState.mock, chmgr:ChaMan.mock, gimmeCount: $gimmeCount,isTouching:.constant(true))
+    return TopicSelectorScreen(gs:GameState.mock, chmgr:ChaMan.mock, gimmeCount: $gimmeCount,isTouching:.constant(true))
       .previewLayout(.device)
       .previewDisplayName("Topic Selector View")
       .environment(\.colorScheme, .light)  // You can also test dark mode by setting .dark

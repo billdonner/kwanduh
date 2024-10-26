@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.54.11 refactored singlecellview
 - version 0.7.54.10 new ready for ios1 pile, bottom counts permanent
 - version 0.7.53.9 in topic selector new added items slide in from left
 - version 0.7.53.8 custom font for title, scheme color gradient fixed,onboarding assets made common assets

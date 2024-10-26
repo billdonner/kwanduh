@@ -23,6 +23,7 @@ struct GameScreen: View {
   @State var showSettings =  false // force it up
   @State var showLeaderboard = false
   @State var showSendComment = false
+  @State var showGameLog = false
   @State var showTopicSelector = false
   @State var showFreeport = false
   @State var showScheme = false
@@ -62,6 +63,11 @@ struct GameScreen: View {
         Text("Contact Us")
       }
       Button(action: {
+        showGameLog.toggle()
+      }) {
+        Text("Game History")
+      }
+      Button(action: {
         showFreeport.toggle()
       }) {
         Text("Freeport Software")
@@ -71,12 +77,12 @@ struct GameScreen: View {
         .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
-      SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
+      BoardSizeScreen(chmgr: chmgr, gs: gs, showSettings: $showSettings)
     }
     .sheet(isPresented: $showTopicSelector) {
-      TopicSelectorView(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees, isTouching: $isTouching)
+      TopicSelectorScreen(gs:gs, chmgr:chmgr ,gimmeCount: $gs.gimmees, isTouching: $isTouching)
     }
-    .sheet(isPresented: $showLeaderboard) {
+    .fullScreenCover(isPresented: $showLeaderboard) {
       LeaderboardScreen(leaderboardService: lrdb)
     }
     .sheet(isPresented: $showScheme) {
@@ -84,6 +90,9 @@ struct GameScreen: View {
     }
     .sheet(isPresented: $showSendComment) {
       CommentsView()
+    }
+    .fullScreenCover(isPresented: $showGameLog) {
+      GameLogScreen(gs:gs, chmgr: chmgr)
     }
     .sheet(isPresented: $showFreeport) {
       FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)

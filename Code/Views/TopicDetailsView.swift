@@ -26,9 +26,8 @@ struct TopicDetailsView: View {
   let foreground:Color
   
   @State private var showApview:Challenge?  = nil
-  @State var  showGamesLog =  false
+
   var body: some View {
-    // let colors = gs.colorForTopic(topic)
     let tinfo = chmgr.tinfo[topic]
     
     if let tinfo = tinfo {
@@ -84,10 +83,7 @@ struct TopicDetailsView: View {
             }
           }
         }
-        Button(action:{showGamesLog = true})
-        {
-          Text("Games")
-        }
+    
         .fullScreenCover(item: $showApview) { challenge in
           if let ansinfo = chmgr.ansinfo [challenge.id] {
           ReplayingScreen(ch: challenge,ansinfo: ansinfo,  gs:gs)
@@ -95,15 +91,11 @@ struct TopicDetailsView: View {
         }
       }
       .dismissButton(backgroundColor:gs.topicsinplay[ topic]?.toColor() ?? .red) // put a dismiss button up there
-      
-      .fullScreenCover(isPresented: $showGamesLog) {
-        GameLogScreen(gs:gs, chmgr: chmgr)
-      }
+ 
     } else {
       Color.red.dismissButton(backgroundColor: .white) // put a dismiss button up there
     }
   }
-  
 }
 
 #Preview {

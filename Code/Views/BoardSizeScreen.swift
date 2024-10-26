@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct SettingsScreen: View {
+struct BoardSizeScreen: View {
   @Bindable var chmgr: ChaMan
   @Bindable var gs: GameState
-  let lrdb: LeaderboardService
+ // let lrdb: LeaderboardService
   @Binding var showSettings: Bool
   
   @State private var l_boardsize: Int
@@ -15,10 +15,11 @@ struct SettingsScreen: View {
   
   @Environment(\.dismiss) var dismiss
   
-  init(chmgr: ChaMan, gs: GameState, lrdb: LeaderboardService, showSettings: Binding<Bool>) {
+  init(chmgr: ChaMan, gs: GameState, //lrdb: LeaderboardService,
+       showSettings: Binding<Bool>) {
     self.chmgr = chmgr
     self.gs = gs
-    self.lrdb = lrdb
+   // self.lrdb = lrdb
     self._showSettings = showSettings
     l_boardsize = gs.boardsize
   }
@@ -56,7 +57,7 @@ struct SettingsScreen: View {
       .onAppear {
         if firstOnAppear {
           firstOnAppear = false
-          chmgr.checkAllTopicConsistency("GameSettings onAppear")
+          chmgr.checkAllTopicConsistency("BoardSizeScreen onAppear")
         }
         cpv = gs.previewColorMatrix(size: l_boardsize, scheme: gs.currentscheme)
         TSLog("SettingsScreen onAppear")
@@ -89,5 +90,5 @@ struct SettingsScreen: View {
 
 
 #Preview {
-    SettingsScreen(chmgr: ChaMan.mock, gs: GameState.mock, lrdb: LeaderboardService(), showSettings: (.constant(true)))
+    BoardSizeScreen(chmgr: ChaMan.mock, gs: GameState.mock, showSettings: (.constant(true)))
 }
