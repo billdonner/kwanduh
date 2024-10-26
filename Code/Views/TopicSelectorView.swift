@@ -43,7 +43,7 @@ struct TopicSelectorView: View {
     NavigationView {
       VStack {
         // Use the modified TopicIndexView with a binding to tempSelectedTopics
-        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempTopicsInPlay, topicsInOrder:$tempTopicsInOrder, opType: .removeTopic, isTouching: $isTouching)
+        TopicIndexView(gs:gs,chmgr:chmgr, selectedTopics: $tempTopicsInPlay, topicsInOrder:$tempTopicsInOrder, opType: .removeTopic, isTouching: .constant(true))
           .frame(height: 100)
           .padding(.top, 8)
         
@@ -139,25 +139,25 @@ struct TopicSelectorView: View {
     }
   }
   
-func removeTopic(_ topic: String) {
-    if tempGimmeeCount <= 0 {
-      showNoGimmeeAlert = true
-    } else {
-//      guard  let color = tempSelectedTopics[topic] else {
-//        print("Could not get color for \(topic) in removetopic")
+//func removeTopic(_ topic: String) {
+//    if tempGimmeeCount <= 0 {
+//      showNoGimmeeAlert = true
+//    } else {
+////      guard  let color = tempSelectedTopics[topic] else {
+////        print("Could not get color for \(topic) in removetopic")
+////        return
+////      }
+//      // print("Remove topic \(topic) with color \(color)")
+//      tempTopicsInPlay.removeValue(forKey: topic)
+//      guard let f = tempTopicsInOrder.firstIndex(of: topic) else {
+//        print("Could not find index of \(topic) in removetopic")
 //        return
 //      }
-      // print("Remove topic \(topic) with color \(color)")
-      tempTopicsInPlay.removeValue(forKey: topic)
-      guard let f = tempTopicsInOrder.firstIndex(of: topic) else {
-        print("Could not find index of \(topic) in removetopic")
-        return
-      }
-      tempTopicsInOrder.remove(at:f)
-      tempGimmeeCount -= 1
-      //dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
-    }
-  }
+//      tempTopicsInOrder.remove(at:f)
+//      tempGimmeeCount -= 1
+//      //dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
+//    }
+ // }
   private func cancelSelection() {  // Restore the initial gimme count
     presentationMode.wrappedValue.dismiss()  // Dismiss without saving changes
   }

@@ -68,7 +68,7 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-       // .font(.custom(mainFont,size:mainFontSize*0.9))
+        .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
       SettingsScreen(chmgr: chmgr, gs: gs, lrdb: lrdb, showSettings: $showSettings)
@@ -136,7 +136,7 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching: $isTouching)
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching: .constant(true))
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           

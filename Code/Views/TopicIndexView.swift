@@ -83,6 +83,7 @@ struct TopicIndexView: View {
   
   func removeThisTopic(_ topic:String) {
        selectedTopics.removeValue(forKey: topic)
+    topicsInOrder.removeAll(where: { $0 == topic })
       
       }
 }

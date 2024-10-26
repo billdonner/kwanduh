@@ -67,10 +67,23 @@ struct SettingsScreen: View {
           dismiss()
         },
         trailing: Button("Done") {
-          gs.boardsize = l_boardsize
+     onDonePressed()
+          /* adjust */
           dismiss()
         })
     }
+  }
+  private func onDonePressed() {
+      // Copy every change into GameState
+    gs.boardsize = l_boardsize
+      gs.board = Array(repeating: Array(repeating: -1, count: l_boardsize), count: l_boardsize)
+      gs.cellstate = Array(repeating: Array(repeating: .unplayed, count: l_boardsize), count: l_boardsize)
+      gs.moveindex = Array(repeating: Array(repeating: -1, count: l_boardsize), count: l_boardsize)
+      gs.onwinpath = Array(repeating: Array(repeating: false, count: l_boardsize), count: l_boardsize)
+      gs.replaced = Array(repeating: Array(repeating: [], count: l_boardsize), count: l_boardsize)
+
+      chmgr.checkAllTopicConsistency("GameSettingScreen onDonePressed")
+      gs.saveGameState()
   }
 }
 
