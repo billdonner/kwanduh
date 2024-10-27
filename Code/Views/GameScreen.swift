@@ -25,7 +25,7 @@ struct GameScreen: View {
   @State var showSendComment = false
   @State var showGameLog = false
   @State var showTopicSelector = false
-  @State var showFreeport = false
+  @State var showFreeportSettings = false
   @State var showScheme = false
   @State var marqueeMessage =  "Hit Play to Start a New Game"
   
@@ -67,10 +67,12 @@ struct GameScreen: View {
       }) {
         Text("Game History")
       }
-      Button(action: {
-        showFreeport.toggle()
-      }) {
-        Text("Freeport Software")
+      if showFreeport {
+        Button(action: {
+          showFreeportSettings.toggle()
+        }) {
+          Text("Freeport Software")
+        }
       }
     } label: {
       Image(systemName: "ellipsis.circle")
@@ -94,7 +96,7 @@ struct GameScreen: View {
     .fullScreenCover(isPresented: $showGameLog) {
       GameLogScreen(gs:gs, chmgr: chmgr)
     }
-    .sheet(isPresented: $showFreeport) {
+    .sheet(isPresented: $showFreeportSettings) {
       FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
     }
   }

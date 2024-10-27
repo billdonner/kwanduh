@@ -92,125 +92,6 @@
 			);
 			target = 884C9D242CCEB51B0059E758 /* kwandoo */;
 		};
-		884C9D7C2CCEB7690059E758 /* Exceptions for "Code" folder in "kwandoo" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AnsweredInfo.swift,
-				AppColors.swift,
-				ChaMan.swift,
-				ChaManExt.swift,
-				CloudSentiments.swift,
-				CustomAlerts.swift,
-				FreeportColor.swift,
-				GameState.swift,
-				GameStateExt.swift,
-				HowToGuts.swift,
-				LeaderboardService.swift,
-				MainApp.swift,
-				mocks.swift,
-				structs.swift,
-				subs.swift,
-				TopicInfo.swift,
-				Views/ABView.swift,
-				Views/AllocatorView.swift,
-				Views/AnswerButtonsView.swift,
-				Views/AppVersionInformationView.swift,
-				Views/BoardSizeScreen.swift,
-				Views/ChallengeInfoScreen.swift,
-				Views/ContentView.swift,
-				Views/DebugBorderViewModifier.swift,
-				Views/DebugView.swift,
-				Views/DismissButtonModifier.swift,
-				Views/EnvironmentDumpView.swift,
-				Views/FreeportSettingsScreen.swift,
-				Views/GameLogScreen.swift,
-				Views/GameScreen.swift,
-				Views/GameScreenBottomButtons.swift,
-				Views/GameScreenExt.swift,
-				Views/HappyGloomyView.swift,
-				Views/HighWaterMarkCircleView.swift,
-				Views/HowToPlayScreen.swift,
-				Views/LeaderboardScreen.swift,
-				Views/MainGridView.swift,
-				Views/MarqueeMessageView.swift,
-				Views/OnboardingScreen.swift,
-				Views/QandAButtons.swift,
-				Views/QandAScreen.swift,
-				Views/QandAScreenExt.swift,
-				Views/QandATopBarView.swift,
-				Views/ReplayingScreen.swift,
-				Views/SchemePickerView.swift,
-				Views/ScoreBarView.swift,
-				Views/SentimentViews.swift,
-				Views/SingleCellView.swift,
-				Views/SizePickerView.swift,
-				Views/SoloAnswerButtonView.swift,
-				Views/TopicDetailsView.swift,
-				Views/TopicIndexView.swift,
-				Views/TopicSelectorScreen.swift,
-				WinLose.swift,
-			);
-			target = 884C9D242CCEB51B0059E758 /* kwandoo */;
-		};
-		88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AnsweredInfo.swift,
-				ChaMan.swift,
-				ChaManExt.swift,
-				CloudSentiments.swift,
-				CustomAlerts.swift,
-				FreeportColor.swift,
-				GameState.swift,
-				GameStateExt.swift,
-				HowToGuts.swift,
-				LeaderboardService.swift,
-				MainApp.swift,
-				mocks.swift,
-				structs.swift,
-				subs.swift,
-				TopicInfo.swift,
-				Views/ABView.swift,
-				Views/AllocatorView.swift,
-				Views/AnswerButtonsView.swift,
-				Views/AppVersionInformationView.swift,
-				Views/BoardSizeScreen.swift,
-				Views/ChallengeInfoScreen.swift,
-				Views/ContentView.swift,
-				Views/DebugBorderViewModifier.swift,
-				Views/DebugView.swift,
-				Views/DismissButtonModifier.swift,
-				Views/EnvironmentDumpView.swift,
-				Views/FreeportSettingsScreen.swift,
-				Views/GameLogScreen.swift,
-				Views/GameScreen.swift,
-				Views/GameScreenBottomButtons.swift,
-				Views/GameScreenExt.swift,
-				Views/HappyGloomyView.swift,
-				Views/HighWaterMarkCircleView.swift,
-				Views/HowToPlayScreen.swift,
-				Views/LeaderboardScreen.swift,
-				Views/MainGridView.swift,
-				Views/MarqueeMessageView.swift,
-				Views/OnboardingScreen.swift,
-				Views/QandAButtons.swift,
-				Views/QandAScreen.swift,
-				Views/QandAScreenExt.swift,
-				Views/QandATopBarView.swift,
-				Views/ReplayingScreen.swift,
-				Views/SchemePickerView.swift,
-				Views/ScoreBarView.swift,
-				Views/SentimentViews.swift,
-				Views/SingleCellView.swift,
-				Views/SizePickerView.swift,
-				Views/SoloAnswerButtonView.swift,
-				Views/TopicDetailsView.swift,
-				Views/TopicIndexView.swift,
-				Views/TopicSelectorScreen.swift,
-				WinLose.swift,
-			);
-			target = 88A319932CA3212B005D0DF3 /* qanda */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -257,8 +138,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */,
-				88A319FC2CA866BE005D0DF3 /* Exceptions for "Code" folder in "qanda" target */,
-				884C9D7C2CCEB7690059E758 /* Exceptions for "Code" folder in "kwandoo" target */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -364,6 +243,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				884C9D262CCEB51B0059E758 /* kwandoo */,
+				88A319F22CA8666A005D0DF3 /* Code */,
 			);
 			name = kwandoo;
 			packageProductDependencies = (
@@ -455,6 +335,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				88A319952CA3212B005D0DF3 /* qanda */,
+				88A319F22CA8666A005D0DF3 /* Code */,
 			);
 			name = qanda;
 			packageProductDependencies = (

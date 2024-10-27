@@ -11,6 +11,7 @@ let gameTitle = "kwandoo"
 let mainFont = "Avenir-Book"
 let mainFontSize = 30.0
 let playDataURL  = Bundle.main.url(forResource: "playdata.json", withExtension: nil)
+let showFreeport: Bool = true
 let starting_size = 3 // Example size, can be 3 to 8
 let cornerradius = 0.0 // something like 8 makes nice rounded corners in main grid
 let isDebugModeEnabled: Bool = false
