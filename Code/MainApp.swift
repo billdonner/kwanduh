@@ -18,6 +18,16 @@ import SwiftUI
 
 
 let spareHeightFactor = isIpad ? 1.15:1.9// controls layout of grid if too small
+
+
+let bonusPerWin = 10
+let penaltyPerLoss = 2
+let bonusPerRight = 3
+let penaltyPerWrong = 1
+let penaltyPerReplaced = 2
+
+
+
 @main
 struct mainApp : App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate

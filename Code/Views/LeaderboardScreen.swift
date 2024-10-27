@@ -14,7 +14,7 @@ struct LeaderboardScreen: View {
             VStack {
 
                 Text("Leaderboard")
-                    .font(.largeTitle)
+                .font(.custom(mainFont,size:mainFontSize))
                     .padding()
 
                 List(leaderboardService.scores) { score in

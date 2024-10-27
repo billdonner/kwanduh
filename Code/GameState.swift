@@ -19,11 +19,11 @@ struct GameMove : Codable,Hashable {
 @Observable
 class GameState : Codable {
   var board: [[Int]]  // Array of arrays to represent the game board with challenges
-  var cellstate: [[GameCellState]]  // Array of arrays to represent the state of each cell 
+  var cellstate: [[GameCellState]]  // Array of arrays to represent the state of each cell
   var moveindex: [[Int]] // -1 is unplayed
   var replaced:[[[Int]]] // list of replacements in this cell
   var boardsize: Int  // Size of the game board
-
+  
   var gamestate: StateOfPlay = .initializingApp
   var totaltime: TimeInterval // aka Double
   
@@ -31,48 +31,48 @@ class GameState : Codable {
   var currentscheme: ColorSchemeName
   // in chaman we can fetch counts to make % from Tinfo
   //chmgr.tinfo[topic]
- // var tinfo: [String: TopicInfo]  // Dictionary indexed by topic
+  // var tinfo: [String: TopicInfo]  // Dictionary indexed by topic
   //all topics is in chmgr.everyTopicName
- // @ObservationIgnored
+  // @ObservationIgnored
   var topicsinplay: [String:FreeportColor] // a subset of allTopics (which is constant and maintained in ChaMan)
   var topicsinorder: [String]
- // @ObservationIgnored
+  // @ObservationIgnored
   var onwinpath: [[Bool]] // only set after win detected
- // @ObservationIgnored
+  // @ObservationIgnored
   var gimmees: Int  // Number of "gimmee" actions available
-
-// // @ObservationIgnored
-//  var facedown:Bool
-// // @ObservationIgnored
-//  var startincorners:Bool
- // @ObservationIgnored
+  
+  // // @ObservationIgnored
+  //  var facedown:Bool
+  // // @ObservationIgnored
+  //  var startincorners:Bool
+  // @ObservationIgnored
   var doublediag:Bool
-//  @ObservationIgnored
+  //  @ObservationIgnored
   var difficultylevel:Int
- // @ObservationIgnored
+  // @ObservationIgnored
   var lastmove: GameMove?
- // @ObservationIgnored
+  // @ObservationIgnored
   var gamestart:Date // when game started
-//  @ObservationIgnored
+  //  @ObservationIgnored
   var swversion:String // if this changes we must delete all state
-//  @ObservationIgnored
+  //  @ObservationIgnored
   var woncount:  Int
-//  @ObservationIgnored
+  //  @ObservationIgnored
   var lostcount:  Int
- // @ObservationIgnored
+  // @ObservationIgnored
   var rightcount: Int
- // @ObservationIgnored
+  // @ObservationIgnored
   var wrongcount: Int
- // @ObservationIgnored
+  // @ObservationIgnored
   var replacedcount: Int
- // @ObservationIgnored
+  // @ObservationIgnored
   var gamenumber:  Int
-//  @ObservationIgnored
+  //  @ObservationIgnored
   var movenumber:  Int
   
   
   
-//
+  //
   enum CodingKeys: String, CodingKey {
     case board
     case cellstate
@@ -88,8 +88,8 @@ class GameState : Codable {
     
     case gimmees
     case currentscheme
-   // case facedown
-   // case startincorners
+    // case facedown
+    // case startincorners
     case doublediag
     case difficultylevel
     case lastmove
@@ -104,102 +104,33 @@ class GameState : Codable {
     case movenumber
   }
   
-
-
-  
-  
-  init(size: Int, topics: [String:FreeportColor], challenges: [Challenge]) {
-    self.topicsinplay = topics //*****4
-    self.topicsinorder = topics.keys.sorted()
-    self.boardsize = size
-    self.board = Array(repeating: Array(repeating: -1, count: size), count: size)
-    self.cellstate = Array(repeating: Array(repeating: .unplayed, count: size), count: size)
-    self.moveindex = Array(repeating: Array(repeating: -1, count: size), count: size) 
-    self.onwinpath = Array(repeating: Array(repeating: false, count: size), count: size)
-    self.replaced = Array(repeating: Array(repeating: [], count: size), count: size)
-    self.gimmees = 0
-    self.gamenumber = 0
-    self.movenumber = 0
-    self.woncount = 0
-    self.lostcount = 0
-    self.rightcount = 0
-    self.wrongcount = 0
-    self.replacedcount = 0
-    self.totaltime = 0.0
-  // self.facedown = true
-    self.currentscheme = 2//.summer
-    self.veryfirstgame = true
-    self.doublediag = false
-    self.difficultylevel = 0//.easy
-  //  self.startincorners = true
-    self.gamestart = Date()
-    self.swversion = AppVersionProvider.appVersion()
-  }
-  
-  // Codable conformance: decode the properties
-  required init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.topicsinplay = try container.decode([String:FreeportColor].self,forKey:.topicsinplay)
-    self.topicsinorder = try container.decode([String].self,forKey:.topicsinorder)
-    self.boardsize = try container.decode(Int.self,forKey:.boardsize)
-    self.board = try container.decode([[Int]].self,forKey:.board)
-    self.cellstate = try container.decode([[GameCellState]].self,forKey:.cellstate)
-    self.moveindex = try container.decode([[Int]].self,forKey:.moveindex)
-    self.onwinpath = try container.decode([[Bool]].self,forKey:.onwinpath)
-    self.replaced = try container.decode([[[Int]]].self,forKey:.replaced)
-    self.gimmees = try container.decode(Int.self,forKey:.gimmees)
-    self.gamenumber = try container.decode(Int.self,forKey:.gamenumber)
-    self.movenumber = try container.decode(Int.self,forKey:.movenumber)
-    self.woncount = try container.decode(Int.self,forKey:.woncount)
-    self.lostcount = try container.decode(Int.self,forKey:.lostcount)
-    self.rightcount = try container.decode(Int.self,forKey:.rightcount)
-    self.wrongcount = try container.decode(Int.self,forKey:.wrongcount)
-    self.replacedcount = try container.decode(Int.self,forKey:.replacedcount)
-    self.totaltime = try container.decode(TimeInterval.self,forKey:.totaltime)
-  //  self.facedown = try container.decode(Bool.self,forKey:.facedown)
-    self.currentscheme = try container.decode(ColorSchemeName.self,forKey:.currentscheme)
-    self.veryfirstgame = try container.decode(Bool.self,forKey:.veryfirstgame)
-    self.doublediag = try container.decode(Bool.self,forKey:.doublediag)
-    self.difficultylevel = try container.decode(Int.self,forKey:.difficultylevel) //0//.easy
- //   self.startincorners = try container.decode(Bool.self,forKey:.startincorners)
-    self.gamestart = try container.decode(Date.self,forKey:.gamestart)
-    self.swversion = try container.decode(String.self,forKey:.swversion)
+  func totalScore() -> Int {
+    
+    if gamenumber == 0 { return 0 }
+    
+    let baseScore = switch difficultylevel {
+    case 0://.easy:
+      0
+    case 1://.normal:
+      5
+    case 2://.hard:
+      10
+    default: 0
+    }
+    
+    let incremental =   woncount * bonusPerWin
+    - lostcount * penaltyPerLoss
+    + rightcount * bonusPerRight
+    - wrongcount * penaltyPerLoss
+    - replacedcount * penaltyPerReplaced
+    
+    let total = baseScore + incremental
+    if total < 0 { return 0}
+    return total
+    
     
   }
   
-  
-  func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(board, forKey: .board)
-    try container.encode(cellstate, forKey: .cellstate)
-    try container.encode(moveindex, forKey: .moveindex)
-    try container.encode(onwinpath, forKey: .onwinpath)
-    try container.encode(replaced, forKey: .replaced)
-    try container.encode(boardsize, forKey: .boardsize)
-    try container.encode(topicsinplay, forKey: .topicsinplay)
-    try container.encode(topicsinorder, forKey: .topicsinorder)
-    try container.encode(gamestate, forKey: .gamestate)
-    try container.encode(totaltime, forKey: .totaltime)
-    try container.encode(veryfirstgame, forKey: .veryfirstgame)
-      // `nonObservedProperties`
-    try container.encode(gimmees, forKey: .gimmees)
-    try container.encode(currentscheme, forKey: .currentscheme)
-  //  try container.encode(facedown, forKey: .facedown)
-   // try container.encode(startincorners, forKey: .startincorners)
-    try container.encode(doublediag, forKey: .doublediag)
-    try container.encode(difficultylevel, forKey: .difficultylevel)
-    try container.encode(lastmove, forKey: .lastmove)
-    try container.encode(gamestart, forKey: .gamestart)
-    try container.encode(swversion, forKey: .swversion)
-    try container.encode(woncount, forKey: .woncount)
-    try container.encode(lostcount, forKey: .lostcount)
-    try container.encode(rightcount, forKey: .rightcount)
-    try container.encode(wrongcount, forKey: .wrongcount)
-    try container.encode(replacedcount, forKey: .replacedcount)
-    try container.encode(gamenumber, forKey: .gamenumber)
-    try container.encode(movenumber, forKey: .movenumber)
-    
-  }
   func setupForNewGame (boardsize:Int, chmgr:ChaMan) -> Bool {
     // assume all cleaned up, using size
     var allocatedChallengeIndices:[Int] = []
@@ -209,18 +140,18 @@ class GameState : Codable {
     self.lastmove = nil
     self.boardsize = boardsize ///////////////
     self.board = Array(repeating: Array(repeating: -1, count:  boardsize), count:   boardsize)
-    self.moveindex = Array(repeating: Array(repeating: -1, count:  boardsize), count:   boardsize) 
+    self.moveindex = Array(repeating: Array(repeating: -1, count:  boardsize), count:   boardsize)
     self.onwinpath = Array(repeating: Array(repeating:false, count:  boardsize), count:   boardsize)
-    self.cellstate = Array(repeating: Array(repeating:.unplayed, count: boardsize), count:  boardsize) 
+    self.cellstate = Array(repeating: Array(repeating:.unplayed, count: boardsize), count:  boardsize)
     self.replaced  = Array(repeating: Array(repeating:[], count: boardsize), count:  boardsize)
-    // give player a few gimmees depending on boardsize
-    self.gimmees += boardsize - 1
+    // give player a few gimmees depending on boardsize - moved until after
+    if self.veryfirstgame {self.gimmees += boardsize - 1}
     // use topicsinplay and allocated fresh challenges
     let result:AllocationResult = chmgr.allocateChallenges(forTopics: Array(topicsinplay.keys), count: boardsize * boardsize)
     switch result {
     case .success(let x):
       conditionalAssert(x.count == boardsize*boardsize)
-     // print("Success:\(x.count)")
+      // print("Success:\(x.count)")
       allocatedChallengeIndices = x.shuffled()
       //continue after the error path
       
@@ -245,7 +176,7 @@ class GameState : Codable {
     for row in 0..<boardsize {
       for col in 0..<boardsize {
         let idxs = allocatedChallengeIndices[row * boardsize + col]
-       // let ch = chmgr.everyChallenge[idxs]
+        // let ch = chmgr.everyChallenge[idxs]
         //let topic = ch.topic
         // change this code so that if the topic at this row,col is the same as an adjacent cell , we pick a different one by altering the idxs
         board[row][col] = idxs
@@ -253,67 +184,8 @@ class GameState : Codable {
       }
     }
     
- /** TODO: this ensures no adjacent cells are the same color
-    // put these challenges into the board
-    // set cellstate to unplayed
-    // allocatedChallengeIndices = x.shuffled()
-    var deallocatedIndices: [Int] = []
-
-    for row in 0..<boardsize {
-        for col in 0..<boardsize {
-            var idxs = allocatedChallengeIndices[row * boardsize + col]
-            var ch = chmgr.everyChallenge[idxs]
-            var topic = ch.topic
-
-            // Check adjacent cells and ensure no duplicate topics
-            var adjacentTopics = Set<String>()
-            
-            if row > 0 { // Check cell above
-                let aboveIdxs = board[row - 1][col]
-                adjacentTopics.insert(chmgr.everyChallenge[aboveIdxs].topic)
-            }
-            
-            if col > 0 { // Check cell to the left
-                let leftIdxs = board[row][col - 1]
-                adjacentTopics.insert(chmgr.everyChallenge[leftIdxs].topic)
-            }
-            
-            // Ensure the topic is not the same as an adjacent cell
-            var foundValid = false
-            while adjacentTopics.contains(topic) {
-                // Pick another index if the topic matches adjacent ones
-                if let newIdx = allocatedChallengeIndices.shuffled().first(where: { !adjacentTopics.contains(chmgr.everyChallenge[$0].topic) }) {
-                    deallocatedIndices.append(idxs)  // Add the old index to deallocation list
-                    idxs = newIdx
-                    ch = chmgr.everyChallenge[idxs]
-                    topic = ch.topic
-                    foundValid = true
-                } else {
-                    // If no valid index can be found, break the loop
-                    foundValid = false
-                    break
-                }
-            }
-            
-            // If we found a valid challenge, assign it to the board
-            if foundValid || !adjacentTopics.contains(topic) {
-                board[row][col] = idxs
-                cellstate[row][col] = .unplayed
-            } else {
-                // If no valid challenge can be found, deallocate the challenge index
-                deallocatedIndices.append(idxs)
-            }
-        }
-    }
-
-    // Call deallocateChallengeIndices with the array of deallocated items
-    if !deallocatedIndices.isEmpty {
-     let _ =  chmgr.deallocAt(deallocatedIndices)
-    }
-    */
-    
     gamestate = .playingNow
-    saveGameState() 
+    saveGameState()
     return true
   }
   
@@ -347,38 +219,7 @@ class GameState : Codable {
   }
   
   
-  func totalScore() -> Int {
-    
-    if gamenumber == 0 { return 0 }
-    
-    let part1 =   woncount * 10
-    - lostcount * 2
-     + rightcount * 3
-    - wrongcount * 1
-    
-    let part2 = replacedcount * -2
-   // + (startincorners ? 10 : 0)
-   // + (facedown ? 5 : 0)
-    
-    let part3 = switch difficultylevel {
-    case 0://.easy:
-     0
-    case 1://.normal:
-      5
-    case 2://.hard:
-      10
-    default: 0 
-    }
-    
-    let total = part1 + part2 + part3
-    
-    if total < 0 { return 0}
-    
-    
-    return total
-      
   
-  }
   
   func moveHistory() -> [GameMove] {
     var moves:[GameMove]=[]
@@ -389,7 +230,7 @@ class GameState : Codable {
         }
       }
     }
-   return moves.sorted(by: { $0.movenumber < $1.movenumber })
+    return moves.sorted(by: { $0.movenumber < $1.movenumber })
   }
   func looker(row:Int,col:Int,path:[(Int,Int)]) -> Int? {
     for (idx,p) in path.enumerated() {
@@ -397,7 +238,7 @@ class GameState : Codable {
     }
     return nil
   }
-  func winningPathOfGameMoves() -> [GameMove] { 
+  func winningPathOfGameMoves() -> [GameMove] {
     
     let (path,found) =  winningPath(in:cellstate)
     if !found { return [] }
@@ -428,6 +269,36 @@ class GameState : Codable {
     row==self.boardsize-1 && col == self.boardsize - 1
   }
   
+  func oppositeCornerCell(row:Int,col:Int ) -> (Int,Int)? {
+    switch (row,col) {
+      
+      case  (0,0) : return (self.boardsize-1,self.boardsize-1)
+      case  (self.boardsize-1,self.boardsize-1): return (0,0)
+    case (0,self.boardsize-1): return (self.boardsize-1,0)
+    case  (self.boardsize-1,0) : return (0,self.boardsize-1)
+    default: return nil
+    }
+  }
+  func rhCornerCell(row:Int,col:Int ) -> (Int,Int)? {
+    switch (row,col) {
+      
+      case  (0,0) : return (0,self.boardsize-1)
+      case  (self.boardsize-1,self.boardsize-1): return (self.boardsize-1,0)
+    case (0,self.boardsize-1): return (self.boardsize-1,self.boardsize-1)
+    case  (self.boardsize-1,0) : return (0,0)
+    default: return nil
+    }
+  }
+  func lhCornerCell(row:Int,col:Int ) -> (Int,Int)? {
+    switch (row,col) {
+      case  (0,0) : return (self.boardsize-1,0)
+      case  (self.boardsize-1,self.boardsize-1): return (0,self.boardsize-1)
+    case (0,self.boardsize-1):return (0,0)
+    case  (self.boardsize-1,0) : return (self.boardsize-1,self.boardsize-1)
+    default: return nil
+    }
+  }
+  
   func isAlreadyPlayed(row:Int,col:Int ) -> (Bool) {
     return ( self.cellstate[row][col] == .playedCorrectly ||
              self.cellstate[row][col] == .playedIncorrectly)
@@ -446,15 +317,12 @@ class GameState : Codable {
     let b = chmgr.incorrectChallengesCount()
     if b != wrongcount {
       print("*** incorrect challenges count \(b) is wrong \(wrongcount)")
-      
       return false
     }
     if gamestate != .initializingApp {
       // check everything on the board is consistent
-      
       for row in  0 ..< boardsize  {
         for col in 0 ..< boardsize  {
-          
           let j = board[row][col]
           if j != -1 {
             let x:ChaMan.ChallengeStatus = chmgr.stati[j]
@@ -493,14 +361,14 @@ class GameState : Codable {
   func basicTopics()->[BasicTopic] {
     return topicsinplay.keys.map {BasicTopic(name: $0)}
   }
-
+  
   private static func indexOfTopic(_ topic: String,within:[String]) -> Int? {
-      return  within.firstIndex(where: { $0 == topic })
+    return  within.firstIndex(where: { $0 == topic })
   }
   private func indexOfTopic(_ topic: String) -> Int? {
     Self.indexOfTopic(topic,within: Array(self.topicsinplay.keys))
   }
-
+  
   
   func previewColorMatrix(size:Int,scheme:ColorSchemeName) -> [[Color]] {
     var cm     = Array(repeating: Array(repeating:Color.black, count: size), count: size)
@@ -520,7 +388,7 @@ class GameState : Codable {
     case 6: return 1
     case 7: return 1
     case 8: return 1
-    default: return 1 }
+      default: return 1 }
   }
   
   static  func maxTopicsForBoardSize(_ size:Int) -> Int {
@@ -536,7 +404,7 @@ class GameState : Codable {
   }
   
   static  func preselectedTopicsForBoardSize(_ size:Int) -> Int {
- 
+    
     switch size  {
     case 3: return 3
     case 4: return 3
@@ -604,6 +472,110 @@ class GameState : Codable {
       return nil
     }
   }
+  
+  
+  
+  
+  
+  /*******/
+  
+  
+  
+  
 
+  
+  // Codable conformance: decode the properties
+  required init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.topicsinplay = try container.decode([String:FreeportColor].self,forKey:.topicsinplay)
+    self.topicsinorder = try container.decode([String].self,forKey:.topicsinorder)
+    self.boardsize = try container.decode(Int.self,forKey:.boardsize)
+    self.board = try container.decode([[Int]].self,forKey:.board)
+    self.cellstate = try container.decode([[GameCellState]].self,forKey:.cellstate)
+    self.moveindex = try container.decode([[Int]].self,forKey:.moveindex)
+    self.onwinpath = try container.decode([[Bool]].self,forKey:.onwinpath)
+    self.replaced = try container.decode([[[Int]]].self,forKey:.replaced)
+    self.gimmees = try container.decode(Int.self,forKey:.gimmees)
+    self.gamenumber = try container.decode(Int.self,forKey:.gamenumber)
+    self.movenumber = try container.decode(Int.self,forKey:.movenumber)
+    self.woncount = try container.decode(Int.self,forKey:.woncount)
+    self.lostcount = try container.decode(Int.self,forKey:.lostcount)
+    self.rightcount = try container.decode(Int.self,forKey:.rightcount)
+    self.wrongcount = try container.decode(Int.self,forKey:.wrongcount)
+    self.replacedcount = try container.decode(Int.self,forKey:.replacedcount)
+    self.totaltime = try container.decode(TimeInterval.self,forKey:.totaltime)
+    //  self.facedown = try container.decode(Bool.self,forKey:.facedown)
+    self.currentscheme = try container.decode(ColorSchemeName.self,forKey:.currentscheme)
+    self.veryfirstgame = try container.decode(Bool.self,forKey:.veryfirstgame)
+    self.doublediag = try container.decode(Bool.self,forKey:.doublediag)
+    self.difficultylevel = try container.decode(Int.self,forKey:.difficultylevel) //0//.easy
+    //   self.startincorners = try container.decode(Bool.self,forKey:.startincorners)
+    self.gamestart = try container.decode(Date.self,forKey:.gamestart)
+    self.swversion = try container.decode(String.self,forKey:.swversion)
+    
+  }
+
+  init(size: Int, topics: [String:FreeportColor], challenges: [Challenge]) {
+    self.topicsinplay = topics //*****4
+    self.topicsinorder = topics.keys.sorted()
+    self.boardsize = size
+    self.board = Array(repeating: Array(repeating: -1, count: size), count: size)
+    self.cellstate = Array(repeating: Array(repeating: .unplayed, count: size), count: size)
+    self.moveindex = Array(repeating: Array(repeating: -1, count: size), count: size)
+    self.onwinpath = Array(repeating: Array(repeating: false, count: size), count: size)
+    self.replaced = Array(repeating: Array(repeating: [], count: size), count: size)
+    self.gimmees = 0
+    self.gamenumber = 0
+    self.movenumber = 0
+    self.woncount = 0
+    self.lostcount = 0
+    self.rightcount = 0
+    self.wrongcount = 0
+    self.replacedcount = 0
+    self.totaltime = 0.0
+    // self.facedown = true
+    self.currentscheme = 2//.summer
+    self.veryfirstgame = true
+    self.doublediag = false
+    self.difficultylevel = 0//.easy
+    //  self.startincorners = true
+    self.gamestart = Date()
+    self.swversion = AppVersionProvider.appVersion()
+  }
+  
+  func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(board, forKey: .board)
+    try container.encode(cellstate, forKey: .cellstate)
+    try container.encode(moveindex, forKey: .moveindex)
+    try container.encode(onwinpath, forKey: .onwinpath)
+    try container.encode(replaced, forKey: .replaced)
+    try container.encode(boardsize, forKey: .boardsize)
+    try container.encode(topicsinplay, forKey: .topicsinplay)
+    try container.encode(topicsinorder, forKey: .topicsinorder)
+    try container.encode(gamestate, forKey: .gamestate)
+    try container.encode(totaltime, forKey: .totaltime)
+    try container.encode(veryfirstgame, forKey: .veryfirstgame)
+      // `nonObservedProperties`
+    try container.encode(gimmees, forKey: .gimmees)
+    try container.encode(currentscheme, forKey: .currentscheme)
+  //  try container.encode(facedown, forKey: .facedown)
+   // try container.encode(startincorners, forKey: .startincorners)
+    try container.encode(doublediag, forKey: .doublediag)
+    try container.encode(difficultylevel, forKey: .difficultylevel)
+    try container.encode(lastmove, forKey: .lastmove)
+    try container.encode(gamestart, forKey: .gamestart)
+    try container.encode(swversion, forKey: .swversion)
+    try container.encode(woncount, forKey: .woncount)
+    try container.encode(lostcount, forKey: .lostcount)
+    try container.encode(rightcount, forKey: .rightcount)
+    try container.encode(wrongcount, forKey: .wrongcount)
+    try container.encode(replacedcount, forKey: .replacedcount)
+    try container.encode(gamenumber, forKey: .gamenumber)
+    try container.encode(movenumber, forKey: .movenumber)
+    
+  }
+  
+  
 }
 

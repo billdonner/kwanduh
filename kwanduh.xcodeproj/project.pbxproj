@@ -81,6 +81,7 @@
 				CustomAlerts.swift,
 				FreeportColor.swift,
 				GameState.swift,
+				GameStateExt.swift,
 				HowToGuts.swift,
 				LeaderboardService.swift,
 				MainApp.swift,

@@ -82,5 +82,5 @@ struct ScoreBarView: View {
 #Preview {
   @Previewable
   @State var marqueeMessage = "blah blah"
-  return ScoreBarView(gs: GameState(size: 3, topics: ["a":.myAliceBlue,"b":.myAmber,"c":.myBerry], challenges: []), marqueeMessage: $marqueeMessage)
+  ScoreBarView(gs: GameState.mock, marqueeMessage: $marqueeMessage)
 }
