@@ -134,7 +134,7 @@ class GameState : Codable {
   func setupForNewGame (boardsize:Int, chmgr:ChaMan) -> Bool {
     // assume all cleaned up, using size
     var allocatedChallengeIndices:[Int] = []
-    self.gamenumber += 1
+
     self.gamestart = Date()
     self.movenumber = 0
     self.lastmove = nil
@@ -213,6 +213,12 @@ class GameState : Codable {
       print("dealloc failed \(err)")
     }
     chmgr.resetChallengeStatuses(at: challenge_indexes)
+    
+    // if we actually did anything then bump the game number
+    if challenge_indexes.count  !=  boardsize *  boardsize {
+     self.gamenumber += 1
+    }
+    
     // clear out last move
     lastmove = nil
     saveGameState()
@@ -525,7 +531,7 @@ class GameState : Codable {
     self.onwinpath = Array(repeating: Array(repeating: false, count: size), count: size)
     self.replaced = Array(repeating: Array(repeating: [], count: size), count: size)
     self.gimmees = 0
-    self.gamenumber = 0
+    self.gamenumber = 1
     self.movenumber = 0
     self.woncount = 0
     self.lostcount = 0

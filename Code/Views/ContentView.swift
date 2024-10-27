@@ -5,6 +5,7 @@ struct ContentView: View {
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
+  @State var gimmeeAlert = false
   @State var current_size: Int = starting_size
   @State var current_topics: [String:FreeportColor] = [:]
 
@@ -21,6 +22,8 @@ struct ContentView: View {
                                                   from: chmgr.everyTopicName))
                 gs.topicsinorder = gs.topicsinplay.keys.sorted()
               }
+              gs.gimmees = 5 // give some to get started
+              gimmeeAlert = true
               //current_topics = gs.topicsinplay
               chmgr.checkAllTopicConsistency("ContentView onAppear2")
               TSLog("//ContentView first onAppear size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)")
@@ -29,6 +32,10 @@ struct ContentView: View {
             }
             restartCount += 1
             gs.veryfirstgame = false
+            gs.saveGameState()
+          }
+          .alert(isPresented:$gimmeeAlert) {
+            Alert(title: Text("You got \(gs.gimmees) extra gimmees to get started!"), message: nil, dismissButton: .default(Text("OK")))
           }
           .onDisappear {
             print("Yikes the ContentView is Disappearing!")

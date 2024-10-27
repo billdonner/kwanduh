@@ -106,6 +106,9 @@ struct FreeportSettingsScreen: View {
             Button(action:{ showEnvDump.toggle() }) {
               Text("Show Environment Dump")
             }
+            Button(action:{ gs.gimmees += 10 }) {
+              Text("Gimmee 10 Gimmees")
+            }
             Button(action:{ showDebug.toggle() }) {
               Text("Show Debug")
             }
