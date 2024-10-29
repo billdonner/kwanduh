@@ -23,7 +23,7 @@ struct ContentView: View {
                 gs.topicsinorder = gs.topicsinplay.keys.sorted()
               }
               gs.gimmees = 5 // give some to get started
-              gimmeeAlert = true
+             // gimmeeAlert = true
               //current_topics = gs.topicsinplay
               chmgr.checkAllTopicConsistency("ContentView onAppear2")
               TSLog("//ContentView first onAppear size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)")

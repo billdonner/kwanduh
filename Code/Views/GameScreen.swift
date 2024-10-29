@@ -76,7 +76,7 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-        .font(.custom(mainFont,size:mainFontSize*0.9))
+       // .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
       BoardSizeScreen(chmgr: chmgr, gs: gs, showSettings: $showSettings)
@@ -102,52 +102,50 @@ struct GameScreen: View {
   }
   
   var bodyMsg: String {
-    let t =  """
-   you've won \(gs.woncount) and \nlost \(gs.lostcount) games
+   """
+  good job, keep going ...
 """
-    return t
   }
   
   func  onSingleTap (_ row:Int, _ col:Int ) {
     chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
   }
+  
   var body: some View {
     NavigationStack {
-      VStack(spacing:0) {
-      HStack {
-        playToggleButton.padding(.horizontal,10)
-        Spacer()
-        Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
-        Spacer()
-        actionMenu.padding(.horizontal,10)
-      }
-        //fixed, immovable height
-        VStack {
-          if gs.gamestate ==  StateOfPlay.playingNow {
-            MarqueeMessageView(
-              message: $marqueeMessage,
-              fadeInDuration: 1.0,
-              fadeOutDuration: 3.0,
-              displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
-            ).opacity(marqueeMessage.isEmpty ? 0:1)
-            
-          } else {
-            Color.clear
-          }
+      VStack{//}(spacing:0) {
+        HStack {
+          playToggleButton.padding(.horizontal,10)
+          Spacer()
+          Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
+          Spacer()
+          actionMenu.padding(.horizontal,10)
         }
-        .frame(height:20).debugBorder()
-         
+        //fixed, immovable height
+//        VStack {
+//          if gs.gamestate ==  StateOfPlay.playingNow {
+//            MarqueeMessageView(
+//              message: $marqueeMessage,
+//              fadeInDuration: 1.0,
+//              fadeOutDuration: 3.0,
+//              displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
+//            ).opacity(marqueeMessage.isEmpty ? 0:1)
+//          } else {
+//            Color.clear
+//          }
+//        }
+//        .frame(height:20).debugBorder()
         if gs.boardsize > 1 {
           
+          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder().frame(height:60)
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
                        isTouching: $isTouching,
                        marqueeMessage: $marqueeMessage,
                        onSingleTap: onSingleTap)
           
-          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder()
           
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching: .constant(true))
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
@@ -155,7 +153,6 @@ struct GameScreen: View {
               onChangeOfCellState()
             }
             .onChange(of:gs.currentscheme) {
-              //print("gs.currentscheme has changed to \(gs.currentscheme)")
               gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
               gs.saveGameState()
             }
@@ -173,23 +170,19 @@ struct GameScreen: View {
           loadingVeew
         }
       }
-    .youWinAlert(isPresented: $showWinAlert, title: "You Win",
-                 bodyMessage: bodyMsg, buttonTitle: "OK"){
-      onYouWin()
-    }
-                 .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
-                               bodyMessage: bodyMsg, buttonTitle: "OK"){
-                   onYouLose()
-                 }
-                               .onAppear() {
-                                 TSLog("GameScreen onAppear")
-                               }
-//                               .navigationTitle("")
-//                               .navigationBarTitleDisplayMode(.inline)
-//                               .navigationBarItems(trailing: actionMenu)
-//                               .navigationBarItems(leading: playToggleButton)
-  }    .navigationViewStyle(StackNavigationViewStyle())
-  
+      .youWinAlert(isPresented: $showWinAlert, title: "You Win",
+                   bodyMessage: "good job, but you need to play more", buttonTitle: "OK"){
+        onYouWin()
+      }
+                   .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
+                                 bodyMessage: "sorry, keep going", buttonTitle: "OK"){
+                     onYouLose()
+                   }
+                                 .onAppear() {
+                                   TSLog("GameScreen onAppear")
+                                 }
+    }    .navigationViewStyle(StackNavigationViewStyle())
+    
     
   }
   
@@ -213,13 +206,13 @@ struct GameScreen: View {
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
     })//.font(.custom(mainFont,size:mainFontSize*0.9))
-      .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
-        Button("OK", role: .cancel) {
-          withAnimation {
-            onCantStartNewGameAction()
-          }
+    .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
+      Button("OK", role: .cancel) {
+        withAnimation {
+          onCantStartNewGameAction()
         }
       }
+    }
   }
   
   var loadingVeew: some View {
@@ -235,17 +228,14 @@ struct GameScreen: View {
   }
 }
 
-
 #Preview ("GameScreen") {
   GameScreen(
     gs:GameState.mock ,chmgr:
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)
-    
   ).preferredColorScheme( .light)
 }
-
 
 #Preview ("Dark") {
   GameScreen(
@@ -253,6 +243,5 @@ struct GameScreen: View {
       ChaMan.mock, lrdb: LeaderboardService() ,
     topics:.constant(GameState.mock.topicsinplay),
     size:.constant(3)
-    
   ).preferredColorScheme( .dark)
 }

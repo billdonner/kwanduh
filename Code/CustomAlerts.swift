@@ -74,7 +74,26 @@ fileprivate struct FireworksView: View {
             }
     }
 }
-
+// Sadness effect view using SF Symbol
+fileprivate struct SadnessView: View {
+    @State private var animate = false
+    
+    var body: some View {
+        Image(systemName: "chevron.down.right.dotted.2")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 50, height: 50) // Adjusted size
+            .foregroundColor(.gray)
+            .scaleEffect(animate ? 1.2 : 0.8)
+            .opacity(animate ? 1 : 0.5)
+            .position(x: UIScreen.main.bounds.midX+100, y: 200) // More centered position
+            .onAppear {
+                withAnimation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
+                    self.animate.toggle()
+                }
+            }
+    }
+}
 // Custom alert view for YouWin with fireworks
 #Preview ("YouWin") {
   YouWinAlert(title: "You Win", bodyMessage: "This is a custom alert view with spring animation.", buttonTitle: "OK", onButtonTapped: {} )
@@ -119,10 +138,10 @@ fileprivate struct YouWinAlert: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.primary, lineWidth: 1)
                     )
-                    .padding(.bottom, 20) // Added padding below the button
+                    .padding(.bottom,  50) // Added padding below the button
             }
         }
-        .frame(height:340)
+        .frame(height:400)
         .background(FrostedBackgroundView())
         .cornerRadius(16)
         .padding()
@@ -130,7 +149,7 @@ fileprivate struct YouWinAlert: View {
 }
 // Custom alert view for YouWin with fireworks
 #Preview ("YouLose") {
-  YouLoseAlert(title: "You Lose", bodyMessage: "This is a custom alert view with sad music.", buttonTitle: "OK", onButtonTapped: {} )
+  YouLoseAlert(title: "You Lose", bodyMessage: "This is a custom alert view\n with sad music.", buttonTitle: "OK", onButtonTapped: {} )
 }
 // Custom alert view for YouLose with sad music
 fileprivate struct YouLoseAlert: View {
@@ -143,13 +162,16 @@ fileprivate struct YouLoseAlert: View {
     
     var body: some View {
         VStack(spacing: 16) {
+          SadnessView()
+          Spacer()
             Text(title)
                 .font(.title)
                 .foregroundColor(.primary)
                 .padding(.top)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
-            
+                .padding()
+          
             Text(bodyMessage)
                 .font(.body)
                 .foregroundColor(.primary)
@@ -175,14 +197,15 @@ fileprivate struct YouLoseAlert: View {
                     .padding(.top)
                     .padding(.bottom, 20) // Added padding
             }
+          Spacer()
         }
+        .frame(height:300)
         .background(FrostedBackgroundView())
         .cornerRadius(16)
         .padding()
         .onAppear {
             //playSadMusic()
         }
-        .frame(height:300)
     }
     
     private func playSadMusic() {
@@ -395,7 +418,7 @@ fileprivate struct AnsweredAlert: View {
                             .stroke(Color.primary, lineWidth: 1)
                     )
                     .padding(.bottom, 20) // Added padding below the button
-            }.padding(.bottom,10)
+            }.padding(.bottom,40)
         }
         .background(FrostedBackgroundView())
         .cornerRadius(16)

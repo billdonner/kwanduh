@@ -77,7 +77,7 @@ struct QandATopBarView: View {
   }
   
   var additionalInfoView: some View {
-    Text("total time:\(Int(gs.totaltime)) score:\(gs.totalScore()) gimmees:\(gs.gimmees)")
+    Text("score:\(gs.totalScore()) gimmees:\(gs.gimmees)")
       .font(.footnote)
       .foregroundColor(.secondary)
   }

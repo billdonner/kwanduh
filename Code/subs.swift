@@ -38,22 +38,22 @@ class OrientationLockedViewController: UIViewController {
     return .portrait
   }
 }
-
 class AppDelegate: NSObject, UIApplicationDelegate {
-  static var orientationLock = UIInterfaceOrientationMask.portrait
-  
-  static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
-    self.orientationLock = orientation
-    UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-    // Notify the system to update the orientation
-    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-      windowScene.keyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+    static var orientationLock = UIInterfaceOrientationMask.portrait
+
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
+        self.orientationLock = orientation
+        
+        // Notify the system to update the orientation
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            // This call requests an update to the geometry of the scene.
+          windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait)) // Use .landscape if needed
+        }
     }
-  }
-  
-  func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-    return AppDelegate.orientationLock
-  }
+
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return AppDelegate.orientationLock
+    }
 }
 
 var isIpad: Bool {

@@ -531,7 +531,7 @@ class GameState : Codable {
     self.onwinpath = Array(repeating: Array(repeating: false, count: size), count: size)
     self.replaced = Array(repeating: Array(repeating: [], count: size), count: size)
     self.gimmees = 0
-    self.gamenumber = 1
+    self.gamenumber = 0
     self.movenumber = 0
     self.woncount = 0
     self.lostcount = 0

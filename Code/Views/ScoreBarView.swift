@@ -6,41 +6,42 @@
 //
 
 import SwiftUI
-private struct zz:View {
+func formattedElapsedTime(_ elapsedTime:TimeInterval)-> String {
+  let minutes = Int(elapsedTime) / 60
+  let seconds = Int(elapsedTime) % 60
+  return String(format: "%02d:%02d", minutes, seconds)
+}
+private struct OutString:View {
   let showchars:String
   let gs: GameState
   var body: some View{
-    //ScrollView(.horizontal, showsIndicators: false)  {
-    VStack(alignment: .leading,spacing: 0){
-      HStack {
-        
-        Text("time:");Text(formatTimeInterval(gs.totaltime))
-          .font(isIpad ? .title:.headline)
-        Text("score:");Text("\(gs.totalScore())")
-          .font(isIpad ? .title:.headline)
-        Spacer()
+    HStack {
+      VStack(alignment: .leading,spacing: 0){
+        HStack {
+          
+          Text(formattedElapsedTime(gs.totaltime))
+            .font(isIpad ? .title:.headline)
+          Text("score:").font(isIpad ? .body:.footnote);Text("\(gs.totalScore())")
+            .font(isIpad ? .title:.headline)
+          HStack{ Text("gimmees:");Text("\(gs.gimmees)")}
+            .font(isIpad ? .body:.footnote)
+          Spacer()
+        }
+ 
+        HStack {
+          Text("won:");Text("\(gs.woncount)")
+          Text("lost:");Text("\(gs.lostcount)")
+          Text("right:");Text("\(gs.rightcount)")
+          Text("wrong:");Text("\(gs.wrongcount)")
+          Spacer()
+        }.opacity(0.8)
+          .font(isIpad ? .title:.footnote)
       }
-      HStack {
-        Text("games:");Text("\(gs.gamenumber)")
-          .font(isIpad ? .title:.headline)
-        Text("gimmees:");Text("\(gs.gimmees)")
-          .font(isIpad ? .title:.headline)
-        Spacer()
-      }
-      HStack {
-        Text("won:");Text("\(gs.woncount)")
-        Text("lost:");Text("\(gs.lostcount)")
-        Text("right:");Text("\(gs.rightcount)")
-        Text("wrong:");Text("\(gs.wrongcount)")
-        Spacer()
-      }.opacity(0.8)
-        .font(isIpad ? .title:.footnote)
       HStack {
         if showchars.count > 1 {Text("last game: ").opacity(0.8) }
         Text(showchars).font(showchars.count<=1 ? .title:.footnote)
       }
-    }.padding(.horizontal)
-    
+    }
   }
   }
 struct ScoreBarView: View {
@@ -49,17 +50,17 @@ struct ScoreBarView: View {
   @State var showWinAlert = false
   @State var showLoseAlert = false
   var body:some View {
-    return  VStack{
+    return
       HStack {
         let showchars = if isWinningPath(in:gs.cellstate ) {"😎"}
         else {
           if !isPossibleWinningPath(in:gs.cellstate) {   "❌"   }
-          else {  ""   }
+          else {  "♺"   }
         }
-        zz(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
+        OutString(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
+          .padding()
       }
 
-        }
       .onChange(of:gs.cellstate) {
         if isWinningPath(in:gs.cellstate) {
           print("--->you have won this game as detected by ScoreBarView")

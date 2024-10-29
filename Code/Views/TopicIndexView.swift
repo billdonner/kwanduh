@@ -42,7 +42,7 @@ struct TopicIndexView: View {
                
                 
                 HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                        size: 40, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
+                                        size: 50, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
               
               .onTapGesture {
                 switch opType {
@@ -61,12 +61,12 @@ struct TopicIndexView: View {
                 
                 .font(.footnote)
                   .lineLimit(3)
-                  .frame(width: 60, height: 50)
+                  .frame(width: 50, height: 60)
                   .foregroundColor(cs == .dark ? .white : .black)
               }
             }
           }
-        .padding(EdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2))
+        .padding()
       }
       .sheet(item: $presentTopic) { s in
         if let freeportColor = gs.topicsinplay[s.value] {
@@ -108,7 +108,7 @@ struct TopicIndexView_Previews: PreviewProvider {
       
 
       return TopicIndexView(gs:GameState.mock,chmgr:ChaMan.mock, selectedTopics:$selectedTopics, topicsInOrder:$topicsInOrder, opType: .showDetails, isTouching: .constant(true))
-            .previewLayout(.sizeThatFits)
+           // .previewLayout(.sizeThatFits)
             .previewDisplayName("Topic Index View")
             .environment(\.colorScheme, .light)  // Test dark mode with .dark if needed
     }

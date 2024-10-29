@@ -371,6 +371,8 @@ struct OB10: View {
 */
 struct OB13: View {
   @Binding var isPresented:Bool
+ @Binding var selectedTabIndex:Int
+  @Environment(\.presentationMode) var presentationMode
   var body: some View {
       
     ZStack {
@@ -403,10 +405,16 @@ struct OB13: View {
                 .padding(.vertical,60)
                 .padding(.bottom,-30)
                 .bold()
-   
-  
-            Text("<-  START                   MORE INFO  -> ")
-                .font(.title3)
+          HStack {
+            Button ("<-  START ")
+            {
+              self.presentationMode.wrappedValue.dismiss()
+            }
+            Button (" MORE INFO  ->")
+            {
+              self.selectedTabIndex = 3
+            }
+          }.font(.title3)
                 .bold()
                 .padding(0)
         }
@@ -414,7 +422,9 @@ struct OB13: View {
     }
   }
 }
-
+#Preview {
+  OB13(isPresented: .constant(false),selectedTabIndex:   .constant(2))
+}
 /*
 ### Panel 14: Last onboarding screen -
 - **Title:**
@@ -508,9 +518,12 @@ struct OB15: View {
 
 struct OnboardingScreen: View {
   @Binding var  isPresented: Bool
+  // State variable to track the selected tab index
+  @State private var selectedTabIndex: Int = 0
+
   var body: some View {
-    TabView {
-       OB13(isPresented: $isPresented)
+    TabView(selection:$selectedTabIndex) {
+      OB13(isPresented: $isPresented,selectedTabIndex:$selectedTabIndex)
           .tag(mkID())
    //     OB01(isPresented: $isPresented)
   //      .tag(mkID())

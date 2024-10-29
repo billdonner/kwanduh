@@ -24,13 +24,13 @@ extension GameScreen /* actions */ {
   func onYouWin () {
     withAnimation{
       endGame(status: .justWon)
-      marqueeMessage = "Congratulations: Press Play to keep going."
+      //marqueeMessage = "Congratulations: Press Play to keep going."
     }
   }
   func onYouLose () {
     withAnimation {
       endGame(status: .justLost)
-      marqueeMessage = "Sorry about that. Press Play to keep going."
+      //marqueeMessage = "Sorry about that. Press Play to keep going."
     }
   }
   func onEndGamePressed () {
@@ -72,6 +72,7 @@ extension GameScreen /* actions */ {
       firstMove = true
     }
     chmgr.checkAllTopicConsistency("on start game")
+    print("--->NEW GAME STARTED")
     return ok
   }
   func endGame(status:StateOfPlay){

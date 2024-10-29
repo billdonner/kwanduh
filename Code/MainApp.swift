@@ -41,8 +41,11 @@ struct mainApp : App {
   
   var body: some Scene {
     WindowGroup {
+      ZStack {
+        Color(.green).ignoresSafeArea()
+  
       ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
-        .padding([.bottom])
+        //.padding([.bottom])
        // .statusBar(hidden: true) // Hide the status bar
         .fullScreenCover(isPresented: $showOnboarding) {
           OnboardingScreen(isPresented: $showOnboarding)
@@ -57,6 +60,7 @@ struct mainApp : App {
           }
         }
     }
+  }
   }
 }
 

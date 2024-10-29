@@ -36,7 +36,7 @@ extension QandAScreen {
       RoundedRectangle(cornerRadius: 10).fill(topicColor.opacity(1.0))
       // Invalid frame dimension (negative or non-finite).?
       
-      VStack(spacing:10) {
+      VStack(spacing:0) {
         buttonRow
           .foregroundColor(foregroundColorFrom( backgroundColor: topicColor ))
           .padding([.top,.horizontal])
