@@ -58,7 +58,7 @@ struct ScoreBarView: View {
           else {  "♺"   }
         }
         OutString(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
-          .padding()
+          .padding(.horizontal).padding(.vertical,4)
       }
 
       .onChange(of:gs.cellstate) {

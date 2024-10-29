@@ -20,7 +20,7 @@ extension PlayData {
   static let topic3 = BasicTopic(name: "Literature", subject: "topic3", pic: "", notes: "notes", subtopics: [])
   static let topic4 = BasicTopic(name: "Fantasy Geography", subject: "Fantasy Geography", pic: "", notes: "notes", subtopics: [])
   static let topic5 = BasicTopic(name: "Cuisine", subject: "Fantasy Geography", pic: "", notes: "notes", subtopics: [])
-  static var tg : TopicGroup =  TopicGroup(description: "Mock Topics",
+  static let tg : TopicGroup =  TopicGroup(description: "Mock Topics",
                                            version:"1.0",
                                            author: "WLD",
                                            date: "\(Date.now)",

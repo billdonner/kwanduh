@@ -41,8 +41,15 @@ struct mainApp : App {
   
   var body: some Scene {
     WindowGroup {
-      ZStack {
-        Color(.green).ignoresSafeArea()
+////ZStack {
+//        GeometryReader { geometry in
+//            Color.green
+//                .edgesIgnoringSafeArea(.all)
+//                .overlay(Text("Width: \(geometry.size.width)\nHeight: \(geometry.size.height)")
+//                            .foregroundColor(.white)
+//                            .font(.largeTitle))
+//        } 
+        
   
       ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
         //.padding([.bottom])
@@ -60,8 +67,7 @@ struct mainApp : App {
           }
         }
     }
-  }
-  }
+  } 
 }
 
 

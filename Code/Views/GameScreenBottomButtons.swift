@@ -27,7 +27,7 @@ struct GameScreenBottomButtons : View {
                                  isTouching = false
                                }  )
                  .padding(.leading, 20)
-                 .padding(10)
+                 .padding(4)
       Spacer()
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
           .font(isIpad ? .headline: .caption2)
@@ -50,3 +50,8 @@ struct GameScreenBottomButtons : View {
     }
 }
  
+#Preview {
+  @Previewable @State var isTouching = true
+  GameScreenBottomButtons (gs:GameState.mock ,chmgr:
+                            ChaMan.mock, isTouching: $isTouching)
+}

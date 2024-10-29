@@ -113,7 +113,7 @@ struct GameScreen: View {
   
   var body: some View {
     NavigationStack {
-      VStack{//}(spacing:0) {
+      VStack (spacing:0) {
         HStack {
           playToggleButton.padding(.horizontal,10)
           Spacer()
@@ -137,7 +137,7 @@ struct GameScreen: View {
 //        .frame(height:20).debugBorder()
         if gs.boardsize > 1 {
           
-          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).debugBorder().frame(height:60)
+          ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).frame(height:50)
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
                        isTouching: $isTouching,

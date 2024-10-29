@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.54.14 new target kwanna for internal use with debug and full size readyforios1
 - version 0.7.54.13 rearrangement, bug fixes
 - version 0.7.54.12 fixed target presentation,new rules of baseball topic,only adjust game number if warranted
 - version 0.7.54.11 refactored singlecellview, 

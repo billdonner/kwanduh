@@ -19,6 +19,10 @@
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
 		88A31A4C2CB2CD10005D0DF3 /* QandaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */; };
 		88A31A4E2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */; };
+		88F9B1C72CD159D0005E9728 /* KwannaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */; };
+		88F9B1C82CD15AAC005E9728 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
+		88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
+		88F9B1CB2CD16004005E9728 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +32,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 884C9D242CCEB51B0059E758;
 			remoteInfo = kwandoo;
+		};
+		885183932CD1562700D686A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 88A318E12CA318C1005D0DF3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 885183822CD1562600D686A6;
+			remoteInfo = kwanna;
 		};
 		88A318FA2CA318C2005D0DF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +63,8 @@
 		884C9D342CCEB51D0059E758 /* kwandooTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwandooTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KwandooConfiguration.swift; sourceTree = "<group>"; };
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
+		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		885183922CD1562700D686A6 /* kwannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A319162CA3194F005D0DF3 /* playdata-mini.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "playdata-mini.json"; sourceTree = "<group>"; };
@@ -61,6 +74,7 @@
 		88A319A32CA3212C005D0DF3 /* qandaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qandaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QandaConfiguration.swift; sourceTree = "<group>"; };
 		88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KwanduhConfiguration.swift; sourceTree = "<group>"; };
+		88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KwannaConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -85,27 +99,28 @@
 			);
 			target = 88A319932CA3212B005D0DF3 /* qanda */;
 		};
-		884C9D562CCEB7230059E758 /* Exceptions for "kwandoo" folder in "kwandoo" target */ = {
+		88F9B18E2CD15932005E9728 /* Exceptions for "kwanna" folder in "kwanna" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				ContentView.swift,
+				kwannaApp.swift,
 			);
-			target = 884C9D242CCEB51B0059E758 /* kwandoo */;
+			target = 885183822CD1562600D686A6 /* kwanna */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		884C9D262CCEB51B0059E758 /* kwandoo */ = {
+		885183842CD1562600D686A6 /* kwanna */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				884C9D562CCEB7230059E758 /* Exceptions for "kwandoo" folder in "kwandoo" target */,
+				88F9B18E2CD15932005E9728 /* Exceptions for "kwanna" folder in "kwanna" target */,
 			);
-			path = kwandoo;
+			path = kwanna;
 			sourceTree = "<group>";
 		};
-		884C9D372CCEB51D0059E758 /* kwandooTests */ = {
+		885183952CD1562700D686A6 /* kwannaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = kwandooTests;
+			path = kwannaTests;
 			sourceTree = "<group>";
 		};
 		88A318EB2CA318C1005D0DF3 /* kwanduh */ = {
@@ -159,6 +174,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		885183802CD1562600D686A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8851838F2CD1562700D686A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		88A318E62CA318C1005D0DF3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -198,6 +227,7 @@
 				88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */,
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
 				884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */,
+				88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
 				88A3198C2CA32074005D0DF3 /* README.md */,
@@ -207,8 +237,8 @@
 				88A318FC2CA318C2005D0DF3 /* kwanduhTests */,
 				88A319952CA3212B005D0DF3 /* qanda */,
 				88A319A62CA3212C005D0DF3 /* qandaTests */,
-				884C9D262CCEB51B0059E758 /* kwandoo */,
-				884C9D372CCEB51D0059E758 /* kwandooTests */,
+				885183842CD1562600D686A6 /* kwanna */,
+				885183952CD1562700D686A6 /* kwannaTests */,
 				88A318EA2CA318C1005D0DF3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -222,6 +252,8 @@
 				88A319A32CA3212C005D0DF3 /* qandaTests.xctest */,
 				884C9D252CCEB51B0059E758 /* kwandoo.app */,
 				884C9D342CCEB51D0059E758 /* kwandooTests.xctest */,
+				885183832CD1562600D686A6 /* kwanna.app */,
+				885183922CD1562700D686A6 /* kwannaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -242,7 +274,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				884C9D262CCEB51B0059E758 /* kwandoo */,
 				88A319F22CA8666A005D0DF3 /* Code */,
 			);
 			name = kwandoo;
@@ -265,14 +296,57 @@
 			dependencies = (
 				884C9D362CCEB51D0059E758 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				884C9D372CCEB51D0059E758 /* kwandooTests */,
-			);
 			name = kwandooTests;
 			packageProductDependencies = (
 			);
 			productName = kwandooTests;
 			productReference = 884C9D342CCEB51D0059E758 /* kwandooTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		885183822CD1562600D686A6 /* kwanna */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 885183A42CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwanna" */;
+			buildPhases = (
+				8851837F2CD1562600D686A6 /* Sources */,
+				885183802CD1562600D686A6 /* Frameworks */,
+				885183812CD1562600D686A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				885183842CD1562600D686A6 /* kwanna */,
+				88A319F22CA8666A005D0DF3 /* Code */,
+			);
+			name = kwanna;
+			packageProductDependencies = (
+			);
+			productName = kwanna;
+			productReference = 885183832CD1562600D686A6 /* kwanna.app */;
+			productType = "com.apple.product-type.application";
+		};
+		885183912CD1562700D686A6 /* kwannaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 885183A72CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwannaTests" */;
+			buildPhases = (
+				8851838E2CD1562700D686A6 /* Sources */,
+				8851838F2CD1562700D686A6 /* Frameworks */,
+				885183902CD1562700D686A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				885183942CD1562700D686A6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				885183952CD1562700D686A6 /* kwannaTests */,
+			);
+			name = kwannaTests;
+			packageProductDependencies = (
+			);
+			productName = kwannaTests;
+			productReference = 885183922CD1562700D686A6 /* kwannaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		88A318E82CA318C1005D0DF3 /* kwanduh */ = {
@@ -384,6 +458,14 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 884C9D242CCEB51B0059E758;
 					};
+					885183822CD1562600D686A6 = {
+						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
+					};
+					885183912CD1562700D686A6 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 885183822CD1562600D686A6;
+					};
 					88A318E82CA318C1005D0DF3 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -420,6 +502,8 @@
 				88A319A22CA3212C005D0DF3 /* qandaTests */,
 				884C9D242CCEB51B0059E758 /* kwandoo */,
 				884C9D332CCEB51D0059E758 /* kwandooTests */,
+				885183822CD1562600D686A6 /* kwanna */,
+				885183912CD1562700D686A6 /* kwannaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -435,6 +519,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		884C9D322CCEB51D0059E758 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		885183812CD1562600D686A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88F9B1CB2CD16004005E9728 /* CommonAssets.xcassets in Resources */,
+				88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		885183902CD1562700D686A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -492,6 +592,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8851837F2CD1562600D686A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88F9B1C82CD15AAC005E9728 /* CloudKitConfiguration.swift in Sources */,
+				88F9B1C72CD159D0005E9728 /* KwannaConfiguration.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8851838E2CD1562700D686A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		88A318E52CA318C1005D0DF3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -531,6 +647,11 @@
 			isa = PBXTargetDependency;
 			target = 884C9D242CCEB51B0059E758 /* kwandoo */;
 			targetProxy = 884C9D352CCEB51D0059E758 /* PBXContainerItemProxy */;
+		};
+		885183942CD1562700D686A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 885183822CD1562600D686A6 /* kwanna */;
+			targetProxy = 885183932CD1562700D686A6 /* PBXContainerItemProxy */;
 		};
 		88A318FB2CA318C2005D0DF3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -642,6 +763,107 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kwandoo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kwandoo";
+			};
+			name = Release;
+		};
+		885183A52CD1562700D686A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.7.55;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanna;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		885183A62CD1562700D686A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.7.55;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanna;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		885183A82CD1562700D686A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwannaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kwanna.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kwanna";
+			};
+			name = Debug;
+		};
+		885183A92CD1562700D686A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwannaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kwanna.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kwanna";
 			};
 			name = Release;
 		};
@@ -981,6 +1203,24 @@
 			buildConfigurations = (
 				884C9D4A2CCEB51D0059E758 /* Debug */,
 				884C9D4B2CCEB51D0059E758 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		885183A42CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwanna" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				885183A52CD1562700D686A6 /* Debug */,
+				885183A62CD1562700D686A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		885183A72CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwannaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				885183A82CD1562700D686A6 /* Debug */,
+				885183A92CD1562700D686A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
