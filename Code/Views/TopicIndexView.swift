@@ -42,7 +42,7 @@ struct TopicIndexView: View {
                
                 
                 HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                        size: 50, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
+                                        size: 45, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
               
               .onTapGesture {
                 switch opType {
@@ -66,7 +66,9 @@ struct TopicIndexView: View {
               }
             }
           }
-        .padding()
+        
+        .padding(.vertical,6)
+        .padding(.horizontal,6)
       }
       .sheet(item: $presentTopic) { s in
         if let freeportColor = gs.topicsinplay[s.value] {
@@ -77,7 +79,7 @@ struct TopicIndexView: View {
           Color.red
         }
       }
-        }.background(cs == .dark ? Color.offBlack : .offWhite)
+        }//.background(cs == .dark ? Color.offBlack : .offWhite)
     }
   }
   

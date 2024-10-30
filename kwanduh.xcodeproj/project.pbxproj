@@ -9,11 +9,7 @@
 /* Begin PBXBuildFile section */
 		884C9D172CC822B60059E758 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
 		884C9D182CC822B60059E758 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
-		884C9D512CCEB5F20059E758 /* KwandooConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */; };
-		884C9D532CCEB67B0059E758 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
-		884C9D542CCEB6A60059E758 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* CommonAssets.xcassets */; };
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
-		884C9D912CCEB8880059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
@@ -26,13 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		884C9D352CCEB51D0059E758 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 88A318E12CA318C1005D0DF3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 884C9D242CCEB51B0059E758;
-			remoteInfo = kwandoo;
-		};
 		885183932CD1562700D686A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 88A318E12CA318C1005D0DF3 /* Project object */;
@@ -59,8 +48,6 @@
 /* Begin PBXFileReference section */
 		884C9CF62CBED6740059E758 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884C9D162CC822B60059E758 /* CommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CommonAssets.xcassets; sourceTree = "<group>"; };
-		884C9D252CCEB51B0059E758 /* kwandoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwandoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		884C9D342CCEB51D0059E758 /* kwandooTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwandooTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KwandooConfiguration.swift; sourceTree = "<group>"; };
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,20 +147,6 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		884C9D222CCEB51B0059E758 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		884C9D312CCEB51D0059E758 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		885183802CD1562600D686A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,8 +223,6 @@
 				88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */,
 				88A319942CA3212B005D0DF3 /* qanda.app */,
 				88A319A32CA3212C005D0DF3 /* qandaTests.xctest */,
-				884C9D252CCEB51B0059E758 /* kwandoo.app */,
-				884C9D342CCEB51D0059E758 /* kwandooTests.xctest */,
 				885183832CD1562600D686A6 /* kwanna.app */,
 				885183922CD1562700D686A6 /* kwannaTests.xctest */,
 			);
@@ -261,48 +232,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		884C9D242CCEB51B0059E758 /* kwandoo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 884C9D462CCEB51D0059E758 /* Build configuration list for PBXNativeTarget "kwandoo" */;
-			buildPhases = (
-				884C9D212CCEB51B0059E758 /* Sources */,
-				884C9D222CCEB51B0059E758 /* Frameworks */,
-				884C9D232CCEB51B0059E758 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				88A319F22CA8666A005D0DF3 /* Code */,
-			);
-			name = kwandoo;
-			packageProductDependencies = (
-			);
-			productName = kwandoo;
-			productReference = 884C9D252CCEB51B0059E758 /* kwandoo.app */;
-			productType = "com.apple.product-type.application";
-		};
-		884C9D332CCEB51D0059E758 /* kwandooTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 884C9D492CCEB51D0059E758 /* Build configuration list for PBXNativeTarget "kwandooTests" */;
-			buildPhases = (
-				884C9D302CCEB51D0059E758 /* Sources */,
-				884C9D312CCEB51D0059E758 /* Frameworks */,
-				884C9D322CCEB51D0059E758 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				884C9D362CCEB51D0059E758 /* PBXTargetDependency */,
-			);
-			name = kwandooTests;
-			packageProductDependencies = (
-			);
-			productName = kwandooTests;
-			productReference = 884C9D342CCEB51D0059E758 /* kwandooTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		885183822CD1562600D686A6 /* kwanna */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 885183A42CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwanna" */;
@@ -451,13 +380,6 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					884C9D242CCEB51B0059E758 = {
-						CreatedOnToolsVersion = 16.0;
-					};
-					884C9D332CCEB51D0059E758 = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = 884C9D242CCEB51B0059E758;
-					};
 					885183822CD1562600D686A6 = {
 						CreatedOnToolsVersion = 16.0;
 						LastSwiftMigration = 1600;
@@ -500,8 +422,6 @@
 				88A318F82CA318C2005D0DF3 /* kwanduhTests */,
 				88A319932CA3212B005D0DF3 /* qanda */,
 				88A319A22CA3212C005D0DF3 /* qandaTests */,
-				884C9D242CCEB51B0059E758 /* kwandoo */,
-				884C9D332CCEB51D0059E758 /* kwandooTests */,
 				885183822CD1562600D686A6 /* kwanna */,
 				885183912CD1562700D686A6 /* kwannaTests */,
 			);
@@ -509,22 +429,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		884C9D232CCEB51B0059E758 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				884C9D542CCEB6A60059E758 /* CommonAssets.xcassets in Resources */,
-				884C9D532CCEB67B0059E758 /* playdata.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		884C9D322CCEB51D0059E758 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		885183812CD1562600D686A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -576,22 +480,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		884C9D212CCEB51B0059E758 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				884C9D512CCEB5F20059E758 /* KwandooConfiguration.swift in Sources */,
-				884C9D912CCEB8880059E758 /* CloudKitConfiguration.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		884C9D302CCEB51D0059E758 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8851837F2CD1562600D686A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -643,11 +531,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		884C9D362CCEB51D0059E758 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 884C9D242CCEB51B0059E758 /* kwandoo */;
-			targetProxy = 884C9D352CCEB51D0059E758 /* PBXContainerItemProxy */;
-		};
 		885183942CD1562700D686A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 885183822CD1562600D686A6 /* kwanna */;
@@ -666,106 +549,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		884C9D472CCEB51D0059E758 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = kwandoo/kwandoo.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_ASSET_PATHS = "\"kwandoo/Preview Content\"";
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = kwandoo/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 0.7.55;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwandoo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		884C9D482CCEB51D0059E758 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = kwandoo/kwandoo.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_ASSET_PATHS = "\"kwandoo/Preview Content\"";
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = kwandoo/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 0.7.55;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwandoo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		884C9D4A2CCEB51D0059E758 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwandooTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kwandoo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kwandoo";
-			};
-			name = Debug;
-		};
-		884C9D4B2CCEB51D0059E758 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NEAY582ME4;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwandooTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kwandoo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kwandoo";
-			};
-			name = Release;
-		};
 		885183A52CD1562700D686A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -774,7 +557,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -806,7 +589,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -994,7 +777,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -1025,7 +808,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -1094,7 +877,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -1125,7 +908,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -1189,24 +972,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		884C9D462CCEB51D0059E758 /* Build configuration list for PBXNativeTarget "kwandoo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				884C9D472CCEB51D0059E758 /* Debug */,
-				884C9D482CCEB51D0059E758 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		884C9D492CCEB51D0059E758 /* Build configuration list for PBXNativeTarget "kwandooTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				884C9D4A2CCEB51D0059E758 /* Debug */,
-				884C9D4B2CCEB51D0059E758 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		885183A42CD1562700D686A6 /* Build configuration list for PBXNativeTarget "kwanna" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

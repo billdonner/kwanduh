@@ -243,7 +243,8 @@ struct SingleCellView: View {
         bottomLayer(challenge: challenge)
         if isLastMove { lastMoveIndicator() }
         if showTargetFor(row:row,col:col) { targetIndicator(challenge: challenge) }
-        if isTouching { touchingIndicators() }
+        if isTouching || gs.gamestate != .playingNow
+            { touchingIndicators() }
       }
     }
     .onTapGesture { handleTap() }

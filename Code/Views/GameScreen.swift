@@ -76,6 +76,9 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
+        .font(.headline)
+        .padding(.leading, 20)
+        .padding(.trailing,10)
        // .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
@@ -101,11 +104,11 @@ struct GameScreen: View {
     }
   }
   
-  var bodyMsg: String {
+  let bodyMsg: String =
    """
   good job, keep going ...
 """
-  }
+   
   
   func  onSingleTap (_ row:Int, _ col:Int ) {
     chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
@@ -115,26 +118,13 @@ struct GameScreen: View {
     NavigationStack {
       VStack (spacing:0) {
         HStack {
-          playToggleButton.padding(.horizontal,10)
+          playToggleButton.padding(.leading,15)
           Spacer()
           Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
           Spacer()
-          actionMenu.padding(.horizontal,10)
+          actionMenu.padding(.trailing,10)
         }
-        //fixed, immovable height
-//        VStack {
-//          if gs.gamestate ==  StateOfPlay.playingNow {
-//            MarqueeMessageView(
-//              message: $marqueeMessage,
-//              fadeInDuration: 1.0,
-//              fadeOutDuration: 3.0,
-//              displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
-//            ).opacity(marqueeMessage.isEmpty ? 0:1)
-//          } else {
-//            Color.clear
-//          }
-//        }
-//        .frame(height:20).debugBorder()
+
         if gs.boardsize > 1 {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).frame(height:50)
@@ -187,7 +177,7 @@ struct GameScreen: View {
   }
   
   var playToggleButton: some View {
-    Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End" : "Play"  ,  action: {
+    Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End " : "Play"  ,  action: {
       isPlayingButtonState.toggle()
       if gs.gamestate !=  StateOfPlay.playingNow {
         withAnimation {
@@ -205,7 +195,7 @@ struct GameScreen: View {
         onEndGamePressed()  //should estore consistency
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
-    })//.font(.custom(mainFont,size:mainFontSize*0.9))
+    }).font(.headline)//.font(.custom(mainFont,size:mainFontSize*0.9))
     .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
       Button("OK", role: .cancel) {
         withAnimation {
@@ -245,3 +235,18 @@ struct GameScreen: View {
     size:.constant(3)
   ).preferredColorScheme( .dark)
 }
+
+//fixed, immovable height
+//        VStack {
+//          if gs.gamestate ==  StateOfPlay.playingNow {
+//            MarqueeMessageView(
+//              message: $marqueeMessage,
+//              fadeInDuration: 1.0,
+//              fadeOutDuration: 3.0,
+//              displayDuration: 5.0 // Message stays visible for 5 seconds before fading out
+//            ).opacity(marqueeMessage.isEmpty ? 0:1)
+//          } else {
+//            Color.clear
+//          }
+//        }
+//        .frame(height:20).debugBorder()

@@ -249,33 +249,7 @@ struct OB06: View {
     }
   }
 }
-/*
-### Panel 7: Difficulty Levels & Game Variants
-- **Title:** Difficulty & Variants
-- **Content:**
- Original: Briefly describe the difficulty settings and game variants.
- V2: Explains that path doesn't have to be straight
-  - "Choose your difficulty level: easy, normal, or hard. Experiment with different game variants like 'All Questions Face Up' or 'All Questions Face Down' for extra challenges. Good luck!"
-*/
-//struct OB07: View {
-//    @Binding var isPresented:Bool
-//    var body: some View {
-//      ZStack {
-//        WrappedDismissButton(isPresented: $isPresented)
-//        VStack {
-//          Image("Onboarding7")
-//            .resizable()
-//            .scaledToFit()
-//            .padding()
-//          Text("Difficulty & Variants")
-//            .font(.title)
-//            .padding()
-//          Text("Choose your difficulty level: easy, normal, or hard. Experiment with different game variants like 'All Questions Face Up' or 'All Questions Face Down' for extra challenges. Good luck!")
-//            .padding()
-//        }
-//      }
-//    }
-//  }
+
 
 struct OB08: View {
   @Binding var isPresented:Bool
@@ -294,7 +268,6 @@ struct OB08: View {
           .padding(40)
           .padding(.horizontal,10)
           
- 
       }
     }
   }
@@ -371,7 +344,6 @@ struct OB10: View {
 */
 struct OB13: View {
   @Binding var isPresented:Bool
- @Binding var selectedTabIndex:Int
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
       
@@ -405,7 +377,7 @@ struct OB13: View {
                 .padding(.vertical,60)
                 .padding(.bottom,-30)
                 .bold()
-          HStack {
+        /*  HStack {
             Button ("<-  START ")
             {
               self.presentationMode.wrappedValue.dismiss()
@@ -416,14 +388,14 @@ struct OB13: View {
             }
           }.font(.title3)
                 .bold()
-                .padding(0)
+                .padding(0) */
         }
         
     }
   }
 }
 #Preview {
-  OB13(isPresented: .constant(false),selectedTabIndex:   .constant(2))
+  OB13(isPresented: .constant(false))
 }
 /*
 ### Panel 14: Last onboarding screen -
@@ -522,32 +494,61 @@ struct OnboardingScreen: View {
   @State private var selectedTabIndex: Int = 0
 
   var body: some View {
+    VStack (spacing:0){
     TabView(selection:$selectedTabIndex) {
-      OB13(isPresented: $isPresented,selectedTabIndex:$selectedTabIndex)
-          .tag(mkID())
-   //     OB01(isPresented: $isPresented)
-  //      .tag(mkID())
+      OB13(isPresented: $isPresented)
+        .tag(mkID())
       OB02(isPresented: $isPresented)
         .tag(mkID())
       OB04(isPresented: $isPresented)
         .tag(mkID())
-        OB06(isPresented: $isPresented)
-          .tag(mkID())
-        OB08(isPresented: $isPresented)
+      OB06(isPresented: $isPresented)
         .tag(mkID())
-    OB09(isPresented: $isPresented)
-          .tag(mkID())
-        OB15(isPresented: $isPresented)
-              .tag(mkID())
+      OB08(isPresented: $isPresented)
+        .tag(mkID())
+      OB09(isPresented: $isPresented)
+        .tag(mkID())
+      OB15(isPresented: $isPresented)
+        .tag(mkID())
       OB10(isPresented: $isPresented)
         .tag(mkID())
-     OB14(isPresented: $isPresented)
+      OB14(isPresented: $isPresented)
         .tag(mkID())
     }
     .background(Color.clear.opacity(1))
-    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+    Divider()
   }
+  }
+  
 }
 #Preview {
   OnboardingScreen(isPresented: .constant(true))
 }
+/*
+### Panel 7: Difficulty Levels & Game Variants
+- **Title:** Difficulty & Variants
+- **Content:**
+ Original: Briefly describe the difficulty settings and game variants.
+ V2: Explains that path doesn't have to be straight
+  - "Choose your difficulty level: easy, normal, or hard. Experiment with different game variants like 'All Questions Face Up' or 'All Questions Face Down' for extra challenges. Good luck!"
+*/
+//struct OB07: View {
+//    @Binding var isPresented:Bool
+//    var body: some View {
+//      ZStack {
+//        WrappedDismissButton(isPresented: $isPresented)
+//        VStack {
+//          Image("Onboarding7")
+//            .resizable()
+//            .scaledToFit()
+//            .padding()
+//          Text("Difficulty & Variants")
+//            .font(.title)
+//            .padding()
+//          Text("Choose your difficulty level: easy, normal, or hard. Experiment with different game variants like 'All Questions Face Up' or 'All Questions Face Down' for extra challenges. Good luck!")
+//            .padding()
+//        }
+//      }
+//    }
+//  }

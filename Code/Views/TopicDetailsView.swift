@@ -29,6 +29,7 @@ struct TopicDetailsView: View {
 
   var body: some View {
     let tinfo = chmgr.tinfo[topic]
+    let freecount = tinfo?.freecount ?? 0
     
     if let tinfo = tinfo {
       let (chas, stas) = tinfo.getChallengesAndStatuses(chmgr: chmgr)
@@ -45,6 +46,8 @@ struct TopicDetailsView: View {
             // .shadow(color: .black, radius: 1, x: 0, y: 1)
               .padding(.top, 50)
             Text("\(chas.count) challenges in this topic")
+              .font(.footnote)
+            Text("\(freecount) free")
               .font(.footnote)
             //  .shadow(color: .black, radius: 1, x: 0, y: 1)
           }
@@ -90,7 +93,7 @@ struct TopicDetailsView: View {
           }
         }
       }
-      .dismissButton(backgroundColor:gs.topicsinplay[ topic]?.toColor() ?? .red) // put a dismiss button up there
+      .dismissButton(backgroundColor:.red)//gs.topicsinplay[ topic]?.toColor() ?? .red) // put a dismiss button up there
  
     } else {
       Color.red.dismissButton(backgroundColor: .white) // put a dismiss button up there
