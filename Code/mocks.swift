@@ -11,7 +11,6 @@ import Foundation
 extension AnsweredInfo {
   static let  mock =
     AnsweredInfo(id: "123", answer: "dd", outcome: .abandoned, timestamp: Date(), timetoanswer:1, gamenumber: 0, movenumber: 0, row: 0, col: 0)
-  
 }
 extension PlayData {
 
@@ -207,12 +206,7 @@ extension Challenge {
   )
   
 }
-/// Returns a specified number of random topics from a provided list.
-func getRandomTopics(_ count: Int, from topics: [String]) -> [String] {
-    let t =  Array(topics.shuffled().prefix(count))
-  TSLog("Choosing \(count) random topics : \(t)")
-  return t
-}
+
 
 /* ,
  

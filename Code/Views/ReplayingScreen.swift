@@ -59,13 +59,13 @@ struct ReplayingScreen : View {
         DismissButtonView()
         
         VStack {
-          VStack (spacing:30){
+          VStack (spacing:10){
             ZStack {
               RoundedRectangle(cornerRadius: 10).foregroundColor(topicColor)
               
               Text(ch.question)
                 .font(isIpad ? .largeTitle:.title3)
-                .padding()//([.top,.horizontal])
+                //.padding()//([.top,.horizontal])
                 .lineLimit(8)
                 .foregroundColor(foregroundColorFrom( backgroundColor: topicColor))
             }
@@ -75,7 +75,9 @@ struct ReplayingScreen : View {
                    colors:colorsForAnswers(ch.answers,correct: ch.correct,chosen: ansinfo.answer),
                    geometry: geometry,
                    colorScheme: colorScheme )
-            
+        
+              Text((ch.correct == ansinfo.answer) ? "You got it!" : "Missed this one!").font(.largeTitle)
+        
             ScrollView {
               VStack (alignment: .leading){
                 //                HStack{Text ("The correct answer is:").font(.caption);Text(" \(ch.correct)").font(.headline).lineLimit(2);Spacer()}

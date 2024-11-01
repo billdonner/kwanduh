@@ -37,6 +37,7 @@ struct SingleCellView: View {
   @Binding var firstMove: Bool
   @Binding var isTouching: Bool
   @Binding var marqueeMessage: String
+  @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.colorScheme) var colorScheme
   @State var alreadyPlayed: Sdi?
   
@@ -146,9 +147,10 @@ struct SingleCellView: View {
       // show a checkmark if on winning path
       if gs.onwinpath[row][col] {
         Image(systemName: "checkmark")
-          .font(.largeTitle)
-          .frame(width: cellSize, height: cellSize)
-          .foregroundColor(.green)
+            .resizable() // Makes the symbol resizable
+            .aspectRatio(contentMode: .fit) // Maintains the aspect ratio
+            .frame(width: cellSize / 2, height: cellSize / 2) // Half the cell size
+            .foregroundColor(.green)
       }
     }
   }
@@ -244,7 +246,7 @@ struct SingleCellView: View {
         if isLastMove { lastMoveIndicator() }
         if showTargetFor(row:row,col:col) { targetIndicator(challenge: challenge) }
         if isTouching || gs.gamestate != .playingNow
-            { touchingIndicators() }
+          { touchingIndicators() }
       }
     }
     .onTapGesture { handleTap() }
@@ -274,7 +276,8 @@ struct SingleCellView: View {
     onSingleTap: { _, _ in },
     firstMove: .constant(false),
     isTouching: .constant(false),
-    marqueeMessage: .constant("marquee message")
+    marqueeMessage: .constant("marquee message"),
+    useOtherDiagonalAlert: .constant(false)
   )
   
 }
@@ -293,7 +296,8 @@ struct SingleCellView: View {
     onSingleTap: { _, _ in  },
     firstMove: .constant(true),
     isTouching: .constant(true),
-    marqueeMessage: .constant("marquee message")
+    marqueeMessage: .constant("marquee message"),
+    useOtherDiagonalAlert: .constant(true)
   )
   
 }

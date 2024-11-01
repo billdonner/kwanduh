@@ -2,11 +2,14 @@ import SwiftUI
 
 
 struct QandAScreen: View {
-  let row: Int
-  let col: Int 
-  @Binding var isPresentingDetailView: Bool
+  
   @Bindable  var chmgr:ChaMan //
-  @Bindable var gs: GameState  //
+  @Bindable var gs: GameState
+  let row: Int
+  let col: Int
+  
+  @Binding var isPresentingDetailView: Bool
+  @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
   
   @Environment(\.colorScheme) var colorScheme
@@ -83,6 +86,10 @@ struct QandAScreen: View {
               print("exit from positive sentiment")
             }
         }
+        .onChange(of:questionedWasAnswered)
+        {
+          useOtherDiagonalAlert = gs.shouldUseOtherDiagonal()
+        }
         .gimmeeAlert(isPresented: $gimmeeAlert,
                      title: "I will replace this Question \nwith another from the same topic, \nif possible",
                      message: "I will charge you one gimmee",
@@ -100,10 +107,14 @@ struct QandAScreen: View {
 
 
 #Preview {
-  QandAScreen(row: 0, col: 0,   isPresentingDetailView: .constant(true), chmgr: ChaMan.mock, gs: GameState.mock)
+  QandAScreen(chmgr: ChaMan.mock, gs: GameState.mock,
+              row: 0, col: 0,
+              isPresentingDetailView: .constant(true), useOtherDiagonalAlert:.constant(true))
   
 }
 #Preview {
-  QandAScreen(row: 0, col: 0,  isPresentingDetailView: .constant(true), chmgr: ChaMan.mock, gs: GameState.mock )
+  QandAScreen(chmgr: ChaMan.mock, gs: GameState.mock,
+              row: 0, col: 0,
+              isPresentingDetailView: .constant(true),useOtherDiagonalAlert:.constant(true)  )
   
 }

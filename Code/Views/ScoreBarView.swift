@@ -49,39 +49,41 @@ struct ScoreBarView: View {
   @Binding var marqueeMessage : String
   @State var showWinAlert = false
   @State var showLoseAlert = false
+  @State var alreadyShownAlert = false
   var body:some View {
-    return
-      HStack {
-        let showchars = if isWinningPath(in:gs.cellstate ) {"😎"}
-        else {
-          if !isPossibleWinningPath(in:gs.cellstate) {   "❌"   }
-          else {  "♺"   }
-        }
-        OutString(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
-          .padding(.horizontal).padding(.vertical,4)
+ 
+    HStack {
+      let showchars = if isWinningPath(in:gs.cellstate ) {"😎"}
+      else {
+        if !isPossibleWinningPath(in:gs.cellstate) {   "❌"   }
+        else {  "♺"   }
       }
-
-      .onChange(of:gs.cellstate) {
-        if isWinningPath(in:gs.cellstate) {
-          print("--->you have won this game as detected by ScoreBarView")
-          showWinAlert = true
-          gs.woncount += 1
+      OutString(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
+        .padding(.horizontal).padding(.vertical,4)
+    }
+    
+    .onChange(of:gs.cellstate) {
+      
+      if isWinningPath(in:gs.cellstate) {
+        print("--->you have won this game as detected by ScoreBarView")
+        showWinAlert = true
+        gs.woncount += 1
+        gs.saveGameState()
+        
+      } else {
+        if !isPossibleWinningPath(in:gs.cellstate) {
+          print("--->you cant possibly win this game s detected by ScoreBarView")
+          showLoseAlert = true
+          gs.lostcount += 1
           gs.saveGameState()
-          
-        } else {
-          if !isPossibleWinningPath(in:gs.cellstate) {
-            print("--->you cant possibly win this game s detected by ScoreBarView")
-            showLoseAlert = true
-            gs.lostcount += 1
-            gs.saveGameState()
-          }
         }
       }
     }
   }
+}
 
 #Preview {
   @Previewable
   @State var marqueeMessage = "blah blah"
-  ScoreBarView(gs: GameState.mock, marqueeMessage: $marqueeMessage)
+  ScoreBarView(gs: GameState.mock, marqueeMessage: $marqueeMessage )
 }

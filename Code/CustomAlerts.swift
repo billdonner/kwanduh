@@ -295,11 +295,13 @@ fileprivate struct  GimmeeAlert: View {
     @State private var rotationAngle: Double = 0
     
     var body: some View {
-        VStack(spacing: 16) {
+    
+        VStack(spacing: 40) {
+          Text("")
             Text(title)
                 .font(.headline)
                 .foregroundColor(.primary)
-                .padding(.top)
+                .padding( .top )
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
             
@@ -329,7 +331,7 @@ fileprivate struct  GimmeeAlert: View {
                   RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.primary, lineWidth: 1)
                 )
-                .padding(.bottom, 20) // Added padding below the button
+                .padding(.bottom, 40) // Added padding below the button
             }
             
             Button(action: {
@@ -348,14 +350,15 @@ fileprivate struct  GimmeeAlert: View {
                   RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.primary, lineWidth: 1)
                 )
-                .padding(.bottom, 20) // Added padding below the button
+                .padding(.bottom, 40) // Added padding below the button
             }
           }
+          .padding()
         }
       
       
-        .background(.gray)
-        //.background(FrostedBackgroundView())
+        //.background(.secondarySystemFill)
+       .background(FrostedBackgroundView())
         .cornerRadius(16)
         .rotationEffect(.degrees(rotationAngle))
         .transition(.asymmetric(insertion: .scale.combined(with: .opacity), removal: .rotateAndFade))
@@ -366,6 +369,9 @@ fileprivate struct  GimmeeAlert: View {
         }
         .padding()
     }
+}
+#Preview("Gimmee") {
+  GimmeeAlert(title: "Button1 Title", message: "Button2 Title", button1Title: "This is a custom alert", button2Title: "OK", onButton1Tapped: {} , onButton2Tapped: {} ,animation: .spring)
 }
 #Preview("Answered") {
  AnsweredAlert(title: "Thanks for Answering this question", message: "This is a custom alert view with spring animation.", buttonTitle: "OK", onButtonTapped: {} )

@@ -76,7 +76,6 @@ extension GameScreen /* actions */ {
     return ok
   }
   func endGame(status:StateOfPlay){
-    
     isTouching = false // turn off overlay
     chmgr.checkAllTopicConsistency("end game")
     gs.teardownAfterGame(state: status, chmgr: chmgr)

@@ -267,7 +267,16 @@ class GameState : Codable {
     }
     return out
   }
-  
+  func shouldUseOtherDiagonal() -> Bool {
+    // if any corner is red, raise this flag
+    if self.cellstate[0][0] == .playedIncorrectly ||
+        self.cellstate[0][self.boardsize-1] == .playedIncorrectly ||
+        self.cellstate[self.boardsize-1][0] == .playedIncorrectly ||
+        self.cellstate[self.boardsize-1][self.boardsize-1] == .playedIncorrectly {
+      return true
+    }
+    return false 
+  }
   func isCornerCell(row:Int,col:Int ) -> Bool {
     return row==0&&col==0  ||
     row==0 && col == self.boardsize-1 ||

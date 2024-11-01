@@ -32,19 +32,21 @@ struct GameScreen: View {
   @State var chal: IdentifiablePoint? = nil
   @State var isPresentingDetailView = false
   @State var isPlayingButtonState = false
-  
+  @State var useOtherDiagonalAlert : Bool = false
+  @State var shoulduseOtherDiagonalAlert : Bool = false
+  @State var diagAlertCount: Int = 0
   var actionMenu: some View {
     Menu {
       Button(action: {
         showSettings.toggle()
       }) {
-        Text("Board Size")
+        Text("Select Board Size")
       }.disabled(gs.gamestate == .playingNow)
       
       Button(action: {
         showTopicSelector.toggle()
       }) {
-        Text("Topics")
+        Text("Select Topics")
       }.disabled(gs.gamestate == .playingNow)
       
       Button(action: {
@@ -55,7 +57,7 @@ struct GameScreen: View {
       Button(action: {
         showScheme.toggle()
       }) {
-        Text("Color Scheme")
+        Text("Select Color Scheme")
       }
       Button(action: {
         showSendComment.toggle()
@@ -79,7 +81,7 @@ struct GameScreen: View {
         .font(.headline)
         .padding(.leading, 20)
         .padding(.trailing,10)
-       // .font(.custom(mainFont,size:mainFontSize*0.9))
+      // .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
       BoardSizeScreen(chmgr: chmgr, gs: gs, showSettings: $showSettings)
@@ -108,7 +110,7 @@ struct GameScreen: View {
    """
   good job, keep going ...
 """
-   
+  
   
   func  onSingleTap (_ row:Int, _ col:Int ) {
     chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
@@ -124,14 +126,16 @@ struct GameScreen: View {
           Spacer()
           actionMenu.padding(.trailing,10)
         }
-
+        
         if gs.boardsize > 1 {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).frame(height:50)
+          
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
                        isTouching: $isTouching,
                        marqueeMessage: $marqueeMessage,
+                      useOtherDiagonalAlert: $useOtherDiagonalAlert,
                        onSingleTap: onSingleTap)
           
           
@@ -150,10 +154,24 @@ struct GameScreen: View {
             .onDisappear {
               print("Yikes the GameScreen is Disappearing!")
             }
+            .onChange(of:useOtherDiagonalAlert) {
+              if useOtherDiagonalAlert {
+                diagAlertCount += 1
+                shoulduseOtherDiagonalAlert =  diagAlertCount == 1
+                  useOtherDiagonalAlert = false
+                }
+              }
+            .alert("You should try the other diagonal",isPresented:$shoulduseOtherDiagonalAlert){
+              Button("OK", role: .cancel) {
+              }
+            }
           
             .fullScreenCover(item: $chal) { cha in
-              QandAScreen(row: cha.row, col: cha.col,
-                          isPresentingDetailView: $isPresentingDetailView, chmgr: chmgr, gs: gs)
+              QandAScreen(
+                chmgr: chmgr, gs: gs,
+                row: cha.row, col: cha.col,
+                          isPresentingDetailView: $isPresentingDetailView,
+                          useOtherDiagonalAlert: $useOtherDiagonalAlert)
             }
         }
         else {
@@ -196,13 +214,13 @@ struct GameScreen: View {
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
     }).font(.headline)//.font(.custom(mainFont,size:mainFontSize*0.9))
-    .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
-      Button("OK", role: .cancel) {
-        withAnimation {
-          onCantStartNewGameAction()
+      .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
+        Button("OK", role: .cancel) {
+          withAnimation {
+            onCantStartNewGameAction()
+          }
         }
       }
-    }
   }
   
   var loadingVeew: some View {

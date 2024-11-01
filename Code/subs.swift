@@ -407,3 +407,10 @@ func foregroundColorFrom( red: CGFloat, green: CGFloat, blue: CGFloat) -> Color 
     // Return either white or black based on luminance
     return luminance > 0.5 ? Color.black : Color.white
 }
+
+/// Returns a specified number of random topics from a provided list.
+func getRandomTopics(_ count: Int, from topics: [String]) -> [String] {
+    let t =  Array(topics.shuffled().prefix(count))
+  TSLog("Choosing \(count) random topics : \(t)")
+  return t
+}
