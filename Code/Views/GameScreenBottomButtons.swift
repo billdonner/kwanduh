@@ -1,4 +1,4 @@
-//
+////
 //  ContentViewBottomButtons.swift
 //  qandao
 //
@@ -17,7 +17,7 @@ struct GameScreenBottomButtons : View {
     HStack {
         Image("GameBoard2")
         .resizable()
-          .frame(width: isIpad ? 65 : 45 , height: isIpad ? 65 : 45)
+          .frame(width: isIpad ? 55 : 35 , height: isIpad ? 55 : 35)
                  .padding(.leading, 8)
                  .gesture( DragGesture(minimumDistance: gs.gamestate == .playingNow ? 0 : 0)//.infinity)
                                .onChanged { _ in
@@ -38,7 +38,7 @@ struct GameScreenBottomButtons : View {
       }) {
         Image(systemName:"questionmark")
           .font(.title)
-          .frame(width: isIpad ? 70 : 50, height: isIpad ? 70 : 50)
+          .frame(width: isIpad ? 60 : 40, height: isIpad ? 60 : 40)
                  .padding(.trailing, 15)
       }
     }
@@ -46,7 +46,7 @@ struct GameScreenBottomButtons : View {
       .fullScreenCover(isPresented: $showingHelp ){
         HowToPlayScreen (chmgr: chmgr, isPresented: $showingHelp)
          
-      } 
+      }
     }
 }
  

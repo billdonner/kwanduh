@@ -73,10 +73,10 @@ struct OB02: View {
       WrappedDismissButton(isPresented: $isPresented)
       VStack {
  
-  //        Image("GBTitle")
-  //     .resizable()
-  //     .scaledToFit()
-          Text("How to Play QANDAo!")
+ //      Image("GBTitle")
+ //      .resizable()
+//     .scaledToFit()
+          Text("How to Play kwanduh")
               .font(.title)
               .bold()
           .padding(.vertical,-55)
