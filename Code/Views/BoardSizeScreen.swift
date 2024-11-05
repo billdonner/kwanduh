@@ -62,7 +62,7 @@ struct BoardSizeScreen: View {
         cpv = gs.previewColorMatrix(size: l_boardsize, scheme: gs.currentscheme)
         TSLog("SettingsScreen onAppear")
       }
-      .navigationBarTitle("Board Size", displayMode: .inline)
+      .navigationBarTitle("Choose Board Size")
       .navigationBarItems(
         leading: Button("Cancel") {
           dismiss()

@@ -57,7 +57,7 @@ struct FreeportSettingsScreen: View {
   let chmgr: ChaMan
   let lrdb: LeaderboardService
   @Binding var showSettings:Bool
-  
+  @AppStorage("OnboardingDone") private var onboardingdone = false
   @AppStorage("elementWidth") var elementWidth = 100.0
   @AppStorage("shuffleUp") private var shuffleUp = true
   @AppStorage("fontsize") private var fontsize = 24.0
@@ -90,7 +90,7 @@ struct FreeportSettingsScreen: View {
             Text("cloudKitSentimentsContainerID: \(cloudKitSentimentsContainerID)")
           }
           Section(header: Text("Not For Civilians")) {
-            Button(action:{ showOnBoarding.toggle() }) {
+            Button(action:{ onboardingdone = false }) {
               Text("Replay OnBoarding")
             }
             

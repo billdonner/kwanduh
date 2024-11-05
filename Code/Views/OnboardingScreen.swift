@@ -429,13 +429,9 @@ struct OB14: View {
             Text("ENJOY")
                 .font(.title)
                 .bold()
-                .padding(.horizontal,0)
                .padding(.vertical,-60)
                .padding(.bottom,100)
-            Text("   PLAY ->")
-                .padding(.vertical,-70)
-                .font(.title)
-                .bold()
+
                 
                
         }

@@ -104,7 +104,9 @@ struct TopicSelectorScreen: View {
           }
       )) {
           if showMinimumSelectionAlert {
-              return Alert(title: Text("Selection Required"), message: Text("Please select at least \(minTopicCount) topics."), dismissButton: .default(Text("OK")))
+            let tpc = minTopicCount == 1 ? "topic" : "topics"
+            let msg = "Please select at least \(minTopicCount) \(tpc)."
+            return Alert(title: Text(msg), message: nil, dismissButton: .default(Text("OK")))
           } else if showMaximumSelectionAlert {
               return Alert(title: Text("Maximum Reached"), message: Text("You cannot select more than \(maxTopicCount) topics."), dismissButton: .default(Text("OK")))
           } else if showNoGimmeeAlert {

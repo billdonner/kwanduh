@@ -51,7 +51,7 @@ struct SchemePickerView: View {
                 }
               }
             }
-                .navigationBarTitle("Scheme Picker")
+                .navigationBarTitle("Choose Color Scheme")
             }
         }.dismissButton(backgroundColor: .red)
     }

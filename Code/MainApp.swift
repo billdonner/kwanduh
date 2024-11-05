@@ -41,33 +41,30 @@ struct mainApp : App {
   
   var body: some Scene {
     WindowGroup {
-////ZStack {
-//        GeometryReader { geometry in
-//            Color.green
-//                .edgesIgnoringSafeArea(.all)
-//                .overlay(Text("Width: \(geometry.size.width)\nHeight: \(geometry.size.height)")
-//                            .foregroundColor(.white)
-//                            .font(.largeTitle))
-//        } 
+      if !onboardingdone {
+        InnerOnboardingView(isOnboardingComplete: $onboardingdone)
+      }
+      else {
         
-  
-      ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
+        
+        ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
         //.padding([.bottom])
-       // .statusBar(hidden: true) // Hide the status bar
-        .fullScreenCover(isPresented: $showOnboarding) {
-          OnboardingScreen(isPresented: $showOnboarding)
-        }
-        .onAppear {
-          TSLog("Assertions are \(shouldAssert ? "ON":"OFF")")
-          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
-          AppDelegate.lockOrientation(.portrait)// ensure applied
-          if (onboardingdone == false ) { // if not yet done then trigger it
-            showOnboarding = true
-            onboardingdone = true// flag it here while running straight swift
+        // .statusBar(hidden: true) // Hide the status bar
+//          .fullScreenCover(isPresented: $showOnboarding) {
+//            OnboardingScreen(isPresented: $showOnboarding)
+//          }
+          .onAppear {
+            TSLog("Assertions are \(shouldAssert ? "ON":"OFF")")
+            conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+            AppDelegate.lockOrientation(.portrait)// ensure applied
+//            if (onboardingdone == false ) { // if not yet done then trigger it
+//              showOnboarding = true
+//              onboardingdone = true// flag it here while running straight swift
+//            }
           }
-        }
+      }
     }
-  } 
+  }
 }
 
 

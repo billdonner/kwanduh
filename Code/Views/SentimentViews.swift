@@ -110,7 +110,7 @@ struct PositiveSentimentView: View {
   @State private var selectedFeeling: String = "Insightful"
   @State private var showAlert = false
   
-  let positiveFeelings = ["Vague", "Unclear", "Illogical", "Stimulating", "Insightful", "Brilliant","Other"]
+  let positiveFeelings = ["Vague", "Unclear", "Illogical", "Stimulating", "Insightful", "Brilliant","Fun Fact","Interesting Fact","Other"]
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
   
   var body: some View {

@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.54.17 #78,#51 quick push before pickleball
 - version 0.7.54.16 integrate carol's changes, more bugs still to fix
 - version 0.7.54.15 reveal winning path without having to touch at the end of the game
 - version 0.7.54.14 new target kwanna for internal use with debug and full size readyforios1

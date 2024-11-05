@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		884C9D172CC822B60059E758 /* OldCommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* OldCommonAssets.xcassets */; };
-		884C9D182CC822B60059E758 /* OldCommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* OldCommonAssets.xcassets */; };
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		885C02F92CD64CA10040DBB6 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 885C02F82CD64CA10040DBB6 /* CommonAssets.xcassets */; };
@@ -21,7 +19,6 @@
 		88F9B1C72CD159D0005E9728 /* KwannaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */; };
 		88F9B1C82CD15AAC005E9728 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
-		88F9B1CB2CD16004005E9728 /* OldCommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C9D162CC822B60059E758 /* OldCommonAssets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -439,7 +436,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88F9B1CB2CD16004005E9728 /* OldCommonAssets.xcassets in Resources */,
 				885C02F92CD64CA10040DBB6 /* CommonAssets.xcassets in Resources */,
 				88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */,
 			);
@@ -458,7 +454,6 @@
 			files = (
 				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
 				885C02FA2CD64CA10040DBB6 /* CommonAssets.xcassets in Resources */,
-				884C9D182CC822B60059E758 /* OldCommonAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,7 +470,6 @@
 			files = (
 				88A319F02CA325D8005D0DF3 /* playdata.json in Resources */,
 				885C02FB2CD64CA10040DBB6 /* CommonAssets.xcassets in Resources */,
-				884C9D172CC822B60059E758 /* OldCommonAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +560,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -599,7 +593,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -788,7 +782,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -820,7 +814,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -890,7 +884,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -921,7 +915,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;

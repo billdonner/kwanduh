@@ -32,9 +32,11 @@ struct GameScreen: View {
   @State var chal: IdentifiablePoint? = nil
   @State var isPresentingDetailView = false
   @State var isPlayingButtonState = false
+  
   @State var useOtherDiagonalAlert : Bool = false
-  @State var shoulduseOtherDiagonalAlert : Bool = false
+  @State var showOtherDiagAlert : Bool = false
   @State var diagAlertCount: Int = 0
+  
   var actionMenu: some View {
     Menu {
       Button(action: {
@@ -48,17 +50,17 @@ struct GameScreen: View {
       }) {
         Text("Select Topics")
       }.disabled(gs.gamestate == .playingNow)
-      
-      Button(action: {
-        showLeaderboard.toggle()
-      }) {
-        Text("Leaderboard")
-      }
       Button(action: {
         showScheme.toggle()
       }) {
         Text("Select Color Scheme")
       }
+      Button(action: {
+        showLeaderboard.toggle()
+      }) {
+        Text("Leaderboard")
+      }
+
       Button(action: {
         showSendComment.toggle()
       }) {
@@ -131,7 +133,7 @@ struct GameScreen: View {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).frame(height:50)
           
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
+
           
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
@@ -141,7 +143,7 @@ struct GameScreen: View {
                        onSingleTap: onSingleTap)
           
           
-   
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
           
           GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
           
@@ -152,18 +154,20 @@ struct GameScreen: View {
               gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
               gs.saveGameState()
             }
-          
+            .onAppear {
+              diagAlertCount = 0
+            }
             .onDisappear {
               print("Yikes the GameScreen is Disappearing!")
             }
             .onChange(of:useOtherDiagonalAlert) {
               if useOtherDiagonalAlert {
                 diagAlertCount += 1
-                shoulduseOtherDiagonalAlert =  diagAlertCount == 1
+                showOtherDiagAlert =  diagAlertCount == 1
                   useOtherDiagonalAlert = false
                 }
               }
-            .alert("You should try the other diagonal",isPresented:$shoulduseOtherDiagonalAlert){
+            .alert("You should try the other diagonal",isPresented:$showOtherDiagAlert){
               Button("OK", role: .cancel) {
               }
             }
