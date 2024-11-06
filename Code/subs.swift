@@ -103,6 +103,15 @@ func TSLog(_ message: String) {
         }
     }
 }
+func warning(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
+   if shouldAssert {
+       assert(condition(), message(), file: file, line: line)
+   } else {
+       if !condition() {
+           print("ConditionalAssertion failed at \(file):\(line) - \(message())")
+       }
+   }
+}
 func compareVersionStrings(_ version1: String, _ version2: String) -> ComparisonResult {
     // Split the version strings into components
     let components1 = version1.split(separator: ".").compactMap { Int($0) }

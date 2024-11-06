@@ -173,6 +173,7 @@ struct TopicSelectorScreen: View {
       gs.topicsinplay = tempTopicsInPlay  // Persist the changes
       gs.topicsinorder = tempTopicsInOrder
       //dumpTopicsAndColors("finalized selection for scheme \(gs.currentscheme)", from: gs.topicsinplay)
+      gs.saveGameState()
       presentationMode.wrappedValue.dismiss()  // Dismiss and save changes
     }
   }

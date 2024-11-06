@@ -108,32 +108,28 @@ struct GameScreen: View {
     }
   }
   
-  let bodyMsg: String =
-   """
-  good job, keep going ...
-"""
-  
-  
   func  onSingleTap (_ row:Int, _ col:Int ) {
     chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
+  }
+  
+var topBar: some View {
+    return HStack {
+      playToggleButton.padding(.leading,15)
+      Spacer()
+      Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
+      Spacer()
+      actionMenu.padding(.trailing,10)
+    }
   }
   
   var body: some View {
     NavigationStack {
       VStack (spacing:0) {
-        HStack {
-          playToggleButton.padding(.leading,15)
-          Spacer()
-          Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
-          Spacer()
-          actionMenu.padding(.trailing,10)
-        }
+        topBar
         
         if gs.boardsize > 1 {
           
           ScoreBarView(gs: gs,marqueeMessage:$marqueeMessage).frame(height:50)
-          
-
           
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
@@ -141,7 +137,6 @@ struct GameScreen: View {
                        marqueeMessage: $marqueeMessage,
                       useOtherDiagonalAlert: $useOtherDiagonalAlert,
                        onSingleTap: onSingleTap)
-          
           
           TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
           
@@ -167,11 +162,11 @@ struct GameScreen: View {
                   useOtherDiagonalAlert = false
                 }
               }
-            .alert("You should try the other diagonal",isPresented:$showOtherDiagAlert){
-              Button("OK", role: .cancel) {
-              }
-            }
-          
+//            .alert("You should try the other diagonal",isPresented:$showOtherDiagAlert){
+//              Button("OK", role: .cancel) {
+//              }
+//            }
+//          
             .fullScreenCover(item: $chal) { cha in
               QandAScreen(
                 chmgr: chmgr, gs: gs,
@@ -185,19 +180,14 @@ struct GameScreen: View {
         }
       }
       .youWinAlert(isPresented: $showWinAlert, title: "You Win",
-                   bodyMessage: "good job, but you need to play more", buttonTitle: "OK"){
+                   bodyMessage: "Good job, keep going...",
+                   buttonTitle: "OK"){
         onYouWin()
       }
-                   .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",
-                                 bodyMessage: "sorry, keep going", buttonTitle: "OK"){
-                     onYouLose()
-                   }
-                                 .onAppear() {
-                                   TSLog("GameScreen onAppear")
-                                 }
+      .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){
+        onYouLose()
+      }
     }    .navigationViewStyle(StackNavigationViewStyle())
-    
-    
   }
   
   var playToggleButton: some View {
@@ -220,7 +210,7 @@ struct GameScreen: View {
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
     }).font(.headline)//.font(.custom(mainFont,size:mainFontSize*0.9))
-      .alert("Can't start new Game because you don't have enough unanswered questions in the topics you have selected - you will need to change your topics",isPresented: $showCantStartAlert){
+      .alert("You need to add at least one more topic. The total number of questions in your topics must be at least the number of boxes in your game board.",isPresented: $showCantStartAlert){
         Button("OK", role: .cancel) {
           withAnimation {
             onCantStartNewGameAction()

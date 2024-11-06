@@ -1,6 +1,7 @@
 import SwiftUI
 
 
+
 struct QandAScreen: View {
   
   @Bindable  var chmgr:ChaMan //
@@ -47,7 +48,6 @@ struct QandAScreen: View {
           .disabled(questionedWasAnswered)
           .debugBorder()
           
-          
           // pass in the answers explicitly to eliminate flip flopsy behavior
           questionAndAnswersSectionVue(ch:ch, geometry: geometry,colorScheme: colorScheme,answerGiven: $answerGiven,answerCorrect: $answerCorrect)
             .disabled(questionedWasAnswered)
@@ -62,11 +62,13 @@ struct QandAScreen: View {
                    buttonTitle: "Dismiss", onButtonTapped: {
           handleDismissal(toRoot:false)
         }, animation: .spring())
-        
-        .answeredAlert(isPresented: $answerGiven,
-                       title: (answerCorrect ? "You Got It!\nThe answer is:\n " :"Sorry...\nThe answer is:\n") + ch.correct, 
+        //onButtonTapped: @escaping () -> Void
+        .timeoutAlert(isPresented: $answerGiven,
+                       title: (answerCorrect ? "You Got It!\nThe answer is:\n " :"Sorry...\nThe answer is:\n") + ch.correct,
                        message: ch.explanation ?? "xxx",
-                       buttonTitle: "OK",
+                       buttonTitle: nil,
+                      timeout: 5.0,
+                      fadeOutDuration: 0.0,
                        onButtonTapped: {
                             handleDismissal(toRoot:true)
                             questionedWasAnswered = false // to guard against tapping toomany times
@@ -101,8 +103,6 @@ struct QandAScreen: View {
       }
     }
   }
-  
-  
 }
 
 

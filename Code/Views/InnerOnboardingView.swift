@@ -72,7 +72,7 @@ struct InnerOnboardingView: View {
                     )
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
     }
 }
