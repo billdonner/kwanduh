@@ -10,7 +10,7 @@ struct QandAScreen: View {
   let col: Int
   
   @Binding var isPresentingDetailView: Bool
-  @Binding var useOtherDiagonalAlert : Bool
+ // @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
   
   @Environment(\.colorScheme) var colorScheme
@@ -88,10 +88,10 @@ struct QandAScreen: View {
               print("exit from positive sentiment")
             }
         }
-        .onChange(of:questionedWasAnswered)
-        {
-          useOtherDiagonalAlert = gs.shouldUseOtherDiagonal()
-        }
+//        .onChange(of:questionedWasAnswered)
+//        {
+//          useOtherDiagonalAlert = gs.shouldUseOtherDiagonal()
+//        }
         .gimmeeAlert(isPresented: $gimmeeAlert,
                      title: "I will replace this Question \nwith another from the same topic, \nif possible",
                      message: "I will charge you one gimmee",
@@ -109,12 +109,12 @@ struct QandAScreen: View {
 #Preview {
   QandAScreen(chmgr: ChaMan.mock, gs: GameState.mock,
               row: 0, col: 0,
-              isPresentingDetailView: .constant(true), useOtherDiagonalAlert:.constant(true))
+              isPresentingDetailView: .constant(true))//, useOtherDiagonalAlert:.constant(true))
   
 }
 #Preview {
   QandAScreen(chmgr: ChaMan.mock, gs: GameState.mock,
               row: 0, col: 0,
-              isPresentingDetailView: .constant(true),useOtherDiagonalAlert:.constant(true)  )
+              isPresentingDetailView: .constant(true))//,useOtherDiagonalAlert:.constant(true)  )
   
 }

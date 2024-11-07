@@ -37,7 +37,7 @@ struct SingleCellView: View {
   @Binding var firstMove: Bool
   @Binding var isTouching: Bool
   @Binding var marqueeMessage: String
-  @Binding var useOtherDiagonalAlert : Bool
+ // @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.colorScheme) var colorScheme
   @State var alreadyPlayed: Sdi?
   
@@ -262,11 +262,10 @@ struct SingleCellView: View {
 
 
 #Preview ("No Touching",traits:.sizeThatFitsLayout) {
-  
   let gs = GameState.mock
-  gs.cellstate[0][0] = .playedIncorrectly
-  return   SingleCellView(
-    gs: GameState.mock,
+  gs.cellstate[0][0] = .playedCorrectly
+ return  SingleCellView(
+    gs: gs,
     chmgr: ChaMan(playData:PlayData.mock),
     row: 0,
     col: 0,
@@ -276,8 +275,7 @@ struct SingleCellView: View {
     onSingleTap: { _, _ in },
     firstMove: .constant(false),
     isTouching: .constant(false),
-    marqueeMessage: .constant("marquee message"),
-    useOtherDiagonalAlert: .constant(false)
+    marqueeMessage: .constant("marquee message")
   )
   
 }
@@ -286,7 +284,7 @@ struct SingleCellView: View {
   let gs = GameState.mock
   gs.cellstate[0][0] = .playedCorrectly
   return SingleCellView(
-    gs: GameState.mock,
+    gs: gs,
     chmgr: ChaMan(playData:PlayData.mock),
     row: 0,
     col: 0,
@@ -296,8 +294,7 @@ struct SingleCellView: View {
     onSingleTap: { _, _ in  },
     firstMove: .constant(true),
     isTouching: .constant(true),
-    marqueeMessage: .constant("marquee message"),
-    useOtherDiagonalAlert: .constant(true)
+    marqueeMessage: .constant("marquee message")
   )
   
 }

@@ -52,7 +52,6 @@
 		8807A14B2CDBC13B00495A2B /* TimeOutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutModifier.swift; sourceTree = "<group>"; };
 		884C9CF62CBED6740059E758 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884C9D162CC822B60059E758 /* OldCommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OldCommonAssets.xcassets; sourceTree = "<group>"; };
-		884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KwandooConfiguration.swift; sourceTree = "<group>"; };
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		885183922CD1562700D686A6 /* kwannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,7 +206,6 @@
 				884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */,
 				88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */,
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
-				884C9D4F2CCEB5910059E758 /* KwandooConfiguration.swift */,
 				88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
@@ -568,7 +566,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -601,7 +599,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -790,7 +788,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -822,7 +820,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -892,7 +890,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -923,7 +921,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;

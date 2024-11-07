@@ -10,7 +10,7 @@ import SwiftUI
 let totalPages = 9
 
 #Preview {
-  OnboardingView(pageIndex: 0)
+  OnboardingView(pageIndex:5)
 }
 
 // was OB13

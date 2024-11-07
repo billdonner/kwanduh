@@ -135,7 +135,7 @@ var topBar: some View {
                        firstMove: $firstMove,
                        isTouching: $isTouching,
                        marqueeMessage: $marqueeMessage,
-                      useOtherDiagonalAlert: $useOtherDiagonalAlert,
+                      //useOtherDiagonalAlert: $useOtherDiagonalAlert,
                        onSingleTap: onSingleTap)
           
           TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
@@ -155,13 +155,13 @@ var topBar: some View {
             .onDisappear {
               print("Yikes the GameScreen is Disappearing!")
             }
-            .onChange(of:useOtherDiagonalAlert) {
-              if useOtherDiagonalAlert {
-                diagAlertCount += 1
-                showOtherDiagAlert =  diagAlertCount == 1
-                  useOtherDiagonalAlert = false
-                }
-              }
+          //  .onChange(of:useOtherDiagonalAlert) {
+//              if useOtherDiagonalAlert {
+//                diagAlertCount += 1
+//                showOtherDiagAlert =  diagAlertCount == 1
+//                  useOtherDiagonalAlert = false
+//                }
+  //            }
 //            .alert("You should try the other diagonal",isPresented:$showOtherDiagAlert){
 //              Button("OK", role: .cancel) {
 //              }
@@ -171,8 +171,8 @@ var topBar: some View {
               QandAScreen(
                 chmgr: chmgr, gs: gs,
                 row: cha.row, col: cha.col,
-                          isPresentingDetailView: $isPresentingDetailView,
-                          useOtherDiagonalAlert: $useOtherDiagonalAlert)
+                          isPresentingDetailView: $isPresentingDetailView)//,
+                         // useOtherDiagonalAlert: $useOtherDiagonalAlert)
             }
         }
         else {

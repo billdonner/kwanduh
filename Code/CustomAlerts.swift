@@ -94,6 +94,29 @@ fileprivate struct SadnessView: View {
             }
     }
 }
+// HappynessView effect view using SF Symbol
+fileprivate struct HappynessView: View {
+    @State private var animate = false
+    
+    var body: some View {
+        Image(systemName: "chevron.up.right.dotted.2")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 50, height: 50) // Adjusted size
+            .foregroundColor(.gray)
+            .scaleEffect(animate ? 1.2 : 0.8)
+            .opacity(animate ? 1 : 0.5)
+            .position(x: UIScreen.main.bounds.midX+100, y: 100) // More centered position
+            .onAppear {
+                withAnimation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
+                    self.animate.toggle()
+                }
+            }
+    }
+}
+#Preview {
+  HappynessView()
+}
 // Custom alert view for YouWin with fireworks
 #Preview ("YouWin") {
   YouWinAlert(title: "You Win", bodyMessage: "This is a custom alert view with spring animation.", buttonTitle: "OK", onButtonTapped: {} )
@@ -106,9 +129,9 @@ fileprivate struct YouWinAlert: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            FireworksView()
-                .frame(height: 80) // Adjusted size
-
+//            FireworksView()
+//                .frame(height: 80) // Adjusted size
+          HappynessView()
             Text(title)
                 .font(.largeTitle) // Larger title
                 .foregroundColor(.primary)
@@ -141,7 +164,7 @@ fileprivate struct YouWinAlert: View {
                     .padding(.bottom,  50) // Added padding below the button
             }
         }
-        .frame(height:400)
+        .frame(height:300)
         .background(FrostedBackgroundView())
         .cornerRadius(16)
         .padding()
