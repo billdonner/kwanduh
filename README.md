@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.54.19 cleaning alerts
 - version 0.7.54.18 #57,#63,#81,#77,#65, cleaned up how to play
 - version 0.7.54.17 #78,#51 quick push before pickleball
 - version 0.7.54.16 integrate carol's changes, more bugs still to fix

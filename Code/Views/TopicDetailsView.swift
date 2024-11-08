@@ -87,7 +87,7 @@ struct TopicDetailsView: View {
           }
         }
     
-        .fullScreenCover(item: $showApview) { challenge in
+        .sheet(item: $showApview) { challenge in
           if let ansinfo = chmgr.ansinfo [challenge.id] {
           ReplayingScreen(ch: challenge,ansinfo: ansinfo,  gs:gs)
           }

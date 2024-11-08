@@ -92,6 +92,13 @@ struct QandAScreen: View {
 //        {
 //          useOtherDiagonalAlert = gs.shouldUseOtherDiagonal()
 //        }
+//        .alert(isPresented: $gimmeeAlert) {
+//          Alert(title:Text("I will replace this Question \nwith another from the same topic, \nif possible"),
+//                message:Text( "I will charge you one gimmee"),
+//                primaryButton: Button ("OK") { },
+//                secondaryButton: "Cancel")
+//          
+//        }
         .gimmeeAlert(isPresented: $gimmeeAlert,
                      title: "I will replace this Question \nwith another from the same topic, \nif possible",
                      message: "I will charge you one gimmee",

@@ -53,6 +53,9 @@ struct AllocatorView: View {
       .padding()
       
     }.padding()
+      .onAppear {
+        chmgr.checkAllTopicConsistency("AllocatorView") // healthy
+      }
     
     .dismissButton(backgroundColor:colorScheme == .light ? .white : .black)
     .background(backgroundColor)
