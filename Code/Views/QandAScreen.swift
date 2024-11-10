@@ -1,14 +1,11 @@
 import SwiftUI
 
-
-
 struct QandAScreen: View {
   
   @Bindable  var chmgr:ChaMan //
   @Bindable var gs: GameState
   let row: Int
   let col: Int
-  
   @Binding var isPresentingDetailView: Bool
  // @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
@@ -68,7 +65,7 @@ struct QandAScreen: View {
                        message: ch.explanation ?? "xxx",
                        buttonTitle: nil,
                       timeout: 5.0,
-                      fadeOutDuration: 0.0,
+                      fadeOutDuration: 0.5,
                        onButtonTapped: {
                             handleDismissal(toRoot:true)
                             questionedWasAnswered = false // to guard against tapping toomany times
@@ -88,17 +85,7 @@ struct QandAScreen: View {
               print("exit from positive sentiment")
             }
         }
-//        .onChange(of:questionedWasAnswered)
-//        {
-//          useOtherDiagonalAlert = gs.shouldUseOtherDiagonal()
-//        }
-//        .alert(isPresented: $gimmeeAlert) {
-//          Alert(title:Text("I will replace this Question \nwith another from the same topic, \nif possible"),
-//                message:Text( "I will charge you one gimmee"),
-//                primaryButton: Button ("OK") { },
-//                secondaryButton: "Cancel")
-//          
-//        }
+
         .gimmeeAlert(isPresented: $gimmeeAlert,
                      title: "I will replace this Question \nwith another from the same topic, \nif possible",
                      message: "I will charge you one gimmee",

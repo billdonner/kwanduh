@@ -41,26 +41,16 @@ struct mainApp : App {
   
   var body: some Scene {
     WindowGroup {
+     let _ =  TSLog(">\(AppNameProvider.appName()) \(   AppVersionProvider.appVersion()) running; Assertions:\(shouldAssert ? "ON":"OFF") Debug:\(isDebugModeEnabled ? "ON":"OFF") Cloudkit:\(!cloudKitBypass ? "ON":"OFF")")
       if !onboardingdone {
         InnerOnboardingView(isOnboardingComplete: $onboardingdone)
       }
       else {
-        
-        
         ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
-        //.padding([.bottom])
-        // .statusBar(hidden: true) // Hide the status bar
-//          .fullScreenCover(isPresented: $showOnboarding) {
-//            OnboardingScreen(isPresented: $showOnboarding)
-//          }
           .onAppear {
-            TSLog("Assertions are \(shouldAssert ? "ON":"OFF")")
+  
             conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
             AppDelegate.lockOrientation(.portrait)// ensure applied
-//            if (onboardingdone == false ) { // if not yet done then trigger it
-//              showOnboarding = true
-//              onboardingdone = true// flag it here while running straight swift
-//            }
           }
       }
     }

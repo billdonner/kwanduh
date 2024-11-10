@@ -75,7 +75,7 @@ struct MainGridView : View {
 //  @Binding var boardsize: Int
   @Binding var firstMove: Bool
   @Binding var isTouching : Bool
-  @Binding var marqueeMessage: String
+ // @Binding var marqueeMessage: String
  // @Binding var useOtherDiagonalAlert : Bool
   let onSingleTap: (Int,Int) -> Void
   
@@ -98,7 +98,7 @@ struct MainGridView : View {
                   SingleCellView(gs:gs,chmgr:chmgr,row:row,col:col,
                                  chidx:gs.board[row][col],
                                  status:gs.cellstate[row][col],
-                                 cellSize: cellSize,  onSingleTap:  onSingleTap,firstMove:$firstMove,isTouching:$isTouching,marqueeMessage: $marqueeMessage)//,useOtherDiagonalAlert: $useOtherDiagonalAlert)
+                                 cellSize: cellSize,  onSingleTap:  onSingleTap,firstMove:$firstMove,isTouching:$isTouching)//,marqueeMessage: $marqueeMessage)//,useOtherDiagonalAlert: $useOtherDiagonalAlert)
 //                } else {
 //                  Color.offWhite
 //                    .frame(width: cellSize, height: cellSize)
@@ -122,7 +122,7 @@ struct MainGridView : View {
                chmgr: ChaMan(playData: PlayData.mock),
               // boardsize: .constant(GameState.mock.boardsize),
                firstMove: .constant(true),
-               isTouching: .constant(false), marqueeMessage: .constant("marquee") ,
+               isTouching: .constant(false)  ,
               // useOtherDiagonalAlert: .constant(true)
               onSingleTap: { row,col in
     print("Tapped cell with challenge \(row) \(col)")

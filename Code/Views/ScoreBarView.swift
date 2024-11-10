@@ -46,7 +46,7 @@ private struct OutString:View {
   }
 struct ScoreBarView: View {
   let gs: GameState
-  @Binding var marqueeMessage : String
+ // @Binding var marqueeMessage : String
   @State var showWinAlert = false
   @State var showLoseAlert = false
   @State var alreadyShownAlert = false
@@ -85,5 +85,5 @@ struct ScoreBarView: View {
 #Preview {
   @Previewable
   @State var marqueeMessage = "blah blah"
-  ScoreBarView(gs: GameState.mock, marqueeMessage: $marqueeMessage )
+  ScoreBarView(gs: GameState.mock)//, marqueeMessage: $marqueeMessage )
 }

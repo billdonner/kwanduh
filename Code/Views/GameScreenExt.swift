@@ -40,21 +40,7 @@ extension GameScreen /* actions */ {
   func onBoardSizeChange() {
     
   }
-  func onChangeOfCellState() {
-    let (path,iswinner) = winningPath(in:gs.cellstate)
-    if iswinner {
-      print("--->YOU WIN path is \(path)")
-      for p in path {
-        gs.onwinpath[p.0][p.1] = true
-      }
-      showWinAlert = true
-    } else {
-      if !isPossibleWinningPath(in:gs.cellstate) {
-        print("--->YOU LOSE")
-        showLoseAlert = true
-      }
-    }
-  }
+
   func onDump() {
     chmgr.dumpTopics()
   }

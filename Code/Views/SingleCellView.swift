@@ -36,10 +36,7 @@ struct SingleCellView: View {
   let onSingleTap: (_ row: Int, _ col: Int) -> Void
   @Binding var firstMove: Bool
   @Binding var isTouching: Bool
-  @Binding var marqueeMessage: String
- // @Binding var useOtherDiagonalAlert : Bool
   @Environment(\.colorScheme) var colorScheme
-  @State var alreadyPlayed: Sdi?
   
   private var showBlue: Bool {
     gs.gamestate == .playingNow &&
@@ -105,6 +102,10 @@ struct SingleCellView: View {
       return true
     case (.playedIncorrectly, .playedCorrectly):
       return true
+    case (.blocked, _):
+      return false
+    case (_, .blocked):
+      return false
     }
   }
    
@@ -197,6 +198,9 @@ struct SingleCellView: View {
           (colorScheme == .dark ? Color.offBlack : Color.offWhite)
             .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
         }
+      case .blocked:
+        (colorScheme == .dark ? Color.offBlack : Color.offWhite)
+          .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: 1.0)
       }
     }
   }
@@ -219,23 +223,10 @@ struct SingleCellView: View {
     gs.gamestate == .playingNow ? 1.0 : 0.5// Adjust if needed
   }
   
-  private func handleTap() {
-    var tap = false
-    if gs.isAlreadyPlayed(row: row, col: col) {
-      alreadyPlayed = Sdi(row: row, col: col)
-    } else if gs.gamestate == .playingNow, gs.cellstate[row][col] == .unplayed {
-      tap = firstMove ? gs.isCornerCell(row: row, col: col) : (gs.isCornerCell(row: row, col: col) || hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: (row, col)))
-    }
-    
-    if tap {
-      gs.lastmove = GameMove(row: row, col: col, movenumber: gs.movenumber)
-      firstMove = false
-      onSingleTap(row, col)
-    } else {
-      marqueeMessage = "You need to tap in a corner"
-    }
+  private func handleTap()   {
+    onSingleTap(row,col)
   }
-  
+
   var body: some View {
     let inBounds = row < gs.boardsize && col < gs.boardsize
     let challenge = (chidx < 0) ? Challenge.amock : chmgr.everyChallenge[chidx]
@@ -246,17 +237,13 @@ struct SingleCellView: View {
         if isLastMove { lastMoveIndicator() }
         if showTargetFor(row:row,col:col) { targetIndicator(challenge: challenge) }
         if isTouching || gs.gamestate != .playingNow
-          { touchingIndicators() }
+        { touchingIndicators() }
       }
     }
-    .onTapGesture { handleTap() }
-    .fullScreenCover(item: $alreadyPlayed) { goo in
-      if let ansinfo = chmgr.ansinfo[challenge.id] {
-        ReplayingScreen(ch: challenge, ansinfo: ansinfo, gs: gs)
-      }
+    .onTapGesture {
+      handleTap()
     }
   }
-  
 }// make one cell
 
 
@@ -274,9 +261,8 @@ struct SingleCellView: View {
     cellSize: 250,
     onSingleTap: { _, _ in },
     firstMove: .constant(false),
-    isTouching: .constant(false),
-    marqueeMessage: .constant("marquee message")
-  )
+    isTouching: .constant(false)
+    )
   
 }
 
@@ -293,8 +279,7 @@ struct SingleCellView: View {
     cellSize: 250,
     onSingleTap: { _, _ in  },
     firstMove: .constant(true),
-    isTouching: .constant(true),
-    marqueeMessage: .constant("marquee message")
+    isTouching: .constant(true)
   )
   
 }

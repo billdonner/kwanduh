@@ -39,7 +39,7 @@ struct GameLogScreen: View {
                 "✅"
               case .playedIncorrectly:
                 "❌"
-              case .unplayed:
+              default:
                 ""
               }
               Text("\(move.movenumber) : @(\(row),\(col))\(ch.topic)")

@@ -130,7 +130,16 @@ class GameState : Codable {
     
     
   }
-  
+  struct Coordinate: Hashable {
+      let row: Int
+      let col: Int
+  }
+
+ 
+  func isCornerCell(row: Int, col: Int, boardSize: Int) -> Bool {
+      return (row == 0 && col == 0) || (row == 0 && col == boardSize - 1) ||
+             (row == boardSize - 1 && col == 0) || (row == boardSize - 1 && col == boardSize - 1)
+  }
   func setupForNewGame (boardsize:Int, chmgr:ChaMan) -> Bool {
     // assume all cleaned up, using size
     var allocatedChallengeIndices:[Int] = []
@@ -146,17 +155,40 @@ class GameState : Codable {
     self.replaced  = Array(repeating: Array(repeating:[], count: boardsize), count:  boardsize)
     // give player a few gimmees depending on boardsize - moved until after
     if self.veryfirstgame {self.gimmees += boardsize - 1}
+    // new **** - figure how many to blank out
+    // put these challenges into the board
+    // set cellstate to unplayed or blocked
+    //    allocatedChallengeIndices = x.shuffled()
+    
+    let totalCells = boardsize * boardsize
+    let blockedCellsCount = Int(Double(totalCells) * 0.25)
+    var blockedCells : Set<Coordinate> = []
+    // Randomly select cells to be blocked, excluding corners
+    while blockedCells.count < blockedCellsCount {
+        let row = Int.random(in: 0..<boardsize)
+        let col = Int.random(in: 0..<boardsize)
+        let coordinate = Coordinate(row: row, col: col)
+        if isCornerCell(row: row, col: col) || blockedCells.contains(coordinate) {
+            continue
+        }
+        
+        blockedCells.insert(coordinate)
+    }
+     
+    
+    let blankout = blockedCells.count
+    
     // use topicsinplay and allocated fresh challenges
-    let result:AllocationResult = chmgr.allocateChallenges(forTopics: Array(topicsinplay.keys), count: boardsize * boardsize)
+    let result:AllocationResult = chmgr.allocateChallenges(forTopics: Array(topicsinplay.keys), count: boardsize * boardsize - blankout)
     switch result {
     case .success(let x):
-      conditionalAssert(x.count == boardsize*boardsize)
+      conditionalAssert(x.count == boardsize*boardsize - blankout)
       // print("Success:\(x.count)")
       allocatedChallengeIndices = x.shuffled()
       //continue after the error path
       
     case .error(let err):
-      print("Allocation failed for topics \(topicsinplay),count :\(boardsize*boardsize)")
+      print("Allocation failed for topics \(topicsinplay),count :\(boardsize*boardsize-blankout)")
       print ("Error: \(err)")
       switch err {
       case .emptyTopics:
@@ -171,18 +203,27 @@ class GameState : Codable {
       return false
     }
     // put these challenges into the board
-    // set cellstate to unplayed
+    // set cellstate to unplayed or blocked
     //    allocatedChallengeIndices = x.shuffled()
+    
+    var allocIdx = 0
+    
     for row in 0..<boardsize {
-      for col in 0..<boardsize {
-        let idxs = allocatedChallengeIndices[row * boardsize + col]
-        // let ch = chmgr.everyChallenge[idxs]
-        //let topic = ch.topic
-        // change this code so that if the topic at this row,col is the same as an adjacent cell , we pick a different one by altering the idxs
-        board[row][col] = idxs
-        cellstate[row][col] = .unplayed
-      }
+        for col in 0..<boardsize {
+            let coordinate = Coordinate(row: row, col: col)
+            if blockedCells.contains(coordinate) {
+                // Mark as blocked cell
+                board[row][col] = -1
+                cellstate[row][col] = .blocked
+            } else {
+                // Assign a challenge from allocatedChallengeIndices
+                board[row][col] = allocatedChallengeIndices[allocIdx]
+                cellstate[row][col] = .unplayed
+                allocIdx += 1
+            }
+        }
     }
+
     
     gamestate = .playingNow
     saveGameState()
@@ -357,6 +398,8 @@ class GameState : Codable {
                 print("*** cellstate is wrong for \(row), \(col) unplayed says \(x)")
                 return false
               }
+            case .blocked:
+              return true // for now there's nothing there to check
             }// switch
             if x == ChaMan.ChallengeStatus.abandoned {
               print("*** cellstate is wrong for \(row), \(col) abandoned says \(x)")
@@ -470,7 +513,7 @@ class GameState : Codable {
       case .orderedAscending:
         TSLog("sw version changed from \(gb.swversion) to \(AppVersionProvider.appVersion())")
       case .orderedSame:
-        TSLog("sw version is the same")
+        break; //TSLog("sw version is the same")
       case .orderedDescending:
         TSLog("yikes! sw version went backwards")
       }
@@ -594,3 +637,28 @@ class GameState : Codable {
   
 }
 
+//
+//    for row in 0..<boardsize {
+//      for col in 0..<boardsize {
+//        var isblocked : Bool = true
+//        if isCornerCell(row:row,col:col) { isblocked = false }
+//        else {
+//          // hack for now - always select safe cells
+//          isblocked = row + col == 1
+//
+//        }
+//
+//
+//
+//        switch isblocked {
+//        case false: // take one of the allocated challenges
+//          board[row][col] = allocatedChallengeIndices[allocIdx]
+//          cellstate[row][col] = .unplayed
+//          allocIdx += 1
+//
+//        case true: // otherwise its a blocked cell
+//          board[row][col] = -1
+//          cellstate[row][col] = .blocked
+//        }
+//      }
+//    }
