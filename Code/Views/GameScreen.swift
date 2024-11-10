@@ -44,12 +44,13 @@ struct GameScreen: View {
   @State var showWinAlert = false
   @State var showLoseAlert = false
   @State var showCantStartAlert = false
+  @State var showMustStartInCornerAlert : Bool = false
   
   @State var showSameSideAlert = false
   
   @State var alreadyPlayed: Xdi?
   
-
+@Environment(\.dismiss) var dismiss
   // process single tap
   func  onSingleTap (_ row:Int, _ col:Int ) {
     var validTap = false
@@ -60,6 +61,11 @@ struct GameScreen: View {
       return
     }
     // otherwise its not played yet
+    //When a player tries to start the game in a box other than a corner, post the message "Start out in a corner . . ."
+    if firstMove && !gs.isCornerCell(row:row,col:col) {
+      showMustStartInCornerAlert = true
+    }
+  
     
     // if not playing ignore all other taps
  if gs.gamestate == .playingNow,
@@ -68,6 +74,13 @@ struct GameScreen: View {
    // or not first and either a corner or with an adjacent neighbor thats been played
       validTap = firstMove ? gs.isCornerCell(row: row, col: col) : (gs.isCornerCell(row: row, col: col) || hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: (row, col)))
     }
+    
+    
+    
+    
+    
+    
+    
     
     if validTap {
       gs.lastmove = GameMove(row: row, col: col, movenumber: gs.movenumber)
@@ -93,8 +106,7 @@ struct GameScreen: View {
       showLoseAlert = true
       return
     }
-  }
-  
+    }
   
   //UI
   var body: some View {
@@ -153,6 +165,13 @@ struct GameScreen: View {
          chmgr: chmgr, gs: gs,
          row: cha.row, col: cha.col,
          isPresentingDetailView: $nowShowingQandAScreen)
+     }
+     .alert ("Start out in a corner",isPresented: $showMustStartInCornerAlert) {
+       Button("OK", role: .cancel) {
+         withAnimation {
+          dismiss()
+         }
+       }
      }
     }.navigationViewStyle(StackNavigationViewStyle())
   }

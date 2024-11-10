@@ -15,7 +15,7 @@ struct GameScreenBottomButtons : View {
   @State   var showingHelp = false
   var body: some View {
     HStack {
-        Image("GameBoard2")
+        Image("Freeport")
         .resizable()
           .frame(width: isIpad ? 55 : 35 , height: isIpad ? 55 : 35)
                  .padding(.leading, 8)

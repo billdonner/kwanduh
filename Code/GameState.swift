@@ -11,7 +11,7 @@ import SwiftUI
 struct GameMove : Codable,Hashable {
   let row:Int
   let col:Int
-  let movenumber:Int 
+  let movenumber:Int
 }
 //enum DifficultyLevel: Int,Codable {
 //  case easy,normal,hard
@@ -131,19 +131,48 @@ class GameState : Codable {
     
   }
   struct Coordinate: Hashable {
-      let row: Int
-      let col: Int
+    let row: Int
+    let col: Int
   }
-
- 
-  func isCornerCell(row: Int, col: Int, boardSize: Int) -> Bool {
-      return (row == 0 && col == 0) || (row == 0 && col == boardSize - 1) ||
-             (row == boardSize - 1 && col == 0) || (row == boardSize - 1 && col == boardSize - 1)
+  
+  
+  
+  
+  
+  func hasAtLeastTwoNonBlockedNeighbors(_ row: Int, _ col: Int) -> Bool {
+    var nonBlockedNeighborCount = 0
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    for direction in directions {
+      let newRow = row + direction.0
+      let newCol = col + direction.1
+      if newRow >= 0, newRow < boardsize, newCol >= 0, newCol < boardsize {
+        if cellstate[newRow][newCol] != .blocked {
+          nonBlockedNeighborCount += 1
+        }
+      }
+    }
+    return nonBlockedNeighborCount >= 2
   }
+  
+  func hasAtLeastOneNonBlockedNeighbors(_ row: Int, _ col: Int) -> Bool {
+    var nonBlockedNeighborCount = 0
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    for direction in directions {
+      let newRow = row + direction.0
+      let newCol = col + direction.1
+      if newRow >= 0, newRow < boardsize, newCol >= 0, newCol < boardsize {
+        if cellstate[newRow][newCol] != .blocked {
+          nonBlockedNeighborCount += 1
+        }
+      }
+    }
+    return nonBlockedNeighborCount >= 1
+  }
+  
   func setupForNewGame (boardsize:Int, chmgr:ChaMan) -> Bool {
     // assume all cleaned up, using size
     var allocatedChallengeIndices:[Int] = []
-
+    
     self.gamestart = Date()
     self.movenumber = 0
     self.lastmove = nil
@@ -165,16 +194,24 @@ class GameState : Codable {
     var blockedCells : Set<Coordinate> = []
     // Randomly select cells to be blocked, excluding corners
     while blockedCells.count < blockedCellsCount {
-        let row = Int.random(in: 0..<boardsize)
-        let col = Int.random(in: 0..<boardsize)
-        let coordinate = Coordinate(row: row, col: col)
-        if isCornerCell(row: row, col: col) || blockedCells.contains(coordinate) {
-            continue
+      let row = Int.random(in: 0..<boardsize)
+      let col = Int.random(in: 0..<boardsize)
+      let coordinate = Coordinate(row: row, col: col)
+      if  boardsize == 3 || boardsize == 4 || boardsize == 5 {
+        if isCornerCell(row: row, col: col)  || blockedCells.contains(coordinate) {
+          continue//cont block
         }
-        
-        blockedCells.insert(coordinate)
+      }
+      else {
+        if isCornerCell(row: row, col: col)
+                    //|| isAdjacentToCornerCell(row: row, col: col)
+                  //  ||  !hasAtLeastOneNonBlockedNeighbors(row, col) // works with 8,7,6,5 not 4
+                    || blockedCells.contains(coordinate) {
+        continue// dont block
+      }
+      }
+      blockedCells.insert(coordinate)
     }
-     
     
     let blankout = blockedCells.count
     
@@ -207,23 +244,23 @@ class GameState : Codable {
     //    allocatedChallengeIndices = x.shuffled()
     
     var allocIdx = 0
-    
-    for row in 0..<boardsize {
-        for col in 0..<boardsize {
-            let coordinate = Coordinate(row: row, col: col)
-            if blockedCells.contains(coordinate) {
-                // Mark as blocked cell
-                board[row][col] = -1
-                cellstate[row][col] = .blocked
-            } else {
-                // Assign a challenge from allocatedChallengeIndices
-                board[row][col] = allocatedChallengeIndices[allocIdx]
-                cellstate[row][col] = .unplayed
-                allocIdx += 1
-            }
+    //deliberately in transposed order
+    for col in 0..<boardsize {
+      for row in 0..<boardsize {
+        let coordinate = Coordinate(row: row, col: col)
+        if blockedCells.contains(coordinate) {
+          // Mark as blocked cell
+          board[row][col] = -1
+          cellstate[row][col] = .blocked
+        } else {
+          // Assign a challenge from allocatedChallengeIndices
+          board[row][col] = allocatedChallengeIndices[allocIdx]
+          cellstate[row][col] = .unplayed
+          allocIdx += 1
         }
+      }
     }
-
+    
     
     gamestate = .playingNow
     saveGameState()
@@ -257,7 +294,7 @@ class GameState : Codable {
     
     // if we actually did anything then bump the game number
     if challenge_indexes.count  !=  boardsize *  boardsize {
-     self.gamenumber += 1
+      self.gamenumber += 1
     }
     
     // clear out last move
@@ -316,20 +353,49 @@ class GameState : Codable {
         self.cellstate[self.boardsize-1][self.boardsize-1] == .playedIncorrectly {
       return true
     }
-    return false 
+    return false
   }
-  func isCornerCell(row:Int,col:Int ) -> Bool {
-    return row==0&&col==0  ||
-    row==0 && col == self.boardsize-1 ||
-    row==self.boardsize-1 && col==0 ||
-    row==self.boardsize-1 && col == self.boardsize - 1
+  func isCornerCell(row: Int, col: Int) -> Bool {
+    return (row == 0 && col == 0) ||
+    (row == 0 && col == boardsize - 1) ||
+    (row == boardsize - 1 && col == 0) ||
+    (row == boardsize - 1 && col == boardsize - 1)
   }
   
+  func isAdjacentToCornerCell(row: Int, col: Int) -> Bool {
+    // Define the coordinates of the four corners
+    let corners = [
+      (0, 0),
+      (0, boardsize - 1),
+      (boardsize - 1, 0),
+      (boardsize - 1, boardsize - 1)
+    ]
+    
+    // Define directions for all 8 possible adjacent cells
+    let directions = [
+      (-1, -1), (-1, 0), (-1, 1),
+      (0, -1),          (0, 1),
+      (1, -1), (1, 0), (1, 1)
+    ]
+    
+    // Check if the cell is adjacent to any of the corners
+    for corner in corners {
+      for direction in directions {
+        let adjacentRow = corner.0 + direction.0
+        let adjacentCol = corner.1 + direction.1
+        if adjacentRow == row && adjacentCol == col {
+          return true
+        }
+      }
+    }
+    
+    return false
+  }
   func oppositeCornerCell(row:Int,col:Int ) -> (Int,Int)? {
     switch (row,col) {
       
-      case  (0,0) : return (self.boardsize-1,self.boardsize-1)
-      case  (self.boardsize-1,self.boardsize-1): return (0,0)
+    case  (0,0) : return (self.boardsize-1,self.boardsize-1)
+    case  (self.boardsize-1,self.boardsize-1): return (0,0)
     case (0,self.boardsize-1): return (self.boardsize-1,0)
     case  (self.boardsize-1,0) : return (0,self.boardsize-1)
     default: return nil
@@ -338,8 +404,8 @@ class GameState : Codable {
   func rhCornerCell(row:Int,col:Int ) -> (Int,Int)? {
     switch (row,col) {
       
-      case  (0,0) : return (0,self.boardsize-1)
-      case  (self.boardsize-1,self.boardsize-1): return (self.boardsize-1,0)
+    case  (0,0) : return (0,self.boardsize-1)
+    case  (self.boardsize-1,self.boardsize-1): return (self.boardsize-1,0)
     case (0,self.boardsize-1): return (self.boardsize-1,self.boardsize-1)
     case  (self.boardsize-1,0) : return (0,0)
     default: return nil
@@ -347,8 +413,8 @@ class GameState : Codable {
   }
   func lhCornerCell(row:Int,col:Int ) -> (Int,Int)? {
     switch (row,col) {
-      case  (0,0) : return (self.boardsize-1,0)
-      case  (self.boardsize-1,self.boardsize-1): return (0,self.boardsize-1)
+    case  (0,0) : return (self.boardsize-1,0)
+    case  (self.boardsize-1,self.boardsize-1): return (0,self.boardsize-1)
     case (0,self.boardsize-1):return (0,0)
     case  (self.boardsize-1,0) : return (self.boardsize-1,self.boardsize-1)
     default: return nil
@@ -540,7 +606,7 @@ class GameState : Codable {
   
   
   
-
+  
   
   // Codable conformance: decode the properties
   required init(from decoder: Decoder) throws {
@@ -572,7 +638,7 @@ class GameState : Codable {
     self.swversion = try container.decode(String.self,forKey:.swversion)
     
   }
-
+  
   init(size: Int, topics: [String:FreeportColor], challenges: [Challenge]) {
     self.topicsinplay = topics //*****4
     self.topicsinorder = topics.keys.sorted()
@@ -602,8 +668,8 @@ class GameState : Codable {
   }
   
   func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(board, forKey: .board)
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(board, forKey: .board)
     try container.encode(cellstate, forKey: .cellstate)
     try container.encode(moveindex, forKey: .moveindex)
     try container.encode(onwinpath, forKey: .onwinpath)
@@ -614,11 +680,11 @@ class GameState : Codable {
     try container.encode(gamestate, forKey: .gamestate)
     try container.encode(totaltime, forKey: .totaltime)
     try container.encode(veryfirstgame, forKey: .veryfirstgame)
-      // `nonObservedProperties`
+    // `nonObservedProperties`
     try container.encode(gimmees, forKey: .gimmees)
     try container.encode(currentscheme, forKey: .currentscheme)
-  //  try container.encode(facedown, forKey: .facedown)
-   // try container.encode(startincorners, forKey: .startincorners)
+    //  try container.encode(facedown, forKey: .facedown)
+    // try container.encode(startincorners, forKey: .startincorners)
     try container.encode(doublediag, forKey: .doublediag)
     try container.encode(difficultylevel, forKey: .difficultylevel)
     try container.encode(lastmove, forKey: .lastmove)

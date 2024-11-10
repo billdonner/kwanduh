@@ -15,6 +15,7 @@ struct TimeoutAlertModifier: ViewModifier {
     let fadeOutDuration: TimeInterval // Fade-out duration in seconds
     let onButtonTapped: () -> Void
 
+  @Environment(\.colorScheme) var cs //system light/dark
     func body(content: Content) -> some View {
         ZStack {
             content
@@ -57,7 +58,8 @@ struct TimeoutAlertModifier: ViewModifier {
                     }
                 }
                 .padding()
-                .background(Color.white)
+                .background(cs == .dark ? Color.black.opacity(0.9) : Color.white) // Background adapts to dark/light mode
+                .foregroundColor(Color.primary)
                 .cornerRadius(12)
                 .shadow(radius: 10)
                 .frame(maxWidth: 300)
