@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.55.21 fixed various winlose functions for .blocked
 - version 0.7.55.20 blocked out cells at 25$%
 - version 0.7.54.19 cleaning alerts
 - version 0.7.54.18 #57,#63,#81,#77,#65, cleaned up how to play
