@@ -47,6 +47,14 @@ extension GameScreen /* actions */ {
   func onStartGame(boardsize:Int ) -> Bool {
    // print("//GameScreen onStartGame before  topics: \(gs.topicsinplay) size:\( boardsize)")
     // chmgr.dumpTopics()
+    showOtherDiagAlert = false
+    didshowOtherDiagAlert = false
+    showWinAlert = false
+    showLoseAlert = false
+    showCantStartAlert = false
+    showMustStartInCornerAlert = false
+    showMustTapAdjacentCellAlert = false
+    showSameSideAlert = false
     isTouching = false // turn off overlay
     let ok = gs.setupForNewGame(boardsize:boardsize,chmgr: chmgr )
    // print("//GameScreen onStartGame after")

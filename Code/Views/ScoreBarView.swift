@@ -46,10 +46,7 @@ private struct OutString:View {
   }
 struct ScoreBarView: View {
   let gs: GameState
- // @Binding var marqueeMessage : String
-  @State var showWinAlert = false
-  @State var showLoseAlert = false
-  @State var alreadyShownAlert = false
+ 
   var body:some View {
  
     HStack {
@@ -66,14 +63,14 @@ struct ScoreBarView: View {
       
       if isWinningPath(in:gs.cellstate) {
         print("--->you have won this game as detected by ScoreBarView")
-        showWinAlert = true
+       
         gs.woncount += 1
         gs.saveGameState()
         
       } else {
         if !isPossibleWinningPath(in:gs.cellstate) {
           print("--->you cant possibly win this game s detected by ScoreBarView")
-          showLoseAlert = true
+         
           gs.lostcount += 1
           gs.saveGameState()
         }

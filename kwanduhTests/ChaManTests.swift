@@ -1,5 +1,5 @@
 import XCTest
-@testable import basic 
+@testable import kwanduh
 
 class ChaManTests: XCTestCase {
 

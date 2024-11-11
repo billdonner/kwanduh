@@ -69,6 +69,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8807A1A02CE168D300495A2B /* Exceptions for "kwanduhTests" folder in "kwanduhTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				basicTests.swift,
+				playg.swift,
+			);
+			target = 88A318F82CA318C2005D0DF3 /* kwanduhTests */;
+		};
+		8807A1AA2CE179BE00495A2B /* Exceptions for "Code" folder in "kwanduhTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Test.swift,
+			);
+			target = 88A318F82CA318C2005D0DF3 /* kwanduhTests */;
+		};
 		884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -125,6 +140,9 @@
 		};
 		88A318FC2CA318C2005D0DF3 /* kwanduhTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8807A1A02CE168D300495A2B /* Exceptions for "kwanduhTests" folder in "kwanduhTests" target */,
+			);
 			path = kwanduhTests;
 			sourceTree = "<group>";
 		};
@@ -145,6 +163,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */,
+				8807A1AA2CE179BE00495A2B /* Exceptions for "Code" folder in "kwanduhTests" target */,
 			);
 			path = Code;
 			sourceTree = "<group>";

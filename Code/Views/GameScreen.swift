@@ -37,20 +37,22 @@ struct GameScreen: View {
   @State var nowShowingQandAScreen = false
   @State var isPlayingButtonState = false
   
-  @State var useOtherDiagonalAlert : Bool = false
+
   @State var showOtherDiagAlert : Bool = false
-  @State var diagAlertCount: Int = 0
+  @State var didshowOtherDiagAlert : Bool = false
   
   @State var showWinAlert = false
   @State var showLoseAlert = false
   @State var showCantStartAlert = false
   @State var showMustStartInCornerAlert : Bool = false
   
+  @State var showMustTapAdjacentCellAlert : Bool = false
+  
   @State var showSameSideAlert = false
   
   @State var alreadyPlayed: Xdi?
   
-@Environment(\.dismiss) var dismiss
+  @Environment(\.dismiss) var dismiss
   // process single tap
   func  onSingleTap (_ row:Int, _ col:Int ) {
     var validTap = false
@@ -64,24 +66,27 @@ struct GameScreen: View {
     //When a player tries to start the game in a box other than a corner, post the message "Start out in a corner . . ."
     if firstMove && !gs.isCornerCell(row:row,col:col) {
       showMustStartInCornerAlert = true
+      return
     }
-  
+    //If a player tries to play a box that is not adjacent to a played box, post the message "Touch a box next to one you've already played . . ."
+    
+    if !firstMove && !gs.isCornerCell(row:row,col:col) && !hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: (row, col)) {
+      showMustTapAdjacentCellAlert = true
+      return
+    }
+    
+ 
+
+
     
     // if not playing ignore all other taps
- if gs.gamestate == .playingNow,
-              gs.cellstate[row][col] == .unplayed {
-   // consider valid tap if first move corner cell
-   // or not first and either a corner or with an adjacent neighbor thats been played
+    if gs.gamestate == .playingNow,
+       gs.cellstate[row][col] == .unplayed {
+      // consider valid tap if first move corner cell
+      // or not first and either a corner or with an adjacent neighbor thats been played
       validTap = firstMove ? gs.isCornerCell(row: row, col: col) : (gs.isCornerCell(row: row, col: col) || hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: (row, col)))
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     if validTap {
       gs.lastmove = GameMove(row: row, col: col, movenumber: gs.movenumber)
       firstMove = false
@@ -89,7 +94,9 @@ struct GameScreen: View {
       chal = IdentifiablePoint(row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
     }
   }
-// choose alert to show
+  
+  
+  // evaluate winners and losers
   func onChangeOfCellState() {
     print("**************onChangeOfCellState****************")
     let (path,iswinner) = winningPath(in:gs.cellstate)
@@ -106,73 +113,101 @@ struct GameScreen: View {
       showLoseAlert = true
       return
     }
-    }
+    //If you lose in both corners post a message to try the other diagonal Message should say "Go for the other diagonal!" showOtherDiagAlert
+//    
+//    if gs.cellstate[0][0] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [gs.boardsize-1] == .playedIncorrectly {
+//      if !didshowOtherDiagAlert {showOtherDiagAlert = true
+//        didshowOtherDiagAlert = true}
+//      return
+//    }
+//    if gs.cellstate[0][gs.boardsize-1] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [0] == .playedIncorrectly {
+//      if !didshowOtherDiagAlert {showOtherDiagAlert = true
+//        didshowOtherDiagAlert = true}
+//      return
+//    }
+  }
   
   //UI
   var body: some View {
     NavigationStack {
       VStack (spacing:0) {
         topBar
-          ScoreBarView(gs: gs).frame(height:50)
-          
-          MainGridView(gs: gs, chmgr:chmgr,
-                       firstMove: $firstMove,
-                       isTouching: $isTouching,
-                       onSingleTap: onSingleTap)
-          
-          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
-          
-          GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
-          
-            .onChange(of:gs.cellstate) {
-              onChangeOfCellState()
-            }
-            .onChange(of:gs.currentscheme) {
-              gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
-              gs.saveGameState()
-            }
-            .onAppear {
-              firstMove = true
-            }
-            .onDisappear {
-              print("Yikes the GameScreen is Disappearing!")
-            }
+        ScoreBarView(gs: gs).frame(height:50)
+        
+        MainGridView(gs: gs, chmgr:chmgr,
+                     firstMove: $firstMove,
+                     isTouching: $isTouching,
+                     onSingleTap: onSingleTap)
+        
+        TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
+        
+        GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
+        
+          .onChange(of:gs.cellstate) {
+            onChangeOfCellState()
+          }
+          .onChange(of:gs.currentscheme) {
+            gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
+            gs.saveGameState()
+          }
+          .onAppear {
+            firstMove = true
+          }
+          .onDisappear {
+            print("Yikes the GameScreen is Disappearing!")
+          }
       }
-      .youWinAlert(isPresented: $showWinAlert, title: "You Win",
-                   bodyMessage: "Good job, keep going...",
-                   buttonTitle: "OK"){
-        onYouWin()
+      
+      
+      .fullScreenCover(item: $alreadyPlayed) { xdi in
+        if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
+          ReplayingScreen(ch: xdi.challenge, ansinfo: ansinfo, gs: gs)
+        }
       }
-     .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){
-       onYouLose()
-     }
-     .alert("You need to add at least one more topic. The total number of questions in your topics must be at least the number of boxes in your game board.",isPresented: $showCantStartAlert){
-       Button("OK", role: .cancel) {
-         withAnimation {
-           onCantStartNewGameAction()
-         }
-       }
-     }
       
-     .fullScreenCover(item: $alreadyPlayed) { xdi in
-       if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
-         ReplayingScreen(ch: xdi.challenge, ansinfo: ansinfo, gs: gs)
-       }
-     }
+      .fullScreenCover(item: $chal) { cha in
+        QandAScreen(
+          chmgr: chmgr, gs: gs,
+          row: cha.row, col: cha.col,
+          isPresentingDetailView: $nowShowingQandAScreen)
+      }
       
-     .fullScreenCover(item: $chal) { cha in
-       QandAScreen(
-         chmgr: chmgr, gs: gs,
-         row: cha.row, col: cha.col,
-         isPresentingDetailView: $nowShowingQandAScreen)
-     }
-     .alert ("Start out in a corner",isPresented: $showMustStartInCornerAlert) {
-       Button("OK", role: .cancel) {
-         withAnimation {
-          dismiss()
-         }
-       }
-     }
+      .alert (
+        "Touch a box next to one you've already played . . ."
+        ,isPresented: $showMustTapAdjacentCellAlert) {
+          Button("OK", role: .cancel) {
+            withAnimation {
+              dismiss()
+            }
+          }
+        }
+        .alert ("Go for the other diagonal!",isPresented: $showOtherDiagAlert ) {
+          Button("OK", role: .cancel) {
+            withAnimation {
+              dismiss()
+            }
+          }
+        }
+        .alert ("Start out in a corner",isPresented: $showMustStartInCornerAlert) {
+          Button("OK", role: .cancel) {
+            withAnimation {
+              dismiss()
+            }
+          }
+        }
+        .alert("You need to add at least one more topic. The total number of questions in your topics must be at least the number of boxes in your game board.",isPresented: $showCantStartAlert){
+          Button("OK", role: .cancel) {
+            withAnimation {
+              onCantStartNewGameAction()
+            }
+          }
+        }
+        .youWinAlert(isPresented: $showWinAlert, title: "You Win",
+                     bodyMessage: "Good job, keep going...",
+                     buttonTitle: "OK"){ onYouWin()}
+      
+                     .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){onYouLose()}
+      
     }.navigationViewStyle(StackNavigationViewStyle())
   }
   

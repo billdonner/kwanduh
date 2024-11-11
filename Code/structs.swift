@@ -24,25 +24,7 @@ extension View {
     }
 }
 
-enum GameCellState: Codable {
-    case playedCorrectly
-    case playedIncorrectly
-    case unplayed
-    case blocked  // New state added
 
-    var borderColor: Color {
-        switch self {
-        case .playedCorrectly:
-            return Color.neonGreen
-        case .playedIncorrectly:
-            return Color.neonRed
-        case .unplayed:
-            return .gray
-        case .blocked:  // Handling the new blocked state
-            return Color.gray.opacity(0.5)  // Use a faded gray for blocked state
-        }
-    }
-}
 enum CornerPosition: CaseIterable {
     case topLeft
     case topRight

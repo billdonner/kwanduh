@@ -7,7 +7,7 @@
 
 
 import XCTest
-@testable import basic
+@testable import kwanduh
 
 
 class WinningPathTests: XCTestCase {
