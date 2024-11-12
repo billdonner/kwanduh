@@ -61,19 +61,17 @@ func hasLosingCornerCondition(in matrix: [[GameCellState]]) -> Bool {
     
     return false
 }
-
 func hasPotentialPath(in matrix: [[GameCellState]]) -> Bool {
     let n = matrix.count
     guard n > 1 else { return false }
 
-    // Define possible pairs of opposite corners that need a potential path
     let startPoints = [
-        (0, 0, n - 1, n - 1),  // Diagonal 1: Top-left to Bottom-right
-        (0, n - 1, n - 1, 0)   // Diagonal 2: Top-right to Bottom-left
+        (0, 0, n - 1, n - 1),
+        (0, n - 1, n - 1, 0)
     ]
 
     func dfs(_ row: Int, _ col: Int, _ endRow: Int, _ endCol: Int, _ visited: inout Set<String>) -> Bool {
-        if (row, col) == (endRow, endCol), matrix[row][col] != .blocked, matrix[row][col] != .playedIncorrectly {
+        if (row, col) == (endRow, endCol) && matrix[row][col] != .blocked && matrix[row][col] != .playedIncorrectly {
             return true
         }
 
@@ -98,7 +96,6 @@ func hasPotentialPath(in matrix: [[GameCellState]]) -> Bool {
         return false
     }
 
-    // Check each pair of opposite corners for a potential path
     for (startRow, startCol, endRow, endCol) in startPoints {
         var visited = Set<String>()
         if dfs(startRow, startCol, endRow, endCol, &visited) {
@@ -107,53 +104,6 @@ func hasPotentialPath(in matrix: [[GameCellState]]) -> Bool {
     }
     
     return false
-}
-
-func winningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
-    let n = matrix.count
-    guard n > 0 else { return ([], false) }
-
-    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
-    let startPoints = [(0, 0), (0, n - 1)] // Only test from one corner on each diagonal
-
-    func dfs(_ row: Int, _ col: Int, _ visited: inout Set<String>, _ path: inout [(Int, Int)], _ endRow: Int, _ endCol: Int) -> Bool {
-        if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
-            path.append((row, col))
-            return true
-        }
-
-        let key = "\(row),\(col)"
-        if visited.contains(key) || matrix[row][col] != .playedCorrectly {
-            return false
-        }
-
-        visited.insert(key)
-        path.append((row, col))
-
-        for direction in directions {
-            let newRow = row + direction.0
-            let newCol = col + direction.1
-            if newRow >= 0, newRow < n, newCol >= 0, newCol < n, matrix[newRow][newCol] != .blocked {
-                if dfs(newRow, newCol, &visited, &path, endRow, endCol) {
-                    return true
-                }
-            }
-        }
-
-        path.removeLast()
-        return false
-    }
-
-    for startPoint in startPoints {
-        let endPoint = (n - 1 - startPoint.0, n - 1 - startPoint.1)
-        var visited = Set<String>()
-        var path: [(Int, Int)] = []
-        if dfs(startPoint.0, startPoint.1, &visited, &path, endPoint.0, endPoint.1) {
-            return (path, true)
-        }
-    }
-    
-    return ([], false)
 }
 func hasAdjacentNeighbor(withStates states: Set<GameCellState>, in matrix: [[GameCellState]], for cell: (Int, Int)) -> Bool {
     let n = matrix.count
@@ -165,11 +115,304 @@ func hasAdjacentNeighbor(withStates states: Set<GameCellState>, in matrix: [[Gam
         let newRow = row + direction.0
         let newCol = col + direction.1
         if newRow >= 0 && newRow < n && newCol >= 0 && newCol < n {
-            // Check if the adjacent cell is in one of the desired states and is not blocked
             if states.contains(matrix[newRow][newCol]) && matrix[newRow][newCol] != .blocked {
                 return true
             }
         }
     }
     return false
+}
+func numberOfPossibleMoves(in matrix: [[GameCellState]]) -> Int {
+    let n = matrix.count
+    guard n > 0 else { return 0 }
+
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    var possibleMoves = 0
+
+    for row in 0..<n {
+        for col in 0..<n where matrix[row][col] == .unplayed {
+            for direction in directions {
+                let newRow = row + direction.0
+                let newCol = col + direction.1
+                if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
+                   matrix[newRow][newCol] == .playedCorrectly {
+                    possibleMoves += 1
+                    break  // Count this unplayed cell only once
+                }
+            }
+        }
+    }
+    return possibleMoves
+}
+func winningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define both diagonals' start and end points
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    func bfs(startRow: Int, startCol: Int, endRow: Int, endCol: Int) -> ([(Int, Int)], Bool) {
+        var queue = [(startRow, startCol, [(startRow, startCol)])]
+        var visited = Set<String>()
+        visited.insert("\(startRow),\(startCol)")
+
+        while !queue.isEmpty {
+            let (row, col, path) = queue.removeFirst()
+
+            // Debug output to help trace the pathfinding process
+            print("Visiting cell: (\(row), \(col)) - Path length: \(path.count)")
+
+            // Check if we've reached the end
+            if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
+                print("Found winning path: \(path)")
+                return (path, true)
+            }
+
+            // Explore neighbors
+            for direction in directions {
+                let newRow = row + direction.0
+                let newCol = col + direction.1
+                let newKey = "\(newRow),\(newCol)"
+
+                if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
+                   !visited.contains(newKey),
+                   matrix[newRow][newCol] == .playedCorrectly {
+                    
+                    visited.insert(newKey)
+                    queue.append((newRow, newCol, path + [(newRow, newCol)]))
+                }
+            }
+        }
+        return ([], false)
+    }
+
+    // Check each diagonal independently
+    for i in 0..<startPoints.count {
+        let (startRow, startCol) = startPoints[i]
+        let (endRow, endCol) = endPoints[i]
+
+        let (path, found) = bfs(startRow: startRow, startCol: startCol, endRow: endRow, endCol: endCol)
+        if found {
+            return (path, true)
+        }
+    }
+
+    return ([], false)
+}
+func aaawinningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define start and end points for both diagonals
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    func bfs(startRow: Int, startCol: Int, endRow: Int, endCol: Int) -> ([(Int, Int)], Bool) {
+        var queue = [(startRow, startCol, [(startRow, startCol)])]
+        var visited = Set<String>()
+        visited.insert("\(startRow),\(startCol)")
+
+        while !queue.isEmpty {
+            let (row, col, path) = queue.removeFirst()
+
+            // Check if we've reached the end
+            if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
+                return (path, true)
+            }
+
+            // Explore neighbors
+            for direction in directions {
+                let newRow = row + direction.0
+                let newCol = col + direction.1
+                let newKey = "\(newRow),\(newCol)"
+
+                if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
+                   !visited.contains(newKey),
+                   matrix[newRow][newCol] == .playedCorrectly {
+                    
+                    visited.insert(newKey)
+                    queue.append((newRow, newCol, path + [(newRow, newCol)]))
+                }
+            }
+        }
+        return ([], false)
+    }
+
+    // Check each diagonal independently
+    for i in 0..<startPoints.count {
+        let (startRow, startCol) = startPoints[i]
+        let (endRow, endCol) = endPoints[i]
+
+        let (path, found) = bfs(startRow: startRow, startCol: startCol, endRow: endRow, endCol: endCol)
+        if found {
+            return (path, true)
+        }
+    }
+
+    return ([], false)
+}
+func xxxwinningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define both diagonals' start and end points
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    func bfs(startRow: Int, startCol: Int, endRow: Int, endCol: Int) -> ([(Int, Int)], Bool) {
+        var queue = [(startRow, startCol, [(startRow, startCol)])]  // (current position, path to that position)
+        var visited = Set<String>()
+        visited.insert("\(startRow),\(startCol)")
+
+        while !queue.isEmpty {
+            let (row, col, path) = queue.removeFirst()
+            
+            // Check if we've reached the end
+            if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
+                return (path, true)
+            }
+
+            // Explore neighbors
+            for direction in directions {
+                let newRow = row + direction.0
+                let newCol = col + direction.1
+                let newKey = "\(newRow),\(newCol)"
+
+                if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
+                   !visited.contains(newKey),
+                   matrix[newRow][newCol] == .playedCorrectly {
+                    
+                    visited.insert(newKey)
+                    queue.append((newRow, newCol, path + [(newRow, newCol)]))
+                }
+            }
+        }
+        return ([], false)
+    }
+
+    // Check both diagonals independently
+    for i in 0..<startPoints.count {
+        let (startRow, startCol) = startPoints[i]
+        let (endRow, endCol) = endPoints[i]
+        
+        let (path, found) = bfs(startRow: startRow, startCol: startCol, endRow: endRow, endCol: endCol)
+        if found {
+            return (path, true)
+        }
+    }
+
+    return ([], false)
+}
+func OLDwinningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define both diagonals' start and end points
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    func bfs(startRow: Int, startCol: Int, endRow: Int, endCol: Int) -> ([(Int, Int)], Bool) {
+        var queue = [(startRow, startCol, [(startRow, startCol)])]  // (current position, path to that position)
+        var visited = Set<String>()
+        visited.insert("\(startRow),\(startCol)")
+
+        while !queue.isEmpty {
+            let (row, col, path) = queue.removeFirst()
+            
+            // Check if we've reached the end
+            if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
+                return (path, true)
+            }
+
+            // Explore neighbors
+            for direction in directions {
+                let newRow = row + direction.0
+                let newCol = col + direction.1
+                let newKey = "\(newRow),\(newCol)"
+
+                if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
+                   !visited.contains(newKey),
+                   matrix[newRow][newCol] == .playedCorrectly {
+                    
+                    visited.insert(newKey)
+                    queue.append((newRow, newCol, path + [(newRow, newCol)]))
+                }
+            }
+        }
+        return ([], false)
+    }
+
+    // Check both diagonals independently
+    for i in 0..<startPoints.count {
+        let (startRow, startCol) = startPoints[i]
+        let (endRow, endCol) = endPoints[i]
+        
+        let (path, found) = bfs(startRow: startRow, startCol: startCol, endRow: endRow, endCol: endCol)
+        if found {
+            return (path, true)
+        }
+    }
+
+    return ([], false)
+}
+func DfSwinningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define both diagonals' start and end points
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+    
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    func dfs(_ row: Int, _ col: Int, _ endRow: Int, _ endCol: Int, _ visited: inout Set<String>, _ path: inout [(Int, Int)]) -> Bool {
+        if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
+            path.append((row, col))
+            return true
+        }
+
+        let key = "\(row),\(col)"
+        if visited.contains(key) || matrix[row][col] == .blocked || matrix[row][col] != .playedCorrectly {
+            return false
+        }
+
+        visited.insert(key)
+        path.append((row, col))
+
+        for direction in directions {
+            let newRow = row + direction.0
+            let newCol = col + direction.1
+            if newRow >= 0, newRow < n, newCol >= 0, newCol < n {
+                if dfs(newRow, newCol, endRow, endCol, &visited, &path) {
+                    return true
+                }
+            }
+        }
+
+        path.removeLast()
+        return false
+    }
+
+    // Check each diagonal path individually
+    for i in 0..<startPoints.count {
+        let (startRow, startCol) = startPoints[i]
+        let (endRow, endCol) = endPoints[i]
+        var visited = Set<String>()
+        var path: [(Int, Int)] = []
+        
+        if dfs(startRow, startCol, endRow, endCol, &visited, &path) {
+            return (path, true)
+        }
+    }
+    
+    return ([], false)
 }

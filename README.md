@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.55.22 accepted carol's onboarding, did not take bottom buttons'
 - version 0.7.55.21 fixed various winlose functions for .blocked
 - version 0.7.55.20 blocked out cells at 25$%
 - version 0.7.54.19 cleaning alerts

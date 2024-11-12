@@ -17,7 +17,7 @@ struct GameScreenBottomButtons : View {
     HStack {
         Image("Freeport")
         .resizable()
-          .frame(width: isIpad ? 55 : 35 , height: isIpad ? 55 : 35)
+          .frame(width: isIpad ? 60 : 40 , height: isIpad ? 60 : 40)
                  .padding(.leading, 8)
                  .gesture( DragGesture(minimumDistance: gs.gamestate == .playingNow ? 0 : 0)//.infinity)
                                .onChanged { _ in
@@ -26,7 +26,7 @@ struct GameScreenBottomButtons : View {
                                .onEnded { _ in
                                  isTouching = false
                                }  )
-                 .padding(.leading, 20)
+                 .padding(.leading, 5)
                  .padding(4)
       Spacer()
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
@@ -45,7 +45,6 @@ struct GameScreenBottomButtons : View {
     .debugBorder()
       .fullScreenCover(isPresented: $showingHelp ){
         HowToPlayScreen (chmgr: chmgr, isPresented: $showingHelp)
-         
       }
     }
 }

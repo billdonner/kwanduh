@@ -15,7 +15,8 @@ extension QandAScreen {
       questionSectionVue(geometry: geometry)
         .frame(maxWidth: max(0, geometry.size.width), maxHeight: max(0, geometry.size.height * 0.4))//make bigger when bottom buttons gone
       //shuffle the questions
-      AnswerButtonsView(row: row,col: col,answers: ch.answers.shuffled(), geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect){ answer,row,col in
+      AnswerButtonsView(row: row,col: col,answers: ch.answers.shuffled(), geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect)
+      { answer,row,col in
         handleAnswerSelection(answer: answer,row:row,col:col)
       }
     }
@@ -140,6 +141,7 @@ func handleDismissal(toRoot:Bool) {
     AnsweredInfo(id: ch.id, answer: answered, outcome:.playedCorrectly,
                  timestamp: Date(), timetoanswer:elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
     killTimer=true
+    TSLog("Challenge \(ch.id) answered correctly")
     gs.saveGameState()
     chmgr.save()
     chmgr.checkAllTopicConsistency("mark correct after")
@@ -162,8 +164,9 @@ func handleDismissal(toRoot:Bool) {
                  timestamp: Date(), timetoanswer: elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
 
     killTimer=true
-    chmgr.save()
+    TSLog("Challenge \(ch.id) answered incorrectly")
     gs.saveGameState()
+    chmgr.save()
     chmgr.checkAllTopicConsistency("mark incorrect after")
   }
   func handleAnswerSelection(answer: String,row:Int,col:Int) {

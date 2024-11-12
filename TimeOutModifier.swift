@@ -66,10 +66,12 @@ struct TimeoutAlertModifier: ViewModifier {
                 .opacity(isPresented ? 0.9 : 0)
                 .onAppear {
                     // Start the timeout timer
+                  TSLog("Timeout Alert: Starting timeout timer for \(timeout) seconds \(title)")
                     DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
                         if isPresented {
                             withAnimation(.easeOut(duration: fadeOutDuration)) {
                                 dismissAlert()
+                              TSLog("Timeout Alert: Dismiss timeout timer for \(timeout) seconds \(title)")
                             }
                         }
                     }

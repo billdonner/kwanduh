@@ -19,21 +19,47 @@ fileprivate struct OnboardingPageView: View {
         VStack(spacing: 20) {
             Spacer()
             
-          OnboardingView(pageIndex:pageIndex)
+          OnboardingView( pageIndex: 0)
             
             Spacer()
             
+            
             // Exit button allows users to skip onboarding
             HStack {
-          
-                Button("Exit") {
-                    isOnboardingComplete = true
+                if pageIndex == 0  {
+            
+                    Button("PLAY") {
+                        isOnboardingComplete = true
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
-                .padding()
+      
+                else {
+                    
+                    if pageIndex != totalPages - 1 {
+                        
+                        Button("Exit") {
+                            isOnboardingComplete = true
+                        }
+                        //                .buttonStyle(.borderedProminent)
+                    }
+                }
+            
+        //        .padding()
               Spacer()
             
             // Display Next button or Play button on the last page
+                
             if pageIndex < totalPages - 1 {
+                if pageIndex > 0 {
+                    
+                    Button("Back") {
+                        withAnimation {
+                            currentPage -= 1
+                        }
+                    }
+                }
+               
                 Button("Next") {
                     withAnimation {
                         currentPage += 1
@@ -41,10 +67,16 @@ fileprivate struct OnboardingPageView: View {
                 }
                 .buttonStyle(.borderedProminent)
             } else {
-                Button("Play") {
+                Button("Back") {
+                    withAnimation {
+                        currentPage -= 1
+                    }
+                }
+                Button("PLAY") {
                     isOnboardingComplete = true
                 }
                 .buttonStyle(.borderedProminent)
+           
             }
             }
         }

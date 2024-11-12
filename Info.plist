@@ -9,7 +9,9 @@
 		<key>UIColorName</key>
 		<string>AccentColor</string>
 		<key>UIImageName</key>
-		<string>mummy-1024x1024</string>
+		<string>Freeport</string>
+		<key>UIImageRespectsSafeAreaInsets</key>
+		<true/>
 	</dict>
 </dict>
 </plist>

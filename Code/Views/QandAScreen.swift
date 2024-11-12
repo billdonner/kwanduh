@@ -59,17 +59,18 @@ struct QandAScreen: View {
                    buttonTitle: "Dismiss", onButtonTapped: {
           handleDismissal(toRoot:false)
         }, animation: .spring())
-        //onButtonTapped: @escaping () -> Void
+        
         .timeoutAlert(isPresented: $answerGiven,
                        title: (answerCorrect ? "You Got It!\nThe answer is:\n " :"Sorry...\nThe answer is:\n") + ch.correct,
                        message: ch.explanation ?? "xxx",
                        buttonTitle: nil,
-                      timeout: 5.0,
+                      timeout:5.0,
                       fadeOutDuration: 0.5,
                        onButtonTapped: {
                             handleDismissal(toRoot:true)
                             questionedWasAnswered = false // to guard against tapping toomany times
         })
+        
         .sheet(isPresented: $showInfo){
           ChallengeInfoScreen(challenge: ch)
         }
