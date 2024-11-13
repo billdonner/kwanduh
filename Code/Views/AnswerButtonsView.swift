@@ -17,12 +17,12 @@ struct AnswerButtonsView: View {
   let geometry: GeometryProxy
   let colorScheme: ColorScheme
   let disabled: Bool
-  @Binding var answerGiven: Bool
-  @Binding var answerCorrect: Bool 
+  @Binding var answerGiven: String?
+  @Binding var answerCorrect: Bool
   let handler: (String,Int,Int) -> Void //{ answer,row,col in handleAnswerSelection(answer: answer,row:row,col:col)}
   
   func colorForBorder() -> Color {
-    if answerGiven {
+    if answerGiven != nil {
        if answerCorrect {return .green} else {return .red}
     }
       if colorScheme == .dark {return Color.white}  else {return Color.black}

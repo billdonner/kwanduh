@@ -123,18 +123,19 @@ struct GameScreen: View {
             }
           }
         }
+       .alert ("Go for the other diagonal!",isPresented: $showOtherDiagAlert ) {
+         Button("OK", role: .cancel) {
+           withAnimation {
+             dismiss()
+           }
+         }
+                   }
         .youWinAlert(isPresented: $showWinAlert, title: "You Win",
                      bodyMessage: "Good job, keep going...",
                      buttonTitle: "OK"){ onYouWin()}
       
                      .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){onYouLose()}
-//                     .alert ("Go for the other diagonal!",isPresented: $showOtherDiagAlert ) {
-//                       Button("OK", role: .cancel) {
-//                         withAnimation {
-//                           dismiss()
-//                         }
-//                       }
-//                     }
+
       
     }.navigationViewStyle(StackNavigationViewStyle())
   }

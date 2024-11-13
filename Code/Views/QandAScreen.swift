@@ -16,14 +16,14 @@ struct QandAScreen: View {
   @State   var gimmeeAlert = false
   @State   var showThumbsUp: Challenge? = nil
   @State   var showThumbsDown: Challenge? = nil
-  @State   var selectedAnswer: String? = nil  // State to track selected answer
+ 
   @State   var answerCorrect: Bool = false   // State to track if the selected answer is correct
   @State   var showCorrectAnswer: Bool = false  // State to show correct answer temporarily
   @State   var showBorders: Bool = false  // State to show borders after animation
   @State   var showHint: Bool = false  // State to show/hide hint
   @State   var animateBackToBlue: Bool = false  // State to animate answers back to blue
   @State   var dismissToRootFlag = false // take all the way to GameScreen if set
-  @State   var answerGiven: Bool = false  // prevent further interactions after an answer is given
+  @State   var answerGiven: String? = nil  // prevent further interactions after an answer is given
   @State   var killTimer:Bool = false // set true to get the timer to stop
   @State   var elapsedTime: TimeInterval = 0
   @State   var questionedWasAnswered: Bool = false
@@ -60,7 +60,7 @@ struct QandAScreen: View {
           handleDismissal(toRoot:false)
         }, animation: .spring())
         
-        .timeoutAlert(isPresented: $answerGiven,
+        .timeoutAlert(item: $answerGiven,
                        title: (answerCorrect ? "You Got It!\nThe answer is:\n " :"Sorry...\nThe answer is:\n") + ch.correct,
                        message: ch.explanation ?? "xxx",
                        buttonTitle: nil,
@@ -68,7 +68,19 @@ struct QandAScreen: View {
                       fadeOutDuration: 0.5,
                        onButtonTapped: {
                             handleDismissal(toRoot:true)
-                            questionedWasAnswered = false // to guard against tapping toomany times
+          
+          if let answerGiven = answerGiven {
+            
+            switch answerCorrect {
+            case true: answeredCorrectly(ch,row:row,col:col,answered:answerGiven)
+            case false: answeredIncorrectly(ch,row:row,col:col,answered: answerGiven)
+            }
+            
+          }
+          
+          
+          
+          questionedWasAnswered = false // to guard against tapping toomany times
         })
         
         .sheet(isPresented: $showInfo){

@@ -70,15 +70,15 @@ extension GameScreen /* actions */ {
       return
     }
     //If you lose in both corners post a message to try the other diagonal Message should say "Go for the other diagonal!" showOtherDiagAlert
-//    if gs.gamestate == .playingNow {
-//      if gs.cellstate[0][0] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [gs.boardsize-1] == .playedIncorrectly || gs.cellstate[0][gs.boardsize-1] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [0] == .playedIncorrectly {
-//        if !didshowOtherDiagAlert {
-//          showOtherDiagAlert = true
-//          didshowOtherDiagAlert = true
-//        }
-//        return
-//      }
-//    }
+    if gs.gamestate == .playingNow {
+      if gs.cellstate[0][0] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [gs.boardsize-1] == .playedIncorrectly || gs.cellstate[0][gs.boardsize-1] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [0] == .playedIncorrectly {
+        if !didshowOtherDiagAlert {
+          showOtherDiagAlert = true
+          didshowOtherDiagAlert = true
+        }
+        return
+      }
+    }
   }
   
   

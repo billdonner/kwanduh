@@ -9,7 +9,7 @@ import SwiftUI
 
 
 extension QandAScreen {
-  func questionAndAnswersSectionVue(ch:Challenge,geometry: GeometryProxy,colorScheme: ColorScheme,answerGiven:Binding<Bool>,answerCorrect:Binding<Bool> ) -> some View {
+  func questionAndAnswersSectionVue(ch:Challenge,geometry: GeometryProxy,colorScheme: ColorScheme,answerGiven:Binding<String?>,answerCorrect:Binding<Bool> ) -> some View {
 
     VStack(spacing: 10) {
       questionSectionVue(geometry: geometry)
@@ -86,7 +86,7 @@ func handleDismissal(toRoot:Bool) {
         dismiss()
       }
     } else {
-      answerGiven = false //showAnsweredAlert = false
+      answerGiven = nil //showAnsweredAlert = false
       showHint=false //  showHintAlert = false
     }
   }
@@ -129,7 +129,6 @@ func handleDismissal(toRoot:Bool) {
     chmgr.checkAllTopicConsistency("mark correct before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
     answerCorrect = true
-    answerGiven = true
     showBorders = true
     gs.movenumber += 1
     gs.moveindex[row][col] = gs.movenumber
@@ -150,7 +149,6 @@ func handleDismissal(toRoot:Bool) {
     chmgr.checkAllTopicConsistency("mark incorrect before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
     answerCorrect = false
-    answerGiven = true
     showCorrectAnswer = false
     showBorders = true
     gs.movenumber += 1
@@ -172,15 +170,9 @@ func handleDismissal(toRoot:Bool) {
   func handleAnswerSelection(answer: String,row:Int,col:Int) {
     if !questionedWasAnswered { // only allow one answer
       let ch = chmgr.everyChallenge[gs.board[row][col]]
-      selectedAnswer = answer
       answerCorrect = (answer == ch.correct)
-      answerGiven = true
-      
-      switch answerCorrect {
-      case true: answeredCorrectly(ch,row:row,col:col,answered:answer)
-      case false: answeredIncorrectly(ch,row:row,col:col,answered: answer)
-      }
       questionedWasAnswered = true
+      answerGiven = answer //triggers the alert
     } else {
       print("dubl tap \(answer)")
     }
@@ -188,6 +180,11 @@ func handleDismissal(toRoot:Bool) {
 }
 /*
  
+ 
+ //      switch answerCorrect {
+ //      case true: answeredCorrectly(ch,row:row,col:col,answered:answer)
+ //      case false: answeredIncorrectly(ch,row:row,col:col,answered: answer)
+ //      }
  func answerButtonVue(answer: String,row:Int,col:Int, buttonWidth: CGFloat, buttonHeight: CGFloat,colorScheme: ColorScheme, taller: Bool = false) -> some View {
 
    return  Button(action: {

@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct TimeoutAlertModifier: ViewModifier {
-    @Binding var isPresented: Bool
+    @Binding var item: String?
     let title: String
     let message: String
     let buttonTitle: String?
@@ -20,7 +20,7 @@ struct TimeoutAlertModifier: ViewModifier {
         ZStack {
             content
 
-            if isPresented {
+            if item != nil    {
                 Color.black.opacity(0.4) // Background overlay
                     .edgesIgnoringSafeArea(.all)
 
@@ -63,12 +63,12 @@ struct TimeoutAlertModifier: ViewModifier {
                 .cornerRadius(12)
                 .shadow(radius: 10)
                 .frame(maxWidth: 300)
-                .opacity(isPresented ? 0.9 : 0)
+                .opacity(item != nil ? 0.9 : 0)
                 .onAppear {
                     // Start the timeout timer
                   TSLog("Timeout Alert: Starting timeout timer for \(timeout) seconds \(title)")
                     DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
-                        if isPresented {
+                        if item  != nil  {
                             withAnimation(.easeOut(duration: fadeOutDuration)) {
                                 dismissAlert()
                               TSLog("Timeout Alert: Dismiss timeout timer for \(timeout) seconds \(title)")
@@ -90,16 +90,16 @@ struct TimeoutAlertModifier: ViewModifier {
     private func dismissAlert() {
         withAnimation(.easeOut(duration: fadeOutDuration)) {
             onButtonTapped()
-            isPresented = false
+            item = nil
         }
     }
 }
 
 // View extension to use the custom alert modifier more easily
 extension View {
-    func timeoutAlert(isPresented: Binding<Bool>, title: String, message: String, buttonTitle: String? = "OK", timeout: TimeInterval , fadeOutDuration: Double ,
+    func timeoutAlert(item: Binding<String?>, title: String, message: String, buttonTitle: String? = "OK", timeout: TimeInterval , fadeOutDuration: Double ,
                       onButtonTapped: @escaping () -> Void) -> some View {
-        self.modifier(TimeoutAlertModifier(isPresented: isPresented, title: title, message: message, buttonTitle: buttonTitle,
+        self.modifier(TimeoutAlertModifier(item: item, title: title, message: message, buttonTitle: buttonTitle,
                                            timeout: timeout, fadeOutDuration: fadeOutDuration,
                                            onButtonTapped: onButtonTapped))
     }
@@ -107,7 +107,7 @@ extension View {
 
 // Example usage
 struct TestModifierView: View {
-    @State private var showAlert = false
+    @State private var item: String? = "Testing"
 
     var body: some View {
         VStack(spacing: 20) {
@@ -117,12 +117,12 @@ struct TestModifierView: View {
 
             Button("Show Timeout Alert") {
                 withAnimation {
-                    showAlert = true
+                    item = "zslsldslsdlsdlsd"
                 }
             }
         }
         .timeoutAlert(
-            isPresented: $showAlert,
+            item: $item,
             title: "Attention",
             message: "This alert will disappear automatically if not dismissed within 5 seconds.",
             buttonTitle: nil, // Specify nil to use the "X" for dismiss
