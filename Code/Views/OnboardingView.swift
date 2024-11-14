@@ -54,15 +54,10 @@ struct Page2: View {
         ZStack {
 
           VStack {
-     
-     //      Image("GBTitle")
-     //      .resizable()
-    //     .scaledToFit()
               Text("How to Play Kwanduh")
                   .font(.title2)
                   .bold()
               .padding(.vertical,-55)
-       //    .padding(.horizontal,30)
            .padding(.top,20)
            .padding(30)
            
@@ -77,9 +72,6 @@ struct Page2: View {
                 .font(.title2)
                 .padding(40)
                 .padding(.horizontal, -25)
-             //   .padding(.vertical,10)
-     
-     
           }
         }
       }
@@ -98,17 +90,10 @@ struct Page3: View {
                         .font(.title2)
                         .padding(.top,-20)
                         .padding(20)
-                    
-                    
-                    
                     Image("QuestionAnswer")
                         .resizable()
                         .scaledToFit()
                         .padding(20)
-                    
-                    
-                    
-                    
                 }
             }
         }
@@ -128,16 +113,10 @@ struct Page4: View {
               .font(.title2)
              .padding(.top,-30)
               .padding(.horizontal,20)
-         //     .padding(10)
-     
-
          Image("PointToGimme")
          .resizable()
          .scaledToFit()
-        // .padding(.horizontal,40)
          .padding(10)
-            
-
         }
       }
     }
@@ -160,26 +139,11 @@ struct Page5: View {
             Image(systemName: "arrow.trianglehead.2.clockwise")
             .resizable()
             .frame(width: 65, height: 80)
-       //     .padding(.top,-20)
-        //    .padding()
-            
-    
             Text("A Gimme is a token you can use to win games. For example, you pay a gimme to get a new question.")
                 .font(.title2)
-         //       .padding(20)
-         //       .padding(.top,-40)
-            
             Text("You collect gimmes while you play.  The first time you play you are given gimmees to start you off.")
               .font(.title2)
-          //    .padding(.horizontal,20)
               .padding(.vertical,10)
-          //    .padding(.top,-20)
-            
-        //    Text("The first time you play you are given gimmees to start you off.")
-        //        .font(.title2)
-           //     .padding()
-       //         .padding(.leading,-25)
-
    
         }
       }
@@ -200,12 +164,10 @@ struct Page6: View {
               .font(.title3)
              .padding(.horizontal,10)
               .padding(.vertical,10)
-         //     .padding(25)
+     
             Text("If you answer the question incorrectly, a red square is displayed.")
                   .font(.title3)
                   .padding(.horizontal,10)
-                //  .padding(.vertical,10)
-                 // .padding()
             Image("Questions")
             .resizable()
             .scaledToFit()
@@ -228,26 +190,17 @@ struct Page7: View {
         VStack {
             Text("Your goal is to create a path of correctly answered questions from one corner of the grid to the corner diagonally opposite it.")
                   .font(.title3)
-         //     .padding(25)
-          //    .padding(.top,10)
             Text("Going Up")
                   .font(.title2)
               .padding(5)
-        //      .padding(.top,-10)
             Image("Up")
             .resizable()
             .scaledToFit()
-       //     .padding(.horizontal,5)
-   
             Text("or Going Down.")
                   .font(.title2)
-       //       .padding(0)
             Image("Down")
               .resizable()
               .scaledToFit()
-   
-     //         .padding(.horizontal,-19)
-
         }
       }
     }
@@ -319,36 +272,16 @@ struct Page10: View {
             Text("If you tap the circular menu icon on the upper right . . .")
                 .font(.title2)
                 .padding(.top,-30)
-     //           .padding(.horizontal,-15)
                 .padding(20)
   
             Image("MenuPointer")
              .resizable()
              .scaledToFit()
-         //    .padding(.vertical,-20)
-           //  .padding(.horizontal,25)
              .padding(20)
-
-  //          Image(systemName: "ellipsis.circle")
-  //              .font(.system(size: 50))
-  //              .padding()
-            
             
             Text("you can select topics, change the size of your game board,choose a different color scheme.")
                 .font(.title2)
-      //          .padding(15)
                 .padding(.top,20)
-            
-     //       Text("change the size of your game board, ")
-     //           .font(.title2)
-         //       .padding()
-            //    .padding(.top,-50)
-            
-   //         Text("choose a different color scheme.")
-   //             .font(.title2)
-       //         .padding()
-   //             .padding(.horizontal,-15)
-            
   
             
   
@@ -372,7 +305,6 @@ struct Page11: View {
             Text("On the Select Topics Screen you increase your odds of winning by choosing topics you know well. You can add and remove topics until you're satisfied.")
                   .font(.title2)
               .padding(20)
-       //       .padding(.top, 10)
             
             Image("Topics")
             .resizable()
@@ -444,8 +376,6 @@ struct Page13: View {
               .resizable()
               .scaledToFit()
               .padding(20)
-      //        .padding(.bottom,-40)
-//              .padding(.horizontal,50)
               .padding(.vertical,5)
             
             Text("To remove a topic, click on the circle for that topic.")
@@ -453,8 +383,6 @@ struct Page13: View {
                 .padding(.top,-20)
                 .padding(.leading,-11)
                 .padding(.bottom, 5)
-            
-     
             
             Text("Adding a topic costs a gimme. Removing one is free.")
                 .font(.title3)
@@ -481,10 +409,8 @@ struct Page14: View {
             
             Text("The number in the center of the circle is the number of questions left in that topic.  Every topic starts with 100 questions.  The same question is never given twice so as you play a certain topic, the number of questions left decreases.")
                 .font(.title3)
-      //          .padding()
                 .padding(.top,-120)
                 .padding(.horizontal,12)
-      //          .padding(.bottom,20)
     
             Text("When the number of questions reaches 0, the topic will disappear from your screen.")
                 .font(.title3)
@@ -496,10 +422,6 @@ struct Page14: View {
                 .font(.title3)
                 .padding(.horizontal,15)
                 .padding(.bottom,-20)
-    
-     
-            
-
         }
       }
     }

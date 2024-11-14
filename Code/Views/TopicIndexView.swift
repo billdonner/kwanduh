@@ -61,13 +61,13 @@ struct TopicIndexView: View {
                 
                 .font(.footnote)
                   .lineLimit(3)
-                  .frame(width: 50, height: 60)
+                  .frame(width: 60, height: 64)
                   .foregroundColor(cs == .dark ? .white : .black)
               }
             }
           }
         
-        .padding(.vertical,6)
+        //.padding(.vertical,6)
         .padding(.horizontal,6)
       }
       .sheet(item: $presentTopic) { s in

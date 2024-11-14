@@ -19,47 +19,25 @@ fileprivate struct OnboardingPageView: View {
         VStack(spacing: 20) {
             Spacer()
             
-          OnboardingView( pageIndex: 0)
+          OnboardingView(pageIndex:pageIndex)
             
             Spacer()
             
-            
             // Exit button allows users to skip onboarding
             HStack {
-                if pageIndex == 0  {
-            
-                    Button("PLAY") {
-                        isOnboardingComplete = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-      
-                else {
-                    
-                    if pageIndex != totalPages - 1 {
-                        
-                        Button("Exit") {
-                            isOnboardingComplete = true
-                        }
-                        //                .buttonStyle(.borderedProminent)
-                    }
-                }
-            
-        //        .padding()
+          if pageIndex == 0 {
+            Button("PLAY") {
+              isOnboardingComplete = true
+            }.buttonStyle(.borderedProminent) 
+          } else {
+            Button("Exit") {
+              isOnboardingComplete = true
+            }
+          }
               Spacer()
             
             // Display Next button or Play button on the last page
-                
             if pageIndex < totalPages - 1 {
-                if pageIndex > 0 {
-                    
-                    Button("Back") {
-                        withAnimation {
-                            currentPage -= 1
-                        }
-                    }
-                }
-               
                 Button("Next") {
                     withAnimation {
                         currentPage += 1
@@ -67,16 +45,10 @@ fileprivate struct OnboardingPageView: View {
                 }
                 .buttonStyle(.borderedProminent)
             } else {
-                Button("Back") {
-                    withAnimation {
-                        currentPage -= 1
-                    }
-                }
                 Button("PLAY") {
                     isOnboardingComplete = true
                 }
                 .buttonStyle(.borderedProminent)
-           
             }
             }
         }
@@ -87,7 +59,7 @@ fileprivate struct OnboardingPageView: View {
         .padding(.horizontal)
     }
 }
-struct InnerOnboardingView: View {
+struct OuterOnboardingView: View {
     @Binding var isOnboardingComplete: Bool
 
     @State private var currentPage = 0
@@ -104,7 +76,7 @@ struct InnerOnboardingView: View {
                     )
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
         }
     }
 }
@@ -119,34 +91,34 @@ struct InnerOnboardingView: View {
 //    var body: some View {
 //        VStack(spacing: 20) {
 //            Spacer()
-//            
+//
 //            // Display a sample title and description for each onboarding page
 //            Text("Game Feature \(pageIndex + 1)")
 //                .font(.largeTitle)
 //                .padding()
-//            
+//
 //            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum tincidunt erat, ut convallis lorem faucibus in.")
 //                .multilineTextAlignment(.center)
 //                .padding(.horizontal)
-//            
+//
 //            // Placeholder image
 //            Image(systemName: "gamecontroller")
 //                .resizable()
 //                .scaledToFit()
 //                .frame(width: 100, height: 100)
 //                .padding()
-//            
+//
 //            Spacer()
-//            
+//
 //            // Exit button allows users to skip onboarding
 //            HStack {
-//          
+//
 //                Button("Exit") {
 //                    isOnboardingComplete = true
 //                }
 //                .padding()
 //              Spacer()
-//            
+//
 //            // Display Next button or Play button on the last page
 //            if pageIndex < totalPages - 1 {
 //                Button("Next") {

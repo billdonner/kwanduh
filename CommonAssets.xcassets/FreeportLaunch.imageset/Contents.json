@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "fsLogo-gothamRounded-v2c-44x44.pdf",
+      "filename" : "FSlogo-transparent-whiteBG-320-1024x1024.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -17,9 +17,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true,
-    "template-rendering-intent" : "template"
   }
 }

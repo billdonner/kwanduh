@@ -41,14 +41,16 @@ struct GameScreen: View {
   @State var showOtherDiagAlert : Bool = false
   @State var didshowOtherDiagAlert : Bool = false
   
+  @State var showSameSideAlert : Bool = false
+  @State var didshowSameSideAlert : Bool = false
+  
   @State var showWinAlert = false
   @State var showLoseAlert = false
   @State var showCantStartAlert = false
   @State var showMustStartInCornerAlert : Bool = false
   
   @State var showMustTapAdjacentCellAlert : Bool = false
-  
-  @State var showSameSideAlert = false
+   
   
   @State var alreadyPlayed: Xdi?
   
@@ -56,88 +58,103 @@ struct GameScreen: View {
 
   //UI
   var body: some View {
-    NavigationStack {
-      VStack (spacing:0) {
-        topBar
-        ScoreBarView(gs: gs).frame(height:50)
-        
-        MainGridView(gs: gs, chmgr:chmgr,
-                     firstMove: $firstMove,
-                     isTouching: $isTouching,
-                     onSingleTap: onSingleTap)
-        
-        TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
-        
-        GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
-        
-          .onChange(of:gs.cellstate) {
-            onChangeOfCellState()
-          }
-          .onChange(of:gs.currentscheme) {
-            gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
-            gs.saveGameState()
-          }
-          .onAppear {
-            firstMove = true
-          }
-          .onDisappear {
-            print("Yikes the GameScreen is Disappearing!")
-          }
-      }
+    GeometryReader { geometry in
       
       
-      .fullScreenCover(item: $alreadyPlayed) { xdi in
-        if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
-          ReplayingScreen(ch: xdi.challenge, ansinfo: ansinfo, gs: gs)
+      NavigationStack {
+        VStack  {
+          topBar.padding(.top,15)
+          
+          ScoreBarView(gs: gs).frame(height:40)
+            .padding(.bottom,10)
+       Spacer()
+          MainGridView(gs: gs, chmgr:chmgr,
+                       firstMove: $firstMove,
+                       isTouching: $isTouching,
+                       onSingleTap: onSingleTap)
+          .frame(width:geometry.size.width,height:geometry.size.width)
+          Spacer()
+          TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
+     
+          GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
+          
+            .onChange(of:gs.cellstate) {
+              onChangeOfCellState()
+            }
+            .onChange(of:gs.currentscheme) {
+              gs.topicsinplay = colorize(scheme: gs.currentscheme,topics: Array(gs.topicsinplay.keys)) // do not change ordering
+              gs.saveGameState()
+            }
+            .onAppear {
+              firstMove = true
+            }
+            .onDisappear {
+              print("Yikes the GameScreen is Disappearing!")
+            }
+            .padding(.bottom,15)
         }
-      }
-      
-      .fullScreenCover(item: $chal) { cha in
-        QandAScreen(
-          chmgr: chmgr, gs: gs,
-          row: cha.row, col: cha.col,
-          isPresentingDetailView: $nowShowingQandAScreen)
-      }
-      
-      .alert (
-        "Touch a box next to one you've already played . . ."
-        ,isPresented: $showMustTapAdjacentCellAlert) {
-          Button("OK", role: .cancel) {
-            withAnimation {
-              dismiss()
+        
+        
+        .fullScreenCover(item: $alreadyPlayed) { xdi in
+          if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
+            ReplayingScreen(ch: xdi.challenge, ansinfo: ansinfo, gs: gs)
+          }
+        }
+        
+        .fullScreenCover(item: $chal) { cha in
+          QandAScreen(
+            chmgr: chmgr, gs: gs,
+            row: cha.row, col: cha.col,
+            isPresentingDetailView: $nowShowingQandAScreen)
+        }
+        
+        .alert (
+          "Touch a box next to one you've already played . . ."
+          ,isPresented: $showMustTapAdjacentCellAlert) {
+            Button("OK", role: .cancel) {
+              withAnimation {
+                dismiss()
+              }
             }
           }
-        }
-
-        .alert ("Start out in a corner",isPresented: $showMustStartInCornerAlert) {
-          Button("OK", role: .cancel) {
-            withAnimation {
-              dismiss()
+        
+          .alert ("Start out in a corner",isPresented: $showMustStartInCornerAlert) {
+            Button("OK", role: .cancel) {
+              withAnimation {
+                dismiss()
+              }
             }
           }
-        }
-        .alert("You need to add at least one more topic. The total number of questions in your topics must be at least the number of boxes in your game board.",isPresented: $showCantStartAlert){
-          Button("OK", role: .cancel) {
-            withAnimation {
-              onCantStartNewGameAction()
+          .alert("You need to add at least one more topic. The total number of questions in your topics must be at least the number of boxes in your game board.",isPresented: $showCantStartAlert){
+            Button("OK", role: .cancel) {
+              withAnimation {
+                onCantStartNewGameAction()
+              }
             }
           }
-        }
-       .alert ("Go for the other diagonal!",isPresented: $showOtherDiagAlert ) {
-         Button("OK", role: .cancel) {
-           withAnimation {
-             dismiss()
-           }
-         }
-                   }
-        .youWinAlert(isPresented: $showWinAlert, title: "You Win",
-                     bodyMessage: "Good job, keep going...",
-                     buttonTitle: "OK"){ onYouWin()}
-      
-                     .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){onYouLose()}
-
-      
-    }.navigationViewStyle(StackNavigationViewStyle())
+          .alert ("Go for the other diagonal!",isPresented: $showOtherDiagAlert ) {
+            Button("OK", role: .cancel) {
+              withAnimation {
+                dismiss()
+              }
+            }
+          }
+          .alert ("Winning path connects corners on opposite sides of a diagonal!",isPresented: $showSameSideAlert ) {
+            Button("OK", role: .cancel) {
+              withAnimation {
+                dismiss()
+              }
+            }
+          }
+          .youWinAlert(isPresented: $showWinAlert, title: "You Win",
+                       bodyMessage: "Good job, keep going...",
+                       buttonTitle: "OK"){ onYouWin()}
+        
+          .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){onYouLose()}
+        
+        
+      }.navigationViewStyle(StackNavigationViewStyle())
+    }
   }
   
   var playToggleButton: some View {

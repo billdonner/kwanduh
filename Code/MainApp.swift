@@ -17,8 +17,6 @@ import SwiftUI
 // Assuming a mock PlayData JSON file in the main bundle
 
 
-let spareHeightFactor = isIpad ? 1.15:1.75// controls layout of grid if too small
-
 
 let bonusPerWin = 10
 let penaltyPerLoss = 2
@@ -43,7 +41,7 @@ struct mainApp : App {
     WindowGroup {
      let _ =  TSLog(">\(AppNameProvider.appName()) \(   AppVersionProvider.appVersion()) running; Assertions:\(shouldAssert ? "ON":"OFF") Debug:\(isDebugModeEnabled ? "ON":"OFF") Cloudkit:\(!cloudKitBypass ? "ON":"OFF")")
       if !onboardingdone {
-        InnerOnboardingView(isOnboardingComplete: $onboardingdone)
+        OuterOnboardingView(isOnboardingComplete: $onboardingdone)
       }
       else {
         ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)

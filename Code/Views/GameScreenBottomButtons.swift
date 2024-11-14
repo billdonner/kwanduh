@@ -15,7 +15,7 @@ struct GameScreenBottomButtons : View {
   @State   var showingHelp = false
   var body: some View {
     HStack {
-        Image("Freeport")
+      Image("Freeport")
         .resizable()
           .frame(width: isIpad ? 60 : 40 , height: isIpad ? 60 : 40)
                  .padding(.leading, 8)
@@ -28,6 +28,7 @@ struct GameScreenBottomButtons : View {
                                }  )
                  .padding(.leading, 5)
                  .padding(4)
+                 .foregroundStyle(.accent)
       Spacer()
         Text("\(gameTitle) \(AppVersionProvider.appVersion())")
           .font(isIpad ? .headline: .caption2)
@@ -42,6 +43,7 @@ struct GameScreenBottomButtons : View {
                  .padding(.trailing, 15)
       }
     }
+ 
     .debugBorder()
       .fullScreenCover(isPresented: $showingHelp ){
         HowToPlayScreen (chmgr: chmgr, isPresented: $showingHelp)

@@ -31,10 +31,7 @@ extension GameScreen /* actions */ {
       return
     }
     
- 
 
-
-    
     // if not playing ignore all other taps
     if gs.gamestate == .playingNow,
        gs.cellstate[row][col] == .unplayed {
@@ -69,14 +66,41 @@ extension GameScreen /* actions */ {
       showLoseAlert = true
       return
     }
+    // Check if any corner is marked as played incorrectly
+    let incorrectInACorner = gs.cellstate[0][0] == .playedIncorrectly ||
+                             gs.cellstate[gs.boardsize - 1][gs.boardsize - 1] == .playedIncorrectly ||
+                             gs.cellstate[0][gs.boardsize - 1] == .playedIncorrectly ||
+                             gs.cellstate[gs.boardsize - 1][0] == .playedIncorrectly
+
+
+    
+    // Check if two corners on the same side are marked as played correctly
+    let twoCorrectInCornersOnSameSide = (
+        // Top-left and top-right corners
+        (gs.cellstate[0][0] == .playedCorrectly && gs.cellstate[0][gs.boardsize - 1] == .playedCorrectly) ||
+        // Bottom-left and bottom-right corners
+        (gs.cellstate[gs.boardsize - 1][0] == .playedCorrectly && gs.cellstate[gs.boardsize - 1][gs.boardsize - 1] == .playedCorrectly) ||
+        // Top-left and bottom-left corners
+        (gs.cellstate[0][0] == .playedCorrectly && gs.cellstate[gs.boardsize - 1][0] == .playedCorrectly) ||
+        // Top-right and bottom-right corners
+        (gs.cellstate[0][gs.boardsize - 1] == .playedCorrectly && gs.cellstate[gs.boardsize - 1][gs.boardsize - 1] == .playedCorrectly)
+    )
     //If you lose in both corners post a message to try the other diagonal Message should say "Go for the other diagonal!" showOtherDiagAlert
     if gs.gamestate == .playingNow {
-      if gs.cellstate[0][0] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [gs.boardsize-1] == .playedIncorrectly || gs.cellstate[0][gs.boardsize-1] == .playedIncorrectly || gs.cellstate[gs.boardsize-1] [0] == .playedIncorrectly {
+      if incorrectInACorner {
         if !didshowOtherDiagAlert {
           showOtherDiagAlert = true
           didshowOtherDiagAlert = true
         }
-        return
+      } else
+  
+    //When a player connects two corners that are on the same side the game board, post the message "Winning path connects corners on opposite sides of a diagonal!" with option to turn off this message.
+
+      if twoCorrectInCornersOnSameSide {
+        if !didshowSameSideAlert {
+          showSameSideAlert = true
+          didshowSameSideAlert = true
+        }
       }
     }
   }
@@ -123,6 +147,7 @@ extension GameScreen /* actions */ {
    // print("//GameScreen onStartGame before  topics: \(gs.topicsinplay) size:\( boardsize)")
     // chmgr.dumpTopics()
     showOtherDiagAlert = false
+    showSameSideAlert = false
     didshowOtherDiagAlert = false
     showWinAlert = false
     showLoseAlert = false
