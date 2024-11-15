@@ -51,10 +51,10 @@ extension GameScreen /* actions */ {
   
   // evaluate winners and losers
   func onChangeOfCellState() {
-    TSLog("**************onChangeOfCellState****************")
+    //TSLog("**************onChangeOfCellState****************")
     let (path,iswinner) = winningPath(in:gs.cellstate)
     if iswinner {
-      print("--->YOU WIN path is \(path)")
+      TSLog("--->YOU WIN path is \(path)")
       for p in path {
         gs.onwinpath[p.0][p.1] = true
       }
@@ -62,7 +62,7 @@ extension GameScreen /* actions */ {
       return
     }
     if !isPossibleWinningPath(in:gs.cellstate) {
-      print("--->YOU LOSE")
+     TSLog("--->YOU LOSE")
       showLoseAlert = true
       return
     }
@@ -165,8 +165,7 @@ extension GameScreen /* actions */ {
     } else {
       firstMove = true
     }
-    chmgr.checkAllTopicConsistency("on start game")
-    print("--->NEW GAME STARTED")
+    TSLog("--->NEW GAME STARTED")
     return ok
   }
   func endGame(status:StateOfPlay){

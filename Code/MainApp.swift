@@ -19,9 +19,9 @@ import SwiftUI
 
 
 let bonusPerWin = 10
-let penaltyPerLoss = 2
+let penaltyPerLoss = 0//2
 let bonusPerRight = 3
-let penaltyPerWrong = 1
+let penaltyPerWrong = 0//1
 let penaltyPerReplaced = 2
 
 
@@ -46,8 +46,7 @@ struct mainApp : App {
       else {
         ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
           .onAppear {
-  
-            conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+            conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"MainApp"))
             AppDelegate.lockOrientation(.portrait)// ensure applied
           }
       }

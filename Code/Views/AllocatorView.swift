@@ -18,7 +18,8 @@ struct AllocatorView: View {
         HStack {
           Text("Allocated: \(chmgr.allocatedChallengesCount())")
           Text("Free: \(chmgr.freeChallengesCount())")
-          Text("Played: \(gs.gamenumber)")
+          Text("Played: \(chmgr.correctChallengesCount()+chmgr.incorrectChallengesCount())")
+          Text("Gimmeed: \(chmgr.abandonedChallengesCount())")
         }
         .font(.footnote)
         .padding(.bottom, 8)
@@ -33,13 +34,13 @@ struct AllocatorView: View {
             }
           }
           Divider()
-          VStack(spacing: 4) {
-            ForEach(playData.topicData.topics, id: \.name) { topic in
-              if chmgr.allocatedChallengesCount(for: topic.name) > 0 {
-                TopicCountsView(topic: topic.name,chmgr: chmgr, gs: gs )
-              }
-            }
-          }
+//          VStack(spacing: 4) {
+//            ForEach(playData.topicData.topics, id: \.name) { topic in
+//              if chmgr.allocatedChallengesCount(for: topic.name) > 0 {
+//                TopicCountsView(topic: topic.name,chmgr: chmgr, gs: gs )
+//              }
+//            }
+//          }
           Divider()
           VStack(spacing: 4) {
             ForEach(playData.topicData.topics, id: \.name) { topic in

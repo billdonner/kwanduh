@@ -16,6 +16,6 @@ let showFreeport: Bool = false
 let cornerradius = 0.0 // something like 8 makes nice rounded corners in main grid
 let isDebugModeEnabled: Bool = false
 let debugBorderColor: Color = .red
-let shouldAssert = false //// External flag to control whether assertions should be enforced
+let shouldAssert = true //// External flag to control whether assertions should be enforced
 let cloudKitBypass = false
 let plainTopicIndex = true 

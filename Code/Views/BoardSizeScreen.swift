@@ -83,7 +83,7 @@ struct BoardSizeScreen: View {
       gs.onwinpath = Array(repeating: Array(repeating: false, count: l_boardsize), count: l_boardsize)
       gs.replaced = Array(repeating: Array(repeating: [], count: l_boardsize), count: l_boardsize)
 
-      chmgr.checkAllTopicConsistency("GameSettingScreen onDonePressed")
+      chmgr.checkAllTopicConsistency("BoardSizeScreen onDonePressed")
       gs.saveGameState()
   }
 }

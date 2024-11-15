@@ -127,7 +127,7 @@ func handleDismissal(toRoot:Bool) {
   
   func answeredCorrectly(_ ch:Challenge,row:Int,col:Int,answered:String) {
     chmgr.checkAllTopicConsistency("mark correct before")
-    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
     answerCorrect = true
     showBorders = true
     gs.movenumber += 1
@@ -147,7 +147,7 @@ func handleDismissal(toRoot:Bool) {
   }
   func answeredIncorrectly(_ ch:Challenge,row:Int,col:Int,answered:String) {
     chmgr.checkAllTopicConsistency("mark incorrect before")
-    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
     answerCorrect = false
     showCorrectAnswer = false
     showBorders = true

@@ -42,7 +42,8 @@ struct TopicIndexView: View {
                
                 
                 HighWaterMarkCircleView(text:"\(x)", percentage: pct,
-                                        size: 45, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
+                                        size: 50, color: backColor, plainTopicIndex: plainTopicIndex,isTouching:$isTouching)
+                .padding(.top,10)
               
               .onTapGesture {
                 switch opType {
@@ -59,15 +60,15 @@ struct TopicIndexView: View {
                 
                 Text(topic)
                 
-                .font(.footnote)
+                .font(.caption2)
                   .lineLimit(3)
-                  .frame(width: 60, height: 64)
+                  .frame(width: 60, height: 70)
                   .foregroundColor(cs == .dark ? .white : .black)
-              }
-            }
+              }.debugBorder()
+          }
           }
         
-        //.padding(.vertical,6)
+       .padding(.top,6)
         .padding(.horizontal,6)
       }
       .sheet(item: $presentTopic) { s in

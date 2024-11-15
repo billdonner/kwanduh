@@ -59,24 +59,22 @@ struct GameScreen: View {
   //UI
   var body: some View {
     GeometryReader { geometry in
-      
-      
-      NavigationStack {
-        VStack  {
-          topBar.padding(.top,15)
-          
+     // NavigationStack {
+      VStack(spacing:geometry.size.width < 400 ? 0 : 30)  {
+          topBar//.padding(.top,40)
           ScoreBarView(gs: gs).frame(height:40)
-            .padding(.bottom,10)
-       Spacer()
+            .layoutPriority(1)
+      // Spacer()
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
                        isTouching: $isTouching,
-                       onSingleTap: onSingleTap)
+                       onSingleTap: onSingleTap).debugBorder()
           .frame(width:geometry.size.width,height:geometry.size.width)
-          Spacer()
+         // .padding(.top,20)
+         // Spacer()
           TopicIndexView(gs:gs,chmgr:chmgr,selectedTopics:$gs.topicsinplay, topicsInOrder:$gs.topicsinorder, opType: .showDetails,isTouching:$isTouching)
      
-          GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)
+          GameScreenBottomButtons(gs:gs, chmgr: chmgr, isTouching: $isTouching)  .layoutPriority(2)
           
             .onChange(of:gs.cellstate) {
               onChangeOfCellState()
@@ -91,9 +89,9 @@ struct GameScreen: View {
             .onDisappear {
               print("Yikes the GameScreen is Disappearing!")
             }
-            .padding(.bottom,15)
+           // .padding(.bottom,35)
         }
-        
+      .debugBorder()
         
         .fullScreenCover(item: $alreadyPlayed) { xdi in
           if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
@@ -154,7 +152,9 @@ struct GameScreen: View {
         
         
       }.navigationViewStyle(StackNavigationViewStyle())
-    }
+       
+
+   // }
   }
   
   var playToggleButton: some View {
@@ -167,16 +167,16 @@ struct GameScreen: View {
             showCantStartAlert = true
           }
           chmgr.checkAllTopicConsistency("GameScreen StartGamePressed")
-          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr))
+          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr, message: "GameScreen StartGamePressed"))
         }
       } else {
-        // this one has been trouble
-        // conditionalAssert(gs.checkVsChaMan(chmgr: chmgr)) //cant check after endgamepressed
+      //this one has been trouble
+       conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message :"GameScreen EndGamePressed")) //cant check after endgamepressed
         isTouching = true
         onEndGamePressed()  //should estore consistency
         chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
       }
-    }).font(.headline)
+    }).font(.title3)
   }
   
   var loadingVeew: some View {
@@ -229,9 +229,9 @@ struct GameScreen: View {
       }
     } label: {
       Image(systemName: "ellipsis.circle")
-        .font(.headline)
+        .font(.title3)
         .padding(.leading, 20)
-        .padding(.trailing,10)
+        .padding(.trailing,1)
       // .font(.custom(mainFont,size:mainFontSize*0.9))
     }
     .sheet(isPresented: $showSettings) {
@@ -259,12 +259,13 @@ struct GameScreen: View {
   
   var topBar: some View {
     return HStack {
-      playToggleButton.padding(.leading,15)
+      playToggleButton.font(.title3)
       Spacer()
       Text(gameTitle).font(.custom(mainFont,size:mainFontSize))
       Spacer()
-      actionMenu.padding(.trailing,10)
-    }
+      actionMenu.font(.title3)
+    }.padding(.horizontal)
+    .debugBorder()
   }
   
 }

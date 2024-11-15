@@ -56,7 +56,7 @@ struct ScoreBarView: View {
         else {  "♺"   }
       }
       OutString(showchars: showchars,gs:gs).font(isIpad ?.title:.body)
-        .padding(.horizontal).padding(.vertical,4)
+        .padding(.horizontal).padding(.vertical,0)
     }
     
     .onChange(of:gs.cellstate) {
@@ -75,7 +75,7 @@ struct ScoreBarView: View {
           gs.saveGameState()
         }
       }
-    }
+    }    .debugBorder()
   }
 }
 

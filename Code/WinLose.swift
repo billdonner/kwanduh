@@ -163,11 +163,11 @@ func winningPath(in matrix: [[GameCellState]]) -> ([(Int, Int)], Bool) {
             let (row, col, path) = queue.removeFirst()
 
             // Debug output to help trace the pathfinding process
-            print("Visiting cell: (\(row), \(col)) - Path length: \(path.count)")
+          //  print("Visiting cell: (\(row), \(col)) - Path length: \(path.count)")
 
             // Check if we've reached the end
             if (row, col) == (endRow, endCol) && matrix[row][col] == .playedCorrectly {
-                print("Found winning path: \(path)")
+               // print("Found winning path: \(path)")
                 return (path, true)
             }
 
