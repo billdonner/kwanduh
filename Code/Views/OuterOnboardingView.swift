@@ -10,7 +10,7 @@ import SwiftUI
 
 // Single onboarding page with text, image, and exit/play buttons
 fileprivate struct OnboardingPageView: View {
-    let pageIndex: Int
+    //let pageIndex: Int
     let totalPages: Int
     @Binding var isOnboardingComplete: Bool
     @Binding var currentPage: Int
@@ -19,13 +19,13 @@ fileprivate struct OnboardingPageView: View {
         VStack(spacing: 20) {
             Spacer()
             
-          OnboardingView(pageIndex:pageIndex)
+          OnboardingView(pageIndex:currentPage)
             
             Spacer()
             
             // Exit button allows users to skip onboarding
             HStack {
-          if pageIndex == 0 {
+          if currentPage == 0 {
             Button("PLAY") {
               isOnboardingComplete = true
             }.buttonStyle(.borderedProminent) 
@@ -37,7 +37,7 @@ fileprivate struct OnboardingPageView: View {
               Spacer()
             
             // Display Next button or Play button on the last page
-            if pageIndex < totalPages - 1 {
+            if currentPage < totalPages - 1 {
                 Button("Next") {
                     withAnimation {
                         currentPage += 1
@@ -69,14 +69,13 @@ struct OuterOnboardingView: View {
             TabView(selection: $currentPage) {
                 ForEach(0..<totalPages, id: \.self) { index in
                    OnboardingPageView(
-                        pageIndex: index,
                         totalPages: totalPages,
                         isOnboardingComplete: $isOnboardingComplete,
                         currentPage: $currentPage
                     )
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
     }
 }

@@ -110,7 +110,7 @@ struct PositiveSentimentView: View {
   @State private var selectedFeeling: String = "Insightful"
   @State private var showAlert = false
   
-  let positiveFeelings = ["Vague", "Unclear", "Illogical", "Stimulating", "Insightful", "Brilliant","Fun Fact","Interesting Fact","Other"]
+  let positiveFeelings = ["Good Explanation", "Good Hint",   "Stimulating", "Insightful", "Brilliant","Fun Fact","Interesting Fact","Other"]
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
   
   var body: some View {
@@ -184,7 +184,7 @@ struct PositiveSentimentView: View {
 
 struct NegativeSentimentView: View {
   let id: String
-  let negativeFeelings = ["Incorrect", "Crazy", "Illogical", "Confusing", "Boring", "I Hate It","Other"]
+  let negativeFeelings = ["Incorrect", "Crazy", "Illogical", "Confusing", "Bad Explanation","Bad Hint","Boring", "I Hate It","Other"]
   @State private var cloudKitManager = CloudKitManager.shared
   @State private var message: String = ""
   @State private var selectedFeeling: String = "Incorrect"

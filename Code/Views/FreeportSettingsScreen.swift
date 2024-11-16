@@ -126,10 +126,7 @@ struct FreeportSettingsScreen: View {
         .sheet(isPresented: $addToLeaderboard) {
           AddScoreView(leaderboardService: lrdb)
             .preferredColorScheme(.light)
-        }
-        .fullScreenCover(isPresented: $showOnBoarding) {
-          OnboardingScreen(isPresented: $showOnBoarding)
-        }
+        } 
         .sheet(isPresented: $showSentimentsLog) {
           FetcherView( )
         }

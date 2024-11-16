@@ -87,8 +87,8 @@ func TSLog(_ message: String) {
     if dateFormatter.dateFormat.isEmpty {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
     }
-    
     // Generate the timestamp
+  
     let timestamp = dateFormatter.string(from: Date())
     
     // Print the log with the timestamp

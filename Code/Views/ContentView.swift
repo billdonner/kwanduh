@@ -35,11 +35,15 @@ struct ContentView: View {
         current_topics = gs.topicsinplay
         chmgr.checkAllTopicConsistency("ContentView onAppear2")
         TSLog(
-          "//ContentView first onAppear size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)"
+         """
+         //ContentView FIRST onAppear size:\(current_size) topics:\(gs.topicsinplay.count)     alloc:\(chmgr.allocatedChallengesCount()) free:\(chmgr.freeChallengesCount())
+"""
         )
       } else {
         TSLog(
-          "//ContentView onAppear restart size:\(current_size) topics:\(gs.topicsinplay.count) restartcount \(restartCount)"
+            """
+            //ContentView onAppear size:\(current_size) topics:\(gs.topicsinplay.count)     alloc:\(chmgr.allocatedChallengesCount()) free:\(chmgr.freeChallengesCount())
+   """
         )
       }
       restartCount += 1

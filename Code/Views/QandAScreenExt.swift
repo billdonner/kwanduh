@@ -140,7 +140,8 @@ func handleDismissal(toRoot:Bool) {
     AnsweredInfo(id: ch.id, answer: answered, outcome:.playedCorrectly,
                  timestamp: Date(), timetoanswer:elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
     killTimer=true
-    TSLog("Challenge \(ch.id) answered correctly")
+    let j = gs.moveindex[row][col]
+    TSLog("Challenge \(ch.id) index: \(j) answered correctly")
     gs.saveGameState()
     chmgr.save()
     chmgr.checkAllTopicConsistency("mark correct after")
@@ -162,7 +163,8 @@ func handleDismissal(toRoot:Bool) {
                  timestamp: Date(), timetoanswer: elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
 
     killTimer=true
-    TSLog("Challenge \(ch.id) answered incorrectly")
+    let j = gs.moveindex[row][col]
+    TSLog("Challenge \(ch.id) index: \(j) answered incorrectly")
     gs.saveGameState()
     chmgr.save()
     chmgr.checkAllTopicConsistency("mark incorrect after")

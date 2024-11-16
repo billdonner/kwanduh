@@ -3,12 +3,7 @@
 //  kwanduh
 //
 //  Created by bill donner on 9/24/24.
-//
-//
-//  kwanduhApp.swift
-//  kwanduh
-//
-//  Created by bill donner on 9/16/24.
+
 //
 
 import SwiftUI 
@@ -16,15 +11,11 @@ import SwiftUI
 
 // Assuming a mock PlayData JSON file in the main bundle
 
-
-
 let bonusPerWin = 10
 let penaltyPerLoss = 0//2
 let bonusPerRight = 3
 let penaltyPerWrong = 0//1
 let penaltyPerReplaced = 2
-
-
 
 @main
 struct mainApp : App {
@@ -45,6 +36,7 @@ struct mainApp : App {
       }
       else {
         ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
+          .debugBorder()
           .onAppear {
             conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"MainApp"))
             AppDelegate.lockOrientation(.portrait)// ensure applied
@@ -53,6 +45,3 @@ struct mainApp : App {
     }
   }
 }
-
-
-

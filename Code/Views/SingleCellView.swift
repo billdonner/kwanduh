@@ -199,7 +199,7 @@ struct SingleCellView: View {
             .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
         }
       case .blocked:
-        (colorScheme == .dark ? Color.offBlack : Color.offWhite)
+        (colorScheme == .light ? Color.offBlack : Color.offWhite)
           .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: 1.0)
       }
     }

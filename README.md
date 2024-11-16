@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.55.25 not sure if all alloc/dealloc fixed but other visual improvements, new scoring
 - version 0.7.55.24 fix alloc/dealloc issue now with blocked cells
 - version 0.7.55.23 fixed alerting problem halleluya and installed "use other diagonal"
 - version 0.7.55.22 accepted carol's onboarding, did not take bottom buttons'

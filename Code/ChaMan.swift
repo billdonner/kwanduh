@@ -37,7 +37,7 @@ class ChaMan {
   var stati: [ChallengeStatus]  // Using array instead of dictionary
   var ansinfo: [String:AnsweredInfo] // Dictionary indexed by challenge UUID
   
-  private(set) var playData: PlayData {
+ var playData: PlayData {
     didSet {
       // Invalidate the cache when playData changes
       invalidateAllTopicsCache()
@@ -82,8 +82,14 @@ class ChaMan {
   func invalidateAllTopicsCache() {
     _allTopics = nil
   }
-  
+  func checkTinfoConsistency(message:String) {
+    for (topic, info) in tinfo {
+      let allocatedCount = info.challengeIndices.filter { stati[$0] == .allocated }.count
+      assert(info.alloccount == allocatedCount, "\(message) --Mismatch \(info.alloccount ) in alloccount \(allocatedCount) for topic \(topic)")
+    }
+  }
   func allocateChallenges(forTopics topics: [String], count n: Int) -> AllocationResult {
+    print("Allocating \(n) challenges for \(topics.count) topics")
     var allocatedChallengeIndices: [Int] = []
     var topicIndexes: [String: [Int]] = [:]
     var tinfobuffer: [String: TopicInfo] = tinfo
@@ -196,9 +202,11 @@ class ChaMan {
     //dumpStati("allocateChallenges end")
     checkAllTopicConsistency("allocateChallenges end")
     save()
+    print("Allocated \(allocatedChallengeIndices.count) challenges for \(topics.count) topics indices: \(allocatedChallengeIndices.sorted())")
     return .success(allocatedChallengeIndices)//.shuffled()) // see if this works
   }
   func deallocAt(_ indexes: [Int]) -> AllocationResult {
+    print("Deallocating \(indexes.count) challenges at indices \(indexes.sorted())")
     var topicIndexes: [String: [Int]] = [:]
     var invalidIndexes: [Int] = []
     var tinfobuffer: [String: TopicInfo] = tinfo
@@ -216,6 +224,9 @@ class ChaMan {
       
       let challenge = everyChallenge[index]
       let topic = challenge.topic // Assuming `Challenge` has a `topic` property
+      
+      assert(index < stati.count, "deallocAt Index out of bounds in stati")
+      assert(index < everyChallenge.count, "deallocAt Index out of bounds in everyChallenge")
       
       if stati[index] == .inReserve {
         invalidIndexes.append(index)
@@ -282,7 +293,7 @@ class ChaMan {
       guard let newChallengeIndex = topicInfo.challengeIndices.last(where: { stati[$0] == .inReserve }) else {
         return .error(.insufficientChallenges(1))
       }
-
+      
       print("replacing Challenge at \(index) with challenge at \(newChallengeIndex)")
       stati[index] = .abandoned
       print("marking \(index) as abandoned")
@@ -298,60 +309,4 @@ class ChaMan {
     }
     return .error(.invalidTopics([topic]))
   }
-  
-  func loadPlayData( ) throws {
-    let starttime = Date.now
-    guard let url = playDataURL  else {
-      throw URLError(.fileDoesNotExist)
-    }
-    let data = try Data(contentsOf: url)
-    let pd = try JSONDecoder().decode(PlayData.self, from: data)
-    self.playData = pd
-    if let loadedStatuses = loadChallengeStatuses() {
-      self.stati = loadedStatuses
-    } else {
-      let challenges = pd.gameDatum.flatMap { $0.challenges}
-      var cs:[ChallengeStatus] = []
-      for _ in 0..<challenges.count {
-        cs.append(.inReserve)
-      }
-      self.stati = cs
-    }
-    
-    if let loadedTinfo = TopicInfo.loadTopicInfo() {
-      self.tinfo = loadedTinfo
-    } else {
-      setupTopicInfo() // build from scratch
-    }
-    
-    if let loadedAnswers = AnsweredInfo.loadAnsweredInfo() {
-      self.ansinfo = loadedAnswers
-    } else {
-      setupAnsweredInfo()
-    }
-    TSLog("Loaded \(self.stati.count) challenges from mainBundle PlayData in \(formatTimeInterval(Date.now.timeIntervalSince(starttime))) secs")
-    saveChallengeStatuses(stati)
-  }
-  
-  
-  func resetChallengeStatuses(at challengeIndices: [Int]) {
-    defer {
-      saveChallengeStatuses(stati)
-    }
-    for index in challengeIndices {
-      stati[index]  = ChallengeStatus.inReserve
-    }
-  }
-  
-  func totalresetofAllChallengeStatuses(gs:GameState) {
-    defer {
-      saveChallengeStatuses(stati)
-    }
-    //if let playData = playData {
-    self.stati = [ChallengeStatus](repeating:ChallengeStatus.inReserve, count: playData.gameDatum.flatMap { $0.challenges }.count)
-  }
-  
-  
-  
-  
 }

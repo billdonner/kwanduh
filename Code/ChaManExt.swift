@@ -6,8 +6,59 @@
 //
 
 import Foundation
-
 extension ChaMan {
+  func loadPlayData( ) throws {
+    let starttime = Date.now
+    guard let url = playDataURL  else {
+      throw URLError(.fileDoesNotExist)
+    }
+    let data = try Data(contentsOf: url)
+    let pd = try JSONDecoder().decode(PlayData.self, from: data)
+    self.playData = pd
+    if let loadedStatuses = loadChallengeStatuses() {
+      self.stati = loadedStatuses
+    } else {
+      let challenges = pd.gameDatum.flatMap { $0.challenges}
+      var cs:[ChallengeStatus] = []
+      for _ in 0..<challenges.count {
+        cs.append(.inReserve)
+      }
+      self.stati = cs
+    }
+    
+    if let loadedTinfo = TopicInfo.loadTopicInfo() {
+      self.tinfo = loadedTinfo
+    } else {
+      setupTopicInfo() // build from scratch
+    }
+    
+    if let loadedAnswers = AnsweredInfo.loadAnsweredInfo() {
+      self.ansinfo = loadedAnswers
+    } else {
+      setupAnsweredInfo()
+    }
+    TSLog("Loaded \(self.stati.count) challenges from mainBundle PlayData in \(formatTimeInterval(Date.now.timeIntervalSince(starttime))) secs")
+    saveChallengeStatuses(stati)
+  }
+  
+  
+  func resetChallengeStatuses(at challengeIndices: [Int]) {
+    defer {
+      saveChallengeStatuses(stati)
+    }
+    for index in challengeIndices {
+      stati[index]  = ChallengeStatus.inReserve
+    }
+  }
+  
+  func totalresetofAllChallengeStatuses(gs:GameState) {
+    defer {
+      saveChallengeStatuses(stati)
+    }
+    //if let playData = playData {
+    self.stati = [ChallengeStatus](repeating:ChallengeStatus.inReserve, count: playData.gameDatum.flatMap { $0.challenges }.count)
+  }
+
   // Get the file path for storing challenge statuses
  static  func getChallengeStatusesFilePath() -> URL {
     let fileManager = FileManager.default
@@ -140,8 +191,7 @@ extension ChaMan {
   
 }
 
-extension ChaMan {
-  
+extension ChaMan { 
   
   // Verify that tinfo and stati arrays are in sync
   func verifySync() -> Bool {
@@ -181,7 +231,7 @@ extension ChaMan {
   }
   func checkAllTopicConsistency(_ message:String) {
     // conditionalAssert( verifySync(),"\(message) sync")
-
+   // checkTinfoConsistency(message: message)
     var freecount = 0
     let freeFromStati = freeChallengesCount()
     var alloccount = 0
@@ -204,8 +254,8 @@ extension ChaMan {
     conditionalAssert(abandoncount == abandonFromStati,"\(message) abandoncount \(abandoncount) not \(abandonFromStati)")
     conditionalAssert(correctcount == correctFromStati,"\(message) correctcount \(correctcount) not \(correctFromStati)")
     conditionalAssert(incorrectcount == incorrectFromStati,"\(message) incorrectcount \(incorrectcount) not \(incorrectFromStati)")
-    conditionalAssert(freecount ==  freeFromStati,"\(message) freecount\(freecount) not \(freeFromStati)")
-    conditionalAssert(alloccount == allocFromStati ,"\(message) alloccount\(alloccount) not \(allocFromStati)")
+    conditionalAssert(freecount ==  freeFromStati,"\(message) freecount \(freecount) not \(freeFromStati)")
+    conditionalAssert(alloccount == allocFromStati ,"\(message) alloccount \(alloccount) not \(allocFromStati)")
   }
   
   func dumpTopics () {
@@ -220,8 +270,6 @@ extension ChaMan {
     }
     print("=============================")
   }
-  
-
     func dumpStati(_ mess:String){
       var counter = 0
       print("Dump status \(mess)")

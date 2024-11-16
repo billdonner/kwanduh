@@ -11,17 +11,20 @@ func formattedElapsedTime(_ elapsedTime:TimeInterval)-> String {
   let seconds = Int(elapsedTime) % 60
   return String(format: "%02d:%02d", minutes, seconds)
 }
+
 private struct OutString:View {
   let showchars:String
   let gs: GameState
+ 
   var body: some View{
+    let realScore :Double = gs.totaltime == 0.0 ? 0.0 : ( Double(gs.totalScore())   * 100.0 / gs.totaltime)
     HStack {
       VStack(alignment: .leading,spacing: 0){
         HStack {
-          
           Text(formattedElapsedTime(gs.totaltime))
             .font(isIpad ? .title:.headline)
-          Text("score:").font(isIpad ? .body:.footnote);Text("\(gs.totalScore())")
+          Text("score:").font(isIpad ? .body:.footnote);
+          Text(String(format: "%.2f", realScore))  
             .font(isIpad ? .title:.headline)
           HStack{ Text("gimmees:");Text("\(gs.gimmees)")}
             .font(isIpad ? .body:.footnote)
@@ -41,7 +44,7 @@ private struct OutString:View {
         if showchars.count > 1 {Text("last game: ").opacity(0.8) }
         Text(showchars).font(showchars.count<=1 ? .title:.footnote)
       }
-    }
+    }.padding(4)
   }
   }
 struct ScoreBarView: View {

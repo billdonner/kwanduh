@@ -64,7 +64,7 @@ struct GameScreen: View {
           topBar//.padding(.top,40)
           ScoreBarView(gs: gs).frame(height:40)
             .layoutPriority(1)
-      // Spacer()
+   
           MainGridView(gs: gs, chmgr:chmgr,
                        firstMove: $firstMove,
                        isTouching: $isTouching,
@@ -161,6 +161,7 @@ struct GameScreen: View {
     Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End " : "Play"  ,  action: {
       isPlayingButtonState.toggle()
       if gs.gamestate !=  StateOfPlay.playingNow {
+        TSLog("Play button pressed")
         withAnimation {
           let ok =  onStartGame(boardsize: gs.boardsize)
           if !ok {
@@ -171,10 +172,13 @@ struct GameScreen: View {
         }
       } else {
       //this one has been trouble
-       conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message :"GameScreen EndGamePressed")) //cant check after endgamepressed
-        isTouching = true
-        onEndGamePressed()  //should estore consistency
-        chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
+        TSLog("End button pressed")
+        withAnimation {
+          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message :"GameScreen EndGamePressed")) //cant check after endgamepressed
+          isTouching = true
+          onEndGamePressed()  //should estore consistency
+          chmgr.checkAllTopicConsistency("GameScreen EndGamePressed")
+        }
       }
     }).font(.title3)
   }
