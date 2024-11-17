@@ -146,13 +146,14 @@ struct SingleCellView: View {
       moveIndicator()
       
       // show a checkmark if on winning path
-      if gs.onwinpath[row][col] {
+     if gs.onwinpath[row][col] {
         Image(systemName: "checkmark")
             .resizable() // Makes the symbol resizable
             .aspectRatio(contentMode: .fit) // Maintains the aspect ratio
-            .frame(width: cellSize / 2, height: cellSize / 2) // Half the cell size
+            .frame(width: cellSize / 8, height: cellSize / 8 )// Half the cell size
+            .offset(x: cellSize / 3 - 1, y: cellSize / 3 - 1)
             .foregroundColor(.green)
-      }
+     }
     }
   }
   

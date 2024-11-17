@@ -171,18 +171,32 @@ enum AllocationResult: Equatable {
   case error(AllocationError)
   
   enum AllocationError: Equatable, Error {
-    static func ==(lhs: AllocationError, rhs: AllocationError) -> Bool {
-      switch (lhs, rhs) {
-      case (.emptyTopics, .emptyTopics):
-        return true
-      case (.invalidTopics(let lhsTopics), .invalidTopics(let rhsTopics)):
-        return lhsTopics == rhsTopics
-      case (.insufficientChallenges, .insufficientChallenges):
-        return true
-      default:
-        return false
-      }
+//    static func ==(lhs: AllocationError, rhs: AllocationError) -> Bool {
+//      switch (lhs, rhs) {
+//      case (.emptyTopics, .emptyTopics):
+//        return true
+//      case (.invalidTopics(let lhsTopics), .invalidTopics(let rhsTopics)):
+//        return lhsTopics == rhsTopics
+//      case (.insufficientChallenges, .insufficientChallenges):
+//        return true
+//      default:
+//        return false
+//      }
+//    }
+    
+    
+    
+    static func == (lhs: AllocationError, rhs: AllocationError) -> Bool {
+        switch (lhs, rhs) {
+        case (.insufficientChallenges(let l), .insufficientChallenges(let r)):
+            return l == r
+        case (.invalidDeallocIndices(let l), .invalidDeallocIndices(let r)):
+            return l == r
+        default:
+            return false
+        }
     }
+    
     case emptyTopics
     case invalidTopics([String])
     case invalidDeallocIndices([Int])
