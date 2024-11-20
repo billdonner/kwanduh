@@ -42,7 +42,7 @@ struct SingleCellView: View {
     gs.gamestate == .playingNow &&
     (gs.isCornerCell(row: row, col: col) ||
      hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly],
-                         in: gs.cellstate, for: (row, col)))
+                         in: gs.cellstate, for: Position(row: row, col: col)))
   }
   
   private var showRed: Bool {

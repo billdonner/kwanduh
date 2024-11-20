@@ -100,6 +100,7 @@ func TSLog(_ message: String) {
     } else {
         if !condition() {
             print("ConditionalAssertion failed at \(file):\(line) - \(message())")
+          
         }
     }
 }

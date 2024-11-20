@@ -3,7 +3,20 @@ import SwiftUI
 
 typealias ColorSchemeName = Int
 
-
+extension GameCellState {
+  var borderColor: Color {
+      switch self {
+      case .playedCorrectly:
+          return Color.green
+      case .playedIncorrectly:
+          return Color.red
+      case .unplayed:
+          return .gray
+      case .blocked:
+          return Color.gray.opacity(0.5)
+      }
+  }
+}
 struct DismissableModifier: ViewModifier {
     var onDismiss: () -> Void
 

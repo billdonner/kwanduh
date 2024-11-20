@@ -14,7 +14,7 @@ struct GameLogScreen: View {
     self.chmgr = chmgr
   }
   @State var showDetails :Challenge? = nil
-  @State var movehistory: [GameMove] = []
+  @State var movehistory: [GameMove] 
   let gs:GameState
   let chmgr:ChaMan
   var body: some View {

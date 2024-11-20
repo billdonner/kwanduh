@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "47BCF95C-929A-43BD-8050-0B5CEAD3F513",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:kwanduh.xcodeproj",
+      "identifier" : "88A318E82CA318C1005D0DF3",
+      "name" : "kwanduh"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:kwanduh.xcodeproj",
+        "identifier" : "88A318F82CA318C2005D0DF3",
+        "name" : "kwanduhTests"
+      }
+    }
+  ],
+  "version" : 1
+}

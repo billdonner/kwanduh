@@ -31,7 +31,6 @@ struct GameScreen: View {
   @State var showTopicSelector = false
   @State var showFreeportSettings = false
   @State var showScheme = false
-  // @State var marqueeMessage =  "Hit Play to Start a New Game"
   
   @State var chal: IdentifiablePoint? = nil
   @State var nowShowingQandAScreen = false
@@ -40,7 +39,6 @@ struct GameScreen: View {
 
   @State var showOtherDiagAlert : Bool = false
   @State var didshowOtherDiagAlert : Bool = false
-  
   @State var showSameSideAlert : Bool = false
   @State var didshowSameSideAlert : Bool = false
   
@@ -48,10 +46,7 @@ struct GameScreen: View {
   @State var showLoseAlert = false
   @State var showCantStartAlert = false
   @State var showMustStartInCornerAlert : Bool = false
-  
   @State var showMustTapAdjacentCellAlert : Bool = false
-   
-  
   @State var alreadyPlayed: Xdi?
   
   @Environment(\.dismiss) var dismiss
@@ -150,18 +145,14 @@ struct GameScreen: View {
         
           .youLoseAlert(isPresented: $showLoseAlert, title: "You Lose",bodyMessage: "Lost this time, but keep going...", buttonTitle: "OK"){onYouLose()}
         
-        
       }.navigationViewStyle(StackNavigationViewStyle())
-       
-
-   // }
   }
   
   var playToggleButton: some View {
     Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End " : "Play"  ,  action: {
       isPlayingButtonState.toggle()
       if gs.gamestate !=  StateOfPlay.playingNow {
-        TSLog("Play button pressed")
+        //TSLog("Play button pressed")
         withAnimation {
           let ok =  onStartGame(boardsize: gs.boardsize)
           if !ok {
@@ -172,7 +163,7 @@ struct GameScreen: View {
         }
       } else {
       //this one has been trouble
-        TSLog("End button pressed")
+       // TSLog("End button pressed")
         withAnimation {
           conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message :"GameScreen EndGamePressed")) //cant check after endgamepressed
           isTouching = true

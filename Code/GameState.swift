@@ -316,9 +316,9 @@ class GameState : Codable {
     }
     return moves.sorted(by: { $0.movenumber < $1.movenumber })
   }
-  func looker(row:Int,col:Int,path:[(Int,Int)]) -> Int? {
+  func indexInPath(row:Int,col:Int,path:[Position]) -> Int? {
     for (idx,p) in path.enumerated() {
-      if p.0==row && p.1==col { return idx }
+      if p.row==row && p.col==col { return idx }
     }
     return nil
   }
@@ -330,7 +330,7 @@ class GameState : Codable {
     var z:[GameMove]=[]
     for row in 0 ..< boardsize{
       for col in 0 ..< boardsize{
-        if let x = looker(row:row,col:col,path:path) {
+        if let x = indexInPath(row:row,col:col,path:path) {
           z.append(GameMove(row:row,col:col,movenumber:x))
         }
       }

@@ -75,11 +75,7 @@ struct QandAScreen: View {
             case true: answeredCorrectly(ch,row:row,col:col,answered:answerGiven)
             case false: answeredIncorrectly(ch,row:row,col:col,answered: answerGiven)
             }
-            
           }
-          
-          
-          
           questionedWasAnswered = false // to guard against tapping toomany times
         })
         

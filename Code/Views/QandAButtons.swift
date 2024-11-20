@@ -84,7 +84,7 @@ extension QandAScreen {
      Button(action: {
        gimmeeAlert = true
      }) {
-       Image(systemName: "arcade.stick.and.arrow.down")
+       Image(systemName: "arrow.trianglehead.2.clockwise")
          .font(buttFont)
          //.frame(width: buttSize, height: buttSize)
          .cornerRadius(buttRadius)

@@ -230,7 +230,7 @@ extension ChaMan {
     conditionalAssert(incorrect == t.wrongcount,"\(message) \(topic) incorrect \(incorrect) != \(t.wrongcount)")
   }
   func checkAllTopicConsistency(_ message:String) {
-    // conditionalAssert( verifySync(),"\(message) sync")
+    conditionalAssert( verifySync(),"\(message) sync")
    // checkTinfoConsistency(message: message)
     var freecount = 0
     let freeFromStati = freeChallengesCount()

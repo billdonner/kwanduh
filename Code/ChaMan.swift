@@ -82,14 +82,17 @@ class ChaMan {
   func invalidateAllTopicsCache() {
     _allTopics = nil
   }
+  
   func checkTinfoConsistency(message:String) {
     for (topic, info) in tinfo {
       let allocatedCount = info.challengeIndices.filter { stati[$0] == .allocated }.count
       assert(info.alloccount == allocatedCount, "\(message) --Mismatch \(info.alloccount ) in alloccount \(allocatedCount) for topic \(topic)")
     }
   }
+  
   func allocateChallenges(forTopics topics: [String], count n: Int) -> AllocationResult {
     print("Allocating \(n) challenges for \(topics.count) topics")
+    checkAllTopicConsistency("allocateChallenges start")
     var allocatedChallengeIndices: [Int] = []
     var topicIndexes: [String: [Int]] = [:]
     var tinfobuffer: [String: TopicInfo] = tinfo
@@ -116,6 +119,7 @@ class ChaMan {
         let idxs:[Int]=topicInfo.challengeIndices.compactMap{stati[$0] == .inReserve ? $0 : nil}
         topicIndexes[topic] = idxs
       } else {
+        checkAllTopicConsistency("allocateChallenges invalidTopics")
         return .error(.invalidTopics([topic]))
       }
     }
@@ -125,6 +129,8 @@ class ChaMan {
     
     // Check if total available challenges are less than required
     if totalFreeChallenges < n {
+      
+        checkAllTopicConsistency("allocateChallenges insufficientChallenges")
       return .error(.insufficientChallenges(totalFreeChallenges))
     }
     
@@ -205,34 +211,29 @@ class ChaMan {
     print("Allocated \(allocatedChallengeIndices.count) challenges for \(topics.count) topics indices: \(allocatedChallengeIndices.sorted())")
     return .success(allocatedChallengeIndices)//.shuffled()) // see if this works
   }
+  
+  
   func deallocAt(_ indexes: [Int]) -> AllocationResult {
     print("Deallocating \(indexes.count) challenges at indices \(indexes.sorted())")
+    checkAllTopicConsistency("deallocAt start")
     var topicIndexes: [String: [Int]] = [:]
     var invalidIndexes: [Int] = []
     var tinfobuffer: [String: TopicInfo] = tinfo
     checkAllTopicConsistency("dealloc  start")
-    
-    // dumpStati("deallcx start")
-    
-    //print("-----Deallocating Challenge Indices: \(indexes)")
     // Collect the indexes of the challenges to deallocate and group by topic
     for index in indexes {
       if index >= everyChallenge.count {
         invalidIndexes.append(index)
         continue
       }
-      
       let challenge = everyChallenge[index]
       let topic = challenge.topic // Assuming `Challenge` has a `topic` property
-      
       assert(index < stati.count, "deallocAt Index out of bounds in stati")
       assert(index < everyChallenge.count, "deallocAt Index out of bounds in everyChallenge")
-      
       if stati[index] == .inReserve {
         invalidIndexes.append(index)
         continue
       }
-      
       if topicIndexes[topic] == nil {
         topicIndexes[topic] = []
       }
@@ -241,7 +242,8 @@ class ChaMan {
     
     // Check for invalid indexes
     if !invalidIndexes.isEmpty {
-      return .error(.invalidDeallocIndices(invalidIndexes))
+      checkAllTopicConsistency("deallocAt invalidDeallocIndices")
+      return .error(.invalidDeallocIndices(invalidIndexes.sorted()))
     }
     
     // Update tinfo to deallocate challenges
@@ -261,6 +263,8 @@ class ChaMan {
         tinfobuffer[topic] = topicInfo
         topicInfo.checkConsistency()
       } else {
+        
+          checkAllTopicConsistency("deallocAt invalidTopics")
         return .error(.invalidTopics([topic]))
       }
     }
@@ -274,7 +278,6 @@ class ChaMan {
     tinfo = tinfobuffer
     save()
     checkAllTopicConsistency("deallc end")
-    //dumpStati("deallcx end")
     return .success([])
   }
   // find another challenge index for same topic and allocate it

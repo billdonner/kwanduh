@@ -161,7 +161,16 @@ final class GameLogicTests: XCTestCase {
         let result = isPossibleWinningPath(in: matrix)
         XCTAssertTrue(result, "Potential diagonal paths should be identified.")
     }
-  
+  func test4x4FalseWinPath() {
+         let matrix: [[GameCellState]] = [
+             [.unplayed, .blocked, .blocked, .unplayed],
+             [.unplayed, .unplayed, .playedCorrectly, .unplayed],
+             [.blocked, .playedCorrectly, .unplayed, .unplayed],
+             [.playedCorrectly, .unplayed, .unplayed, .unplayed]
+         ]
+         let result = isWinningPath(in: matrix)
+         XCTAssertFalse(result, "Premature short win path.")
+     }
   func test4x4ClearDiagonalPath() {
          let matrix: [[GameCellState]] = [
              [.playedCorrectly, .unplayed, .unplayed, .unplayed],

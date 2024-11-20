@@ -24,7 +24,7 @@ private struct OutString:View {
           Text(formattedElapsedTime(gs.totaltime))
             .font(isIpad ? .title:.headline)
           Text("score:").font(isIpad ? .body:.footnote);
-          Text(String(format: "%.2f", realScore))  
+          Text(String(format: "%.2f", realScore))
             .font(isIpad ? .title:.headline)
           HStack{ Text("gimmees:");Text("\(gs.gimmees)")}
             .font(isIpad ? .body:.footnote)
