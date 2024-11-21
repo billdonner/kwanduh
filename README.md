@@ -1,5 +1,7 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
-- version 0.7.55.28 fixed short winning path again,onboarding reorganized
+- version 0.7.55.30 buttons stopped working due to refactoring but now fixed!!!! 
+- version 0.7.55.29 made background maingrid black to solve #119, makes things wierd but interesting,consolidated alerts
+- version 0.7.55.28 fixed short winning path again,onboarding reorganized,temporarily changed win/lose alerts to apple standard 
 - version 0.7.55.27 no taps on blocked cells
 - version 0.7.55.26 fixed short winning path problem
 - version 0.7.55.25 not sure if all alloc/dealloc fixed but other visual improvements, new scoring

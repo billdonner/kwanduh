@@ -1,3 +1,11 @@
+//
+//  ActionMenuView.swift
+//  kwanduh
+//
+//  Created by bill donner on 11/21/24.
+//
+
+
 import SwiftUI
 
 struct ActionMenuView: View {
@@ -77,4 +85,20 @@ struct ActionMenuView: View {
                 .padding(.trailing, 1)
         }
     }
+}
+#Preview("ActionMenuView") {
+    ActionMenuView(
+        state: .init(
+            showSettings: .constant(false),
+            showTopicSelector: .constant(false),
+            showScheme: .constant(false),
+            showLeaderboard: .constant(false),
+            showSendComment: .constant(false),
+            showGameLog: .constant(false),
+            onboardingDone: .constant(true),
+            showFreeportSettings: .constant(false),
+            isPlaying: false,
+            showFreeport: true
+        )
+    )
 }

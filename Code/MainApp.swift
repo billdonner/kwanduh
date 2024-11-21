@@ -38,7 +38,7 @@ struct mainApp : App {
         ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
           .debugBorder()
           .onAppear {
-            conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"MainApp"))
+            ////conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"MainApp"))
             AppDelegate.lockOrientation(.portrait)// ensure applied
           }
       }

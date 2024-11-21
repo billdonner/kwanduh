@@ -72,6 +72,7 @@ struct FreeportSettingsScreen: View {
   @State var showDebug = false
   @State var showEnvDump = false
   @State var showSentimentsLog = false
+  @State var showGameLog = false
   
   var body: some View {
     ZStack {
@@ -90,10 +91,14 @@ struct FreeportSettingsScreen: View {
             Text("cloudKitSentimentsContainerID: \(cloudKitSentimentsContainerID)")
           }
           Section(header: Text("Not For Civilians")) {
-            Button(action:{ onboardingdone = false }) {
-              Text("Replay OnBoarding")
+//            Button(action:{ onboardingdone = false }) {
+//              Text("Replay OnBoarding")
+//            }
+            Button(action: {
+              showGameLog.toggle()
+            }) {
+              Text("Game History")
             }
-            
             Button(action:{ clearLeaderboard.toggle() }) {
               Text("Clear Leaderboard")
             }
@@ -129,6 +134,9 @@ struct FreeportSettingsScreen: View {
         } 
         .sheet(isPresented: $showSentimentsLog) {
           FetcherView( )
+        }
+        .sheet(isPresented: $showGameLog) {
+          GameLogScreen(gs: gs, chmgr: chmgr )
         }
         .sheet(isPresented: $showEnvDump) {
           EnvironmentDumpView()

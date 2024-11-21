@@ -159,32 +159,38 @@ class GameState: Codable {
     return nonBlockedNeighborCount >= 1
   }
   func cellsToBlock() -> Set<Coordinate> {
+      let totalCells = boardsize * boardsize
+      let blockedCellsCount = Int(Double(totalCells) * 0.50)
+      var blockedCells: Set<Coordinate> = []
+      
+      while blockedCells.count < blockedCellsCount {
+          let row = Int.random(in: 0..<boardsize)
+          let col = Int.random(in: 0..<boardsize)
+          let coordinate = Coordinate(row: row, col: col)
 
-    let totalCells = boardsize * boardsize
-    let blockedCellsCount = Int(Double(totalCells) * 0.25)
-    var blockedCells: Set<Coordinate> = []
-    // Randomly select cells to be blocked, excluding corners
-    while blockedCells.count < blockedCellsCount {
-      let row = Int.random(in: 0..<boardsize)
-      let col = Int.random(in: 0..<boardsize)
-      let coordinate = Coordinate(row: row, col: col)
-      if boardsize == 3 || boardsize == 4 || boardsize == 5 {
-        if isCornerCell(row: row, col: col) || blockedCells.contains(coordinate)
-        {
-          continue  //cont block
-        }
-      } else {
-        if isCornerCell(row: row, col: col)
-          //|| isAdjacentToCornerCell(row: row, col: col)
-          //  ||  !hasAtLeastOneNonBlockedNeighbors(row, col) // works with 8,7,6,5 not 4
-          || blockedCells.contains(coordinate)
-        {
-          continue  // dont block
-        }
+          // Skip if it's a corner cell or already blocked
+          if isCornerCell(row: row, col: col) || blockedCells.contains(coordinate) {
+              continue
+          }
+
+          // Temporarily add the cell to the blocked list
+          blockedCells.insert(coordinate)
+          
+          // Create a temporary cell state with the blocked cells
+          var tempCellState = cellstate
+          for blockedCell in blockedCells {
+              tempCellState[blockedCell.row][blockedCell.col] = .blocked
+          }
+          
+          // Check if a winning path is still possible
+        if !isPossibleWinningPath(in: tempCellState) {
+              // If not, revert the block
+              blockedCells.remove(coordinate)
+              TSLog("cellstoBlock did not find a winning path, retrying!")
+          }
       }
-      blockedCells.insert(coordinate)
-    }
-    return blockedCells
+
+      return blockedCells
   }
   func setupForNewGame(boardsize: Int, chmgr: ChaMan) -> Bool {
     // assume all cleaned up, using size

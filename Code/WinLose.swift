@@ -1,6 +1,6 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.94
+// v 0.95
 
 import Foundation
 
@@ -16,18 +16,56 @@ struct Coordinate: Hashable {
   let row: Int
   let col: Int
 }
-
-/// Determines if there is a valid winning path in the matrix
+/// Prints a matrix of `GameCellState` with winning path cells highlighted.
+/// - Parameters:
+///   - matrix: The game board represented as a 2D array of `GameCellState`.
+///   - winningPath: A list of coordinates (row, col) that represent the winning path.
+func printMatrix(_ matrix: [[GameCellState]], winningPath: [Coordinate]? = nil) {
+    let winningSet = Set(winningPath ?? [])
+    
+    for (rowIndex, row) in matrix.enumerated() {
+        let rowString = row.enumerated().map { colIndex, cell in
+          if winningSet.contains(Coordinate(row: rowIndex, col: colIndex)) {
+                return "W" // Highlight cells on the winning path
+            }
+            switch cell {
+            case .unplayed:
+                return "U"
+            case .blocked:
+                return "B"
+            default:
+                return " " // Unreachable in this context but kept for safety
+            }
+        }.joined(separator: " ")
+        print(rowString)
+    }
+    print() // Add an empty line for spacing
+}
+func pm(s:String,m:[[GameCellState]])->String {
+  printMatrix(m)
+  return s
+}
+/// Determines if there is a valid winning path in the matrix and logs the path if it exists.
 /// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
 /// - Returns: `true` if a winning path exists, otherwise `false`
 func isWinningPath(in matrix: [[GameCellState]]) -> Bool {
-  // Check if losing conditions are met
-  if hasLosingCornerCondition(in: matrix) {
-    return false
-  }
-  // Determine if there is a valid path
-  let (_, pathExists) = winningPath(in: matrix)
-  return pathExists
+    // Check if losing conditions are met
+    if hasLosingCornerCondition(in: matrix) {
+        return false
+    }
+
+    // Determine if there is a valid path
+    let (path, pathExists) = winningPath(in: matrix)
+
+    if pathExists {
+        print("Winning path found: \(path)")
+      printMatrix(matrix, winningPath: path.map {Coordinate (row: $0.row, col: $0.col) })
+    } else {
+        print("No winning path found.")
+        printMatrix(matrix)
+    }
+
+    return pathExists
 }
 
 /// Determines if a theoretical winning path is possible
@@ -292,4 +330,98 @@ func numberOfPossibleMoves(in matrix: [[GameCellState]]) -> Int {
   }
 
   return possibleMoves
+}
+
+
+/// Generates a random game board matrix with only `unplayed` and `blocked` cells,
+/// ensuring the corner cells are never blocked and have at least one adjacent `unplayed` cell.
+/// - Parameters:
+///   - size: The size of the square matrix (e.g., 4 for a 4x4 matrix).
+///   - blockedPercentage: The percentage (0-100) of cells that should be `blocked`.
+/// - Returns: A 2D array of `GameCellState`.
+func generateRandomMatrix(size: Int, blockedPercentage: Int) -> [[GameCellState]] {
+    guard size > 0 else { return [] }
+    guard blockedPercentage >= 0 && blockedPercentage <= 100 else {
+        fatalError("blockedPercentage must be between 0 and 100.")
+    }
+
+    let totalCells = size * size
+    let cornerIndices = [
+        0,                       // Top-left corner
+        size - 1,                // Top-right corner
+        totalCells - size,       // Bottom-left corner
+        totalCells - 1           // Bottom-right corner
+    ]
+
+    // Calculate the exact number of blocked cells
+    let blockedCellsTarget = Int(round(Double(totalCells * blockedPercentage) / 100.0))
+
+    // Initialize a flat matrix with all cells as unplayed
+    var flatMatrix: [GameCellState] = Array(repeating: .unplayed, count: totalCells)
+
+    // Ensure corners are explicitly unplayed
+    for corner in cornerIndices {
+        flatMatrix[corner] = .unplayed
+    }
+
+    // Add blocked cells, excluding corners
+    var blockedIndices = Set<Int>()
+    while blockedIndices.count < blockedCellsTarget {
+        let randomIndex = Int.random(in: 0..<totalCells)
+        if !cornerIndices.contains(randomIndex) && !blockedIndices.contains(randomIndex) {
+            blockedIndices.insert(randomIndex)
+        }
+    }
+
+    // Apply blocked indices to the flat matrix
+    for index in blockedIndices {
+        flatMatrix[index] = .blocked
+    }
+
+    // Convert the flat matrix back into a 2D array
+    var matrix: [[GameCellState]] = []
+    for row in 0..<size {
+        let start = row * size
+        let end = start + size
+        matrix.append(Array(flatMatrix[start..<end]))
+    }
+
+    // Ensure each corner has at least one adjacent unplayed cell
+    ensureAdjacentUnplayedCells(forCorners: cornerIndices, in: &flatMatrix, size: size)
+
+    return matrix
+}
+/// Ensures that each corner cell has at least one adjacent `unplayed` cell.
+/// - Parameters:
+///   - corners: Indices of corner cells.
+///   - flatMatrix: The flat matrix array of `GameCellState`.
+///   - size: The size of the square matrix.
+private func ensureAdjacentUnplayedCells(forCorners corners: [Int], in flatMatrix: inout [GameCellState], size: Int) {
+    let totalCells = size * size
+
+    for corner in corners {
+        // Determine the adjacent cells based on the corner's position
+        let adjacentIndices: [Int] = {
+            switch corner {
+            case 0: // Top-left corner
+                return [1, size]
+            case size - 1: // Top-right corner
+                return [size - 2, 2 * size - 1]
+            case totalCells - size: // Bottom-left corner
+                return [totalCells - 2 * size, totalCells - size + 1]
+            case totalCells - 1: // Bottom-right corner
+                return [totalCells - size - 1, totalCells - 2]
+            default:
+                return []
+            }
+        }()
+
+        // Ensure at least one adjacent cell is unplayed
+        if !adjacentIndices.contains(where: { flatMatrix[$0] == .unplayed }) {
+            // If all adjacent cells are blocked, unblock one randomly
+            if let randomBlockedIndex = adjacentIndices.first(where: { flatMatrix[$0] == .blocked }) {
+                flatMatrix[randomBlockedIndex] = .unplayed
+            }
+        }
+    }
 }

@@ -113,6 +113,7 @@ struct MainGridView : View {
           }
         }
       }
+      .background(Color.black)// try this #119 issue
     }
   }
 }
