@@ -30,22 +30,20 @@ struct ContentView: View {
     )
     .onAppear {
       if gs.veryfirstgame {
+    
         loadAndSetupBoard()
         if gs.gimmees == 0 {gimmeeAlert = true}
         current_topics = gs.topicsinplay
         chmgr.checkAllTopicConsistency("ContentView onAppear2")
-        TSLog(
-         """
-         //ContentView FIRST onAppear size:\(current_size) topics:\(gs.topicsinplay.count)     alloc:\(chmgr.allocatedChallengesCount()) free:\(chmgr.freeChallengesCount())
-"""
-        )
-      } else {
+
+      }
+      
         TSLog(
             """
-            //ContentView onAppear size:\(current_size) topics:\(gs.topicsinplay.count)     alloc:\(chmgr.allocatedChallengesCount()) free:\(chmgr.freeChallengesCount())
+            //ContentView  size:\(current_size) topics:\(gs.topicsinplay.count)     alloc:\(chmgr.allocatedChallengesCount()) free:\(chmgr.freeChallengesCount())
+              gamestate:\(gs.playstate)
    """
         )
-      }
       restartCount += 1
       gs.veryfirstgame = false
       gs.saveGameState()

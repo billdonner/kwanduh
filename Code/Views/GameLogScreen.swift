@@ -75,7 +75,7 @@ struct GameLogScreen: View {
           }// list
           
           
-          switch gs.gamestate {
+          switch gs.playstate {
           case .initializingApp:
             Text("You are not currently playing")
           case .playingNow:

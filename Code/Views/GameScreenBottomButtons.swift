@@ -19,7 +19,7 @@ struct GameScreenBottomButtons : View {
         .resizable()
           .frame(width: isIpad ? 60 : 40 , height: isIpad ? 60 : 40)
                  .padding(.leading, 8)
-                 .gesture( DragGesture(minimumDistance: gs.gamestate == .playingNow ? 0 : 0)//.infinity)
+                 .gesture( DragGesture(minimumDistance: gs.playstate == .playingNow ? 0 : 0)//.infinity)
                                .onChanged { _ in
                                   isTouching = true
                                }

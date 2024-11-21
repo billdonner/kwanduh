@@ -103,23 +103,20 @@ extension ChaMan {
         
         gs.board = gb.board
         gs.cellstate = gb.cellstate
-       // gs.challengeindices = gb.challengeindices //!!!
         gs.boardsize = gb.boardsize
         gs.topicsinplay = gb.topicsinplay
         gs.topicsinorder = gb.topicsinorder
-        gs.gamestate = gb.gamestate
+        gs.playstate = gb.playstate
         gs.totaltime = gb.totaltime
         gs.gamenumber = gb.gamenumber
         gs.rightcount = gb.rightcount
         gs.wrongcount = gb.wrongcount
         gs.lostcount = gb.lostcount
         gs.woncount = gb.woncount
-        gs.replacedcount = gb.replacedcount
-      //  gs.facedown = gb.facedown
+        gs.replacedcount = gb.replacedcount 
         gs.gimmees = gb.gimmees
         gs.currentscheme = gb.currentscheme
-        gs.veryfirstgame = gb.veryfirstgame
-       // gs.startincorners = gb.startincorners
+        gs.veryfirstgame = gb.veryfirstgame 
         gs.doublediag = gb.doublediag
         gs.difficultylevel = gb.difficultylevel
         gs.movenumber = gb.movenumber

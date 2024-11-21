@@ -20,6 +20,8 @@ struct GameScreen: View {
   @Binding  var topics: [String:FreeportColor]
   @Binding  var size:Int
   
+  @AppStorage("OnboardingDone") private var onboardingdone = false
+  
   @State var isTouching: Bool = false
   @State var firstMove = true
   @State var startAfresh = true
@@ -149,9 +151,9 @@ struct GameScreen: View {
   }
   
   var playToggleButton: some View {
-    Button(gs.gamestate ==  StateOfPlay.playingNow  ? "End " : "Play"  ,  action: {
+    Button(gs.playstate ==  StateOfPlay.playingNow  ? "End " : "Play"  ,  action: {
       isPlayingButtonState.toggle()
-      if gs.gamestate !=  StateOfPlay.playingNow {
+      if gs.playstate !=  StateOfPlay.playingNow {
         //TSLog("Play button pressed")
         withAnimation {
           let ok =  onStartGame(boardsize: gs.boardsize)
@@ -187,13 +189,13 @@ struct GameScreen: View {
         showSettings.toggle()
       }) {
         Text("Select Board Size")
-      }.disabled(gs.gamestate == .playingNow)
+      }.disabled(gs.playstate == .playingNow)
       
       Button(action: {
         showTopicSelector.toggle()
       }) {
         Text("Select Topics")
-      }.disabled(gs.gamestate == .playingNow)
+      }.disabled(gs.playstate == .playingNow)
       Button(action: {
         showScheme.toggle()
       }) {
@@ -214,6 +216,9 @@ struct GameScreen: View {
         showGameLog.toggle()
       }) {
         Text("Game History")
+      }
+      Button(action:{ onboardingdone = false }) {
+        Text("Replay OnBoarding")
       }
       if showFreeport {
         Button(action: {

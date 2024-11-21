@@ -39,10 +39,10 @@ struct SingleCellView: View {
   @Environment(\.colorScheme) var colorScheme
   
   private var showBlue: Bool {
-    gs.gamestate == .playingNow &&
+    gs.playstate == .playingNow &&
     (gs.isCornerCell(row: row, col: col) ||
      hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly],
-                         in: gs.cellstate, for: Position(row: row, col: col)))
+                         in: gs.cellstate, for: Coordinate(row: row, col: col)))
   }
   
   private var showRed: Bool {
@@ -56,7 +56,7 @@ struct SingleCellView: View {
   }
   
   private func showTargetFor(row:Int,col:Int) -> Bool {
-    guard gs.gamestate == .playingNow else {
+    guard gs.playstate == .playingNow else {
       return false
     }
     guard gs.cellstate[row][col] == .unplayed else {
@@ -192,7 +192,7 @@ struct SingleCellView: View {
         }
         .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
       case .unplayed:
-        if gs.gamestate == .playingNow {
+        if gs.playstate == .playingNow {
           textBody(challenge: challenge)
             .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
         } else {
@@ -221,7 +221,7 @@ struct SingleCellView: View {
   }
   
   private func playingNowOpacity() -> Double {
-    gs.gamestate == .playingNow ? 1.0 : 0.5// Adjust if needed
+    gs.playstate == .playingNow ? 1.0 : 0.5// Adjust if needed
   }
   
   private func handleTap()   {
@@ -237,7 +237,7 @@ struct SingleCellView: View {
         bottomLayer(challenge: challenge)
         if isLastMove { lastMoveIndicator() }
         if showTargetFor(row:row,col:col) { targetIndicator(challenge: challenge) }
-        if isTouching || gs.gamestate != .playingNow
+        if isTouching || gs.playstate != .playingNow
         { touchingIndicators() }
       }
     }

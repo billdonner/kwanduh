@@ -22,24 +22,24 @@ extension GameScreen /* actions */ {
     }
     // otherwise its not played yet
     //When a player tries to start the game in a box other than a corner, post the message "Start out in a corner . . ."
-    if gs.gamestate == .playingNow && firstMove && !gs.isCornerCell(row:row,col:col) {
+    if gs.playstate == .playingNow && firstMove && !gs.isCornerCell(row:row,col:col) {
       showMustStartInCornerAlert = true
       return
     }
     //If a player tries to play a box that is not adjacent to a played box, post the message "Touch a box next to one you've already played . . ."
     
-    if gs.gamestate == .playingNow && !firstMove && !gs.isCornerCell(row:row,col:col) && !hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: Position(row:row, col:col)) {
+    if gs.playstate == .playingNow && !firstMove && !gs.isCornerCell(row:row,col:col) && !hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: Coordinate(row:row, col:col)) {
       showMustTapAdjacentCellAlert = true
       return
     }
     
 
     // if not playing ignore all other taps
-    if gs.gamestate == .playingNow,
+    if gs.playstate == .playingNow,
        gs.cellstate[row][col] == .unplayed {
       // consider valid tap if first move corner cell
       // or not first and either a corner or with an adjacent neighbor thats been played
-      validTap = firstMove ? gs.isCornerCell(row: row, col: col) : (gs.isCornerCell(row: row, col: col) || hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: Position(row: row, col: col)))
+      validTap = firstMove ? gs.isCornerCell(row: row, col: col) : (gs.isCornerCell(row: row, col: col) || hasAdjacentNeighbor(withStates: [.playedCorrectly, .playedIncorrectly], in: gs.cellstate, for: Coordinate(row: row, col: col)))
     }
 
     if validTap {
@@ -88,7 +88,7 @@ extension GameScreen /* actions */ {
         (gs.cellstate[0][gs.boardsize - 1] == .playedCorrectly && gs.cellstate[gs.boardsize - 1][gs.boardsize - 1] == .playedCorrectly)
     )
     //If you lose in both corners post a message to try the other diagonal Message should say "Go for the other diagonal!" showOtherDiagAlert
-    if gs.gamestate == .playingNow {
+    if gs.playstate == .playingNow {
       if incorrectInACorner {
         if !didshowOtherDiagAlert {
           showOtherDiagAlert = true
@@ -149,6 +149,10 @@ extension GameScreen /* actions */ {
   }
   
   func onStartGame(boardsize:Int ) -> Bool {
+    print("onStartGame gamestate is \(gs.playstate)")
+    if gs.playstate == .playingNow {
+      gs.teardownAfterGame(state: .justAbandoned, chmgr: chmgr)
+    }
     showOtherDiagAlert = false
     showSameSideAlert = false
     didshowOtherDiagAlert = false

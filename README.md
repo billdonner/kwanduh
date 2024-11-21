@@ -1,5 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
-- version 0.7.55.28 fixed short winning path again,
+- version 0.7.55.28 fixed short winning path again,onboarding reorganized
 - version 0.7.55.27 no taps on blocked cells
 - version 0.7.55.26 fixed short winning path problem
 - version 0.7.55.25 not sure if all alloc/dealloc fixed but other visual improvements, new scoring

@@ -81,8 +81,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppColors.swift,
-				Views/xInnerOnboardingView.swift,
-				Views/xOxnboardingView.swift,
 			);
 			target = 88A318E82CA318C1005D0DF3 /* kwanduh */;
 		};
@@ -99,22 +97,6 @@
 				Info.plist,
 			);
 			target = 88A319932CA3212B005D0DF3 /* qanda */;
-		};
-		887A9C902CE3BF6000013520 /* Exceptions for "Code" folder in "qanda" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Views/xInnerOnboardingView.swift,
-				Views/xOxnboardingView.swift,
-			);
-			target = 88A319932CA3212B005D0DF3 /* qanda */;
-		};
-		887A9C912CE3BF6300013520 /* Exceptions for "Code" folder in "kwanna" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Views/xInnerOnboardingView.swift,
-				Views/xOxnboardingView.swift,
-			);
-			target = 885183822CD1562600D686A6 /* kwanna */;
 		};
 		88F9B18E2CD15932005E9728 /* Exceptions for "kwanna" folder in "kwanna" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -174,8 +156,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				884C9D152CC5B3E60059E758 /* Exceptions for "Code" folder in "kwanduh" target */,
-				887A9C902CE3BF6000013520 /* Exceptions for "Code" folder in "qanda" target */,
-				887A9C912CE3BF6300013520 /* Exceptions for "Code" folder in "kwanna" target */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -231,6 +211,7 @@
 		88A318E02CA318C1005D0DF3 = {
 			isa = PBXGroup;
 			children = (
+				88A3198C2CA32074005D0DF3 /* README.md */,
 				88C732FE2CEBCF5000871B02 /* kwanduh.xctestplan */,
 				8807A14B2CDBC13B00495A2B /* TimeOutModifier.swift */,
 				887A9C922CE3C06200013520 /* CommonAssets.xcassets */,
@@ -240,7 +221,6 @@
 				88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
-				88A3198C2CA32074005D0DF3 /* README.md */,
 				884C9CF62CBED6740059E758 /* Info.plist */,
 				88A319F22CA8666A005D0DF3 /* Code */,
 				88A318EB2CA318C1005D0DF3 /* kwanduh */,
