@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ABView: View {
+struct ReplayingAnswerButtonsView: View {
 
   
   let row: Int
@@ -76,7 +76,7 @@ struct ABView: View {
 #Preview {
   GeometryReader { geometry in
     
-    ABView(row: 10, col:10, answers: ["a", "b", "c","d"], colors:[.red,.blue,.green,.yellow],geometry:geometry, colorScheme: .light  )
+    ReplayingAnswerButtonsView(row: 10, col:10, answers: ["a", "b", "c","d"], colors:[.red,.blue,.green,.yellow],geometry:geometry, colorScheme: .light  )
   }
 }
   

@@ -5,15 +5,15 @@
 //  Created by bill donner on 6/23/24.
 //
 import SwiftUI
-
+ 
 enum GameAlertType: Identifiable {
     case mustTapAdjacentCell
     case mustStartInCorner
     case cantStart
     case otherDiagonal
     case sameSideDiagonal
-    case youWin
-    case youLose
+  case youWin
+  case youLose
 
     var id: String {
         switch self {
@@ -22,8 +22,10 @@ enum GameAlertType: Identifiable {
         case .cantStart: return "cantStart"
         case .otherDiagonal: return "otherDiagonal"
         case .sameSideDiagonal: return "sameSideDiagonal"
-        case .youWin: return "youWin"
-        case .youLose: return "youLose"
+          
+                 case .youWin: return "youWin"
+                 case .youLose: return "youLose"
+         
         }
     }
 }
@@ -61,9 +63,7 @@ struct GameScreen: View {
     @State var chal: IdentifiablePoint? = nil
     @State var nowShowingQandAScreen = false
     @State var isPlayingButtonState = false
-
-    @State var activeAlert: GameAlertType?
-
+    @State var activeAlert: GameAlertType? 
     @State var alreadyPlayed: Xdi?
 
     @Environment(\.dismiss) var dismiss
@@ -152,8 +152,7 @@ struct GameScreen: View {
                 QandAScreen(
                     chmgr: chmgr, gs: gs,
                     row: cha.row, col: cha.col,
-                    isPresentingDetailView: $nowShowingQandAScreen
-                )
+                    isPresentingDetailView: $nowShowingQandAScreen)
             }
           
           .sheet(isPresented: $showSettings) {
@@ -187,45 +186,51 @@ struct GameScreen: View {
 
     private func alert(for type: GameAlertType) -> Alert {
       
-        switch type {
-        case .mustTapAdjacentCell:
-          Alert(
-            title: Text("Touch a box next to one you've already played . . ."),
-            dismissButton: .cancel(Text("OK"), action: { dismiss() })
-          )
-        case .mustStartInCorner:
-          Alert(
-            title: Text("Start out in a corner"),
-            dismissButton: .cancel(Text("OK"), action: { dismiss() })
-          )
-        case .cantStart:
-          Alert(
-            title: Text("You need to add at least one more topic."),
-            message: Text("The total number of questions in your topics must be at least the number of boxes in your game board."),
-            dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
-          )
-        case .otherDiagonal:
-          Alert(
-            title: Text("Go for the other diagonal!"),
-            dismissButton: .cancel(Text("OK"), action: { dismiss() })
-          )
-        case .sameSideDiagonal:
-          Alert(
-            title: Text("Winning path connects corners on opposite sides of a diagonal!"),
-            dismissButton: .cancel(Text("OK"), action: { dismiss() })
-          )
-        case .youWin:
+      switch type {
+      case .mustTapAdjacentCell:
+        Alert(
+          title: Text("Touch a box next to one you've already played . . ."),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      case .mustStartInCorner:
+        Alert(
+          title: Text("Start out in a corner"),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      case .cantStart:
+        Alert(
+          title: Text("You need to add at least one more topic."),
+          message: Text("The total number of questions in your topics must be at least the number of boxes in your game board."),
+          dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
+        )
+      case .otherDiagonal:
+        Alert(
+          title: Text("Go for the other diagonal!"),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      case .sameSideDiagonal:
+        Alert(
+          title: Text("Winning path connects corners on opposite sides of a diagonal!"),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+ 
+    case .youWin:
           Alert(
             title: Text("You Win"),
             message: Text("Good job, keep going..."),
-            dismissButton: .cancel(Text("OK"), action: { onYouWin() })
-          )
-        case .youLose:
+            dismissButton: .cancel(Text("OK"), action: {
+              //update global state here
+              //handleDismissal(toRoot:true)
+            })
+          ) 
+    case .youLose:
           Alert(
-                title: Text("You Lose"),
-                message: Text("Lost this time, but keep going..."),
-                dismissButton: .cancel(Text("OK"), action: { onYouLose() })
-            )
+            title: Text("You Lose"),
+            message: Text("Lost this time, but keep going..."),
+            dismissButton: .cancel(Text("OK"), action: {
+              //handleDismissal(toRoot:true)
+            })
+          )
         }
     }
 }

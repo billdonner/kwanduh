@@ -60,7 +60,7 @@ struct TopBarView: View {
             Spacer()
 
             // Action menu
-            ActionMenuView(
+            GameScreenActionMenuView(
                 state: .init(
                     showSettings: $showSettings,
                     showTopicSelector: $showTopicSelector,

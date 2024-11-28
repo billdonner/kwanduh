@@ -8,7 +8,7 @@
 import SwiftUI
   
 
-struct AnswerButtonsView: View {
+struct QandAnswerButtonsView: View {
 
   
   let row: Int

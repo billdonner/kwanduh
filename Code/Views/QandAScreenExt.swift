@@ -15,7 +15,7 @@ extension QandAScreen {
       questionSectionVue(geometry: geometry)
         .frame(maxWidth: max(0, geometry.size.width), maxHeight: max(0, geometry.size.height * 0.4))//make bigger when bottom buttons gone
       //shuffle the questions
-      AnswerButtonsView(row: row,col: col,answers: ch.answers.shuffled(), geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect)
+      QandAnswerButtonsView(row: row,col: col,answers: ch.answers.shuffled(), geometry: geometry, colorScheme: colorScheme,disabled:questionedWasAnswered,answerGiven: answerGiven,answerCorrect: answerCorrect)
       { answer,row,col in
         handleAnswerSelection(answer: answer,row:row,col:col)
       }
@@ -129,7 +129,6 @@ func handleDismissal(toRoot:Bool) {
     chmgr.checkAllTopicConsistency("mark correct before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
     answerCorrect = true
-    showBorders = true
     gs.movenumber += 1
     gs.moveindex[row][col] = gs.movenumber
     gs.cellstate[row][col] = .playedCorrectly
@@ -150,8 +149,7 @@ func handleDismissal(toRoot:Bool) {
     chmgr.checkAllTopicConsistency("mark incorrect before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
     answerCorrect = false
-    showCorrectAnswer = false
-    showBorders = true
+    showCorrectAnswer = false 
     gs.movenumber += 1
     gs.moveindex[row][col] = gs.movenumber
     gs.cellstate[row][col] = .playedIncorrectly

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ActionMenuView: View {
+struct GameScreenActionMenuView: View {
     struct MenuState {
         var showSettings: Binding<Bool>
         var showTopicSelector: Binding<Bool>
@@ -87,7 +87,7 @@ struct ActionMenuView: View {
     }
 }
 #Preview("ActionMenuView") {
-    ActionMenuView(
+    GameScreenActionMenuView(
         state: .init(
             showSettings: .constant(false),
             showTopicSelector: .constant(false),

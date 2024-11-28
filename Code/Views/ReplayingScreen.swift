@@ -65,7 +65,7 @@ struct ReplayingScreen : View {
               .lineLimit(8)
               .foregroundColor(foregroundColorFrom( backgroundColor: topicColor))
           }
-          ABView(row: ansinfo.row,
+          ReplayingAnswerButtonsView(row: ansinfo.row,
                  col: ansinfo.col,
                  answers: ch.answers,
                  colors:colorsForAnswers(ch.answers,correct: ch.correct,chosen: ansinfo.answer),
