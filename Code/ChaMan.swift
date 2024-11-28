@@ -8,6 +8,7 @@
 import Foundation
 
 
+
 // The manager class to handle Challenge-related operations and state
 @Observable
 class ChaMan {
@@ -21,14 +22,7 @@ class ChaMan {
   // TopicInfo is built from PlayData and is used to improve performance by simplifying searching and
   // eliminating lots of scanning to get counts
   
-  enum ChallengeStatus : Int, Codable  {
-    case inReserve         // 0
-    case allocated         // 1
-    case playedCorrectly   // 2
-    case playedIncorrectly // 3
-    case abandoned         // 4
-  }
-  
+
   
   // tinfo and stati must be maintained in sync
   // tinfo["topicname"].ch[123] and stati[123] are in sync with everychallenge[123]

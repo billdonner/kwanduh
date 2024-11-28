@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-func isUsedup(_ status:ChaMan.ChallengeStatus) -> Bool {
+func isUsedup(_ status:ChallengeStatus) -> Bool {
   switch status {
   case .abandoned:
     return true

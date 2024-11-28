@@ -48,7 +48,7 @@ struct ContentView: View {
       gs.veryfirstgame = false
       gs.saveGameState()
     }
-    .alert("We are giving you 5 gimmees to get started!",isPresented:$gimmeeAlert) {
+    .alert("We are giving you 5 gimmees.\n Hit the Play button to get started!",isPresented:$gimmeeAlert) {
       Button("OK", role: .cancel) {
         withAnimation {
           gs.gimmees = 5  // give some to get started

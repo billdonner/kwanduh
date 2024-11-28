@@ -38,10 +38,10 @@ struct TopicInfo: Codable {
         )
     }
 
-    func getChallengesAndStatuses(chmgr: ChaMan) -> ([Challenge], [ChaMan.ChallengeStatus]) {
+    func getChallengesAndStatuses(chmgr: ChaMan) -> ([Challenge], [ChallengeStatus]) {
         checkConsistency()
         var challenges: [Challenge] = []
-        var statuses: [ChaMan.ChallengeStatus] = []
+        var statuses: [ChallengeStatus] = []
         for challengeIdx in challengeIndices {
             challenges.append(chmgr.everyChallenge[challengeIdx])
             statuses.append(chmgr.stati[challengeIdx])

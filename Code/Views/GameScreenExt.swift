@@ -71,12 +71,14 @@ extension GameScreen /* actions */ {
                 gs.onwinpath[p.row][p.col] = true
             }
             activeAlert = .youWin
+          gs.playstate = .justWon
             return
         }
 
         if !isPossibleWinningPath(in: gs.cellstate) {
             TSLog("--->YOU LOSE")
             activeAlert = .youLose
+          gs.playstate = .justLost
             return
         }
 

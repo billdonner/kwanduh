@@ -8,7 +8,7 @@
 import Foundation
 
 struct AnsweredInfo: Codable {
-  internal init(id: String, answer: String, outcome: ChaMan.ChallengeStatus, timestamp: Date, timetoanswer: TimeInterval, gamenumber: Int, movenumber: Int, row: Int, col: Int) {
+  internal init(id: String, answer: String, outcome: ChallengeStatus, timestamp: Date, timetoanswer: TimeInterval, gamenumber: Int, movenumber: Int, row: Int, col: Int) {
     self.id = id
     self.answer = answer
     self.outcome = outcome
@@ -24,7 +24,7 @@ struct AnsweredInfo: Codable {
   
   let id:String //id of the challenge
   let answer:String //answer given
-  let outcome:ChaMan.ChallengeStatus
+  let outcome:ChallengeStatus
   let timestamp: Date
   let timetoanswer: TimeInterval
   let gamenumber: Int
@@ -87,7 +87,7 @@ struct AnsweredInfo: Codable {
     
     self.id = try container.decode(String.self, forKey: AnsweredInfo.CodingKeys.id)
     self.answer = try container.decode(String.self, forKey: AnsweredInfo.CodingKeys.answer)
-    self.outcome = try container.decode(ChaMan.ChallengeStatus.self, forKey: AnsweredInfo.CodingKeys.outcome)
+    self.outcome = try container.decode(ChallengeStatus.self, forKey: AnsweredInfo.CodingKeys.outcome)
     self.timestamp = try container.decode(Date.self, forKey: AnsweredInfo.CodingKeys.timestamp)
     self.timetoanswer = try container.decode(TimeInterval.self, forKey: AnsweredInfo.CodingKeys.timetoanswer)
     self.gamenumber = try container.decode(Int.self, forKey: AnsweredInfo.CodingKeys.gamenumber)

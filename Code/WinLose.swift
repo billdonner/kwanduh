@@ -4,13 +4,7 @@
 
 import Foundation
 
-/// Represents the state of a game cell
-enum GameCellState: Codable {
-  case playedCorrectly
-  case playedIncorrectly
-  case unplayed
-  case blocked
-}
+
 /// Represents a position in the matrix
 struct Coordinate: Hashable {
   let row: Int

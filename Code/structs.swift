@@ -46,16 +46,9 @@ enum CornerPosition: CaseIterable {
 }
 
 
-enum StateOfPlay : Int, Codable {
-  case initializingApp
-  case playingNow
-  case justLost
-  case justWon
-  case justAbandoned 
-}
 
 struct IdentifiablePoint: Identifiable {
-  internal init(row: Int, col: Int, status: ChaMan.ChallengeStatus? = nil) {
+  internal init(row: Int, col: Int, status: ChallengeStatus? = nil) {
     self.row = row
     self.col = col
     self.status = status
@@ -64,7 +57,7 @@ struct IdentifiablePoint: Identifiable {
   let id = UUID()
   let row: Int
   let col: Int
-  let status: ChaMan.ChallengeStatus?
+  let status: ChallengeStatus?
 }
 
 

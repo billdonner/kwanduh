@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-struct GameMove: Codable, Hashable {
-  let row: Int
-  let col: Int
-  let movenumber: Int
-}
 //enum DifficultyLevel: Int,Codable {
 //  case easy,normal,hard
 //}
@@ -293,24 +288,24 @@ class GameState: Codable {
         for col in 0..<boardsize {
           let j = board[row][col]
           if j != -1 {
-            let x: ChaMan.ChallengeStatus = chmgr.stati[j]
+            let x: ChallengeStatus = chmgr.stati[j]
             switch cellstate[row][col] {
             case .playedCorrectly:
-              if x != ChaMan.ChallengeStatus.playedCorrectly {
+              if x != ChallengeStatus.playedCorrectly {
                 print(
                   "*** \(message) - cellstate is wrong for \(row), \(col) playedCorrectly says \(x)"
                 )
                 return false
               }
             case .playedIncorrectly:
-              if x != ChaMan.ChallengeStatus.playedIncorrectly {
+              if x != ChallengeStatus.playedIncorrectly {
                 print(
                   "*** \(message) - cellstate is wrong for \(row), \(col) playedIncorrectly says \(x)"
                 )
                 return false
               }
             case .unplayed:
-              if x != ChaMan.ChallengeStatus.allocated {
+              if x != ChallengeStatus.allocated {
                 print(
                   "*** \(message) -cellstate is wrong for \(row), \(col) unplayed says \(x)"
                 )
@@ -319,13 +314,13 @@ class GameState: Codable {
             case .blocked:
               return true  // for now there's nothing there to check
             }  // switch
-            if x == ChaMan.ChallengeStatus.abandoned {
+            if x == ChallengeStatus.abandoned {
               print(
                 "*** \(message) -cellstate is wrong for \(row), \(col) abandoned says \(x)"
               )
               return false
             }
-            if x == ChaMan.ChallengeStatus.inReserve {
+            if x == ChallengeStatus.inReserve {
               print(
                 "*** \(message) -cellstate is wrong for \(row), \(col) reserved says \(x)"
               )
