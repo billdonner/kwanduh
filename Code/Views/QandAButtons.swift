@@ -48,7 +48,8 @@ extension QandAScreen {
    }
    var passButton: some View {
      Button(action: {
-       handlePass()
+       killTimer=true
+       dismiss()
      }) {
        Image(systemName: "multiply.circle")
          .font(.title)

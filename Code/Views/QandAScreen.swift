@@ -37,7 +37,8 @@ struct QandAScreen: View {
             gs: gs,
             topic: ch.topic,
             hint: ch.hint,
-            handlePass: handlePass,
+            handlePass: {killTimer=true
+              dismiss()},
             handleGimmee: handleGimmee,
             toggleHint: toggleHint,
             elapsedTime: $elapsedTime,
@@ -63,7 +64,8 @@ struct QandAScreen: View {
           isPresented: $showHint, title: "Here's Your Hint: ", message: ch.hint,
           buttonTitle: "Dismiss",
           onButtonTapped: {
-            handleDismissal(toRoot: false)
+            answerGiven = nil  
+            showHint=false
           }, animation: .spring()
         )
 
@@ -77,8 +79,11 @@ struct QandAScreen: View {
           timeout: 5.0,
           fadeOutDuration: 0.5,
           onButtonTapped: {
-            handleDismissal(toRoot: true)
-
+            //withAnimation(.easeInOut(duration: 0.75)) { // Slower dismissal
+              isPresentingDetailView = false
+              dismiss()
+           // }
+////****** THIS CODE SHOULD RUN AFTER DISMISS() *******//////
             if let answerGiven = answerGiven {
               switch answerCorrect {
               case true:
@@ -90,7 +95,8 @@ struct QandAScreen: View {
             }
             questionedWasAnswered = false  // to guard against tapping toomany times
 
-          })
+          }// onbuttontapped
+        )
       }
 
       .sheet(isPresented: $showInfo) {
@@ -133,4 +139,74 @@ struct QandAScreen: View {
     chmgr: ChaMan.mock, gs: GameState.mock,
     row: 0, col: 0,
     isPresentingDetailView: .constant(false))  //qactiveAlert: .constant(nil))//,
+}
+extension QandAScreen {
+  func toggleHint() {
+    if chmgr.everyChallenge[gs.board[row][col]]
+      .hint.count > 1  { // guard against short hints
+      showHint.toggle()
+    }
+  }
+  
+  func handleGimmee() {
+    killTimer = true
+    let idx = gs.board[row][col]
+    let result = chmgr.replaceChallenge(at:idx)
+    switch result {
+    case .success(let index):
+      gs.gimmees -= 1
+      gs.board[row][col] = index[0]
+      gs.cellstate[row][col] = .unplayed
+      gs.replaced[row][col] += [idx] // keep track of what we are replacing
+      gs.replacedcount += 1
+      print("Gimmee realloation successful \(index)")
+    case .error(let error):
+      print("Couldn't handle gimmee reallocation \(error)")
+    }
+    gs.saveGameState()
+    dismiss()
+  }
+  
+  func answeredCorrectly(_ ch:Challenge,row:Int,col:Int,answered:String) {
+    chmgr.checkAllTopicConsistency("mark correct before")
+    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
+    answerCorrect = true
+    gs.movenumber += 1
+    gs.moveindex[row][col] = gs.movenumber
+    gs.cellstate[row][col] = .playedCorrectly
+    gs.rightcount += 1
+    chmgr.bumpRightcount(topic: ch.topic)
+    chmgr.stati[gs.board[row][col]] = .playedCorrectly  // ****
+    chmgr.ansinfo[ch.id]  =
+    AnsweredInfo(id: ch.id, answer: answered, outcome:.playedCorrectly,
+                 timestamp: Date(), timetoanswer:elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
+    killTimer=true
+    let j = gs.moveindex[row][col]
+    TSLog("Challenge \(ch.id) index: \(j) answered correctly")
+    gs.saveGameState()
+    chmgr.save()
+    chmgr.checkAllTopicConsistency("mark correct after")
+  }
+  func answeredIncorrectly(_ ch:Challenge,row:Int,col:Int,answered:String) {
+    chmgr.checkAllTopicConsistency("mark incorrect before")
+    conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
+    answerCorrect = false
+    showCorrectAnswer = false
+    gs.movenumber += 1
+    gs.moveindex[row][col] = gs.movenumber
+    gs.cellstate[row][col] = .playedIncorrectly
+    gs.wrongcount += 1
+    chmgr.bumpWrongcount(topic: ch.topic)
+    chmgr.stati[gs.board[row][col]] = .playedIncorrectly  // ****
+    chmgr.ansinfo[ch.id]  =
+    AnsweredInfo(id: ch.id, answer: answered, outcome:.playedIncorrectly,
+                 timestamp: Date(), timetoanswer: elapsedTime, gamenumber: gs.gamenumber, movenumber: gs.movenumber,row:row,col:col)
+    killTimer=true
+    let j = gs.moveindex[row][col]
+    TSLog("Challenge \(ch.id) index: \(j) answered incorrectly")
+    gs.saveGameState()
+    chmgr.save()
+    chmgr.checkAllTopicConsistency("mark incorrect after")
+  }
+
 }
