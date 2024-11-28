@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.56.31 moved to major new version as was confusion 
 - version 0.7.55.30 many things fixed, playing again
 - version 0.7.55.29 made background maingrid black to solve #119, makes things wierd but interesting,consolidated alerts
 - version 0.7.55.28 fixed short winning path again,onboarding reorganized,temporarily changed win/lose alerts to apple standard 

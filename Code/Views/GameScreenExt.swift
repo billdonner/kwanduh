@@ -136,11 +136,6 @@ extension GameScreen /* actions */ {
         }
     }
 
-    func onEndGamePressed() {
-      withAnimation {
-        endGame(status: .justAbandoned)
-      }
-    }
 
     func onBoardSizeChange() {
         // Placeholder for future logic
@@ -150,7 +145,7 @@ extension GameScreen /* actions */ {
         chmgr.dumpTopics()
     }
 
-    func onStartGame(boardsize: Int) -> Bool {
+    func startTheGame(boardsize: Int) -> Bool {
         print("onStartGame gamestate is \(gs.playstate)")
         if gs.playstate == .playingNow {
             gs.teardownAfterGame(state: .justAbandoned, chmgr: chmgr)

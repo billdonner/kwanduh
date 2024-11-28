@@ -81,10 +81,16 @@ struct GameScreen: View {
                     showFreeportSettings: $showFreeportSettings,
                     gameTitle: gameTitle,
                     onStartGame: {
-                        onStartGame(boardsize: gs.boardsize)
+                       let ok =  startTheGame(boardsize: gs.boardsize)
+                      if !ok {
+                        activeAlert = .cantStart
+                      }
+                      return ok
                     },
                     onEndGamePressed: {
-                        onEndGamePressed()
+                      withAnimation {
+                        endGame(status: .justAbandoned)
+                      }
                     },
                     chmgrCheckConsistency: {
                         chmgr.checkAllTopicConsistency("GameScreen")
