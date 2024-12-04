@@ -29,7 +29,6 @@ enum ChallengeStatus: Int, Codable {
     case inReserve, allocated, playedCorrectly, playedIncorrectly, abandoned
 }
 
-
 /// Represents a color mapping for topics
 enum FreeportColor: Int, CaseIterable, Comparable, Codable {
     case myLightYellow, myDeepPink, myLightBlue, myRoyalBlue, myPeach, myOrange, myLavender
@@ -49,6 +48,88 @@ enum FreeportColor: Int, CaseIterable, Comparable, Codable {
         return lhs.rawValue < rhs.rawValue
     }
 }
+struct QandATopBarView: View {
+  let gs:GameState
+  let topic: String
+  let hint:String
+  let handlePass: () -> Void
+  let handleGimmee: () -> Void
+  let toggleHint: () -> Void
+  @Binding var elapsedTime: TimeInterval   // Elapsed time in seconds
+  @Binding var killTimer: Bool
+  
+  @State private var timer: Timer? = nil  // Timer to track elapsed time
+  
+  func startTimer() {
+    elapsedTime = 0
+    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+      elapsedTime += 1
+    }
+  }
+  
+  public func stopTimer() {
+    // guard against doing this twice
+    if timer != nil {
+      gs.totaltime += elapsedTime
+      timer?.invalidate()
+      timer = nil
+    }
+  }
+  
+  var formattedElapsedTime: String {
+    let minutes = Int(elapsedTime) / 60
+    let seconds = Int(elapsedTime) % 60
+    return String(format: "%02d:%02d", minutes, seconds)
+  }
+  
+  var body: some View {
+    ZStack {
+      HStack(alignment: .top ) {
+        VStack(alignment:.leading) {
+          Text(topic).multilineTextAlignment(.leading)
+            .font(.headline)
+            .lineLimit(2,reservesSpace: true)
+            .foregroundColor(.primary)
+          elapsedTimeView
+          additionalInfoView
+        }.padding()
+        Spacer()
+        Button(action: {
+          handlePass()
+        }) {
+          Image(systemName: "xmark")
+            .font(.title)
+            .foregroundColor(.primary)
+          
+        }
+        .padding( )
+      }.padding(.top)
+      
+    }.debugBorder()
+      .onAppear {
+        startTimer()
+      }
+      .onDisappear {
+        stopTimer()
+      }
+      .onChange(of: killTimer) { oldValue, newValue in
+        stopTimer()
+      }
+  }
+  
+  
+  var elapsedTimeView: some View {
+    Text("time to answer: \(formattedElapsedTime)")
+      .font(.footnote)
+      .foregroundColor(.secondary)
+  }
+  
+  var additionalInfoView: some View {
+    Text("score:\(gs.totalScore()) gimmees:\(gs.gimmees)")
+      .font(.footnote)
+      .foregroundColor(.secondary)
+  }
+}
 
 struct QandAScreen: View {
     @Bindable var chmgr: ChaMan
@@ -57,98 +138,55 @@ struct QandAScreen: View {
     let col: Int
     @Binding var isPresentingDetailView: Bool
     @Environment(\.dismiss) var dismiss
-    @Environment(\.colorScheme) var colorScheme
 
-    @State var showInfo = false
     @State var gimmeeAlert = false
     @State var answerCorrect: Bool = false
     @State var showHint: Bool = false
     @State var answerGiven: String? = nil
     @State var lastAnswerGiven: String? = nil
     @State var killTimer: Bool = false
-    @State var elapsedTime: TimeInterval = 0
+  @State private var elapsedTime: TimeInterval = 0  // Add this property to QandAScreen
     @State var questionedWasAnswered: Bool = false
     @State var showThumbsUp: Challenge? = nil
     @State var showThumbsDown: Challenge? = nil
 
     var body: some View {
         GeometryReader { geometry in
-            let ch = chmgr.everyChallenge[gs.board[row][col]]
+            let challenge = chmgr.everyChallenge[gs.board[row][col]]
             ZStack {
                 VStack {
-                    QandATopBarView(
-                        gs: gs,
-                        topic: ch.topic,
-                        hint: ch.hint,
-                        handlePass: { killTimer = true; dismiss() },
-                        handleGimmee: handleGimmee,
-                        toggleHint: toggleHint,
-                        elapsedTime: $elapsedTime,
-                        killTimer: $killTimer
-                    )
-                    .disabled(questionedWasAnswered)
-                    .debugBorder()
-
-          
-              
-                  QandASectionView (
-                    chmgr: chmgr,          // Pass ChaMan object
-                           gs: gs,                // Pass GameState object
-                           ch: ch,
-                           geometry: geometry,
-                           colorScheme: colorScheme,
-                           answerGiven: $answerGiven,
-                           answerCorrect: $answerCorrect,
-                           row: row,
-                           col:col
+                  QandATopBarView(
+                      gs: gs,
+                      topic: challenge.topic,
+                      hint: challenge.hint,
+                      handlePass: { killTimer = true; dismiss() },
+                      handleGimmee: handleGimmee,
+                      toggleHint: toggleHint,
+                      elapsedTime: $elapsedTime,  // Correctly pass elapsedTime as a binding
+                      killTimer: $killTimer       // Pass killTimer as expected
                   )
+                    .disabled(questionedWasAnswered)
+
+                    QandASectionView(
+                        chmgr: chmgr,
+                        gs: gs,
+                        challenge: challenge,
+                        geometry: geometry,
+                        answerGiven: $answerGiven,
+                        answerCorrect: $answerCorrect,
+                        row: row,
+                        col: col,
+                        gimmeeAlert: $gimmeeAlert,
+                        toggleHint: toggleHint,
+                        showThumbsUp: { showThumbsUp = $0 },
+                        showThumbsDown: { showThumbsDown = $0 }
+                    )
                     .disabled(questionedWasAnswered)
                 }
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(12)
                 .shadow(radius: 10)
                 .padding(.bottom, 30)
-
-                .hintAlert(
-                    isPresented: $showHint,
-                    title: "Here's Your Hint:",
-                    message: ch.hint,
-                    buttonTitle: "Dismiss",
-                    onButtonTapped: {
-                        answerGiven = nil
-                        showHint = false
-                    },
-                    animation: .spring()
-                )
-
-                .timeoutAlert(
-                    item: $answerGiven,
-                    title: (answerCorrect ? "You Got It!\nThe answer is:\n" : "Sorry...\nThe answer is:\n") + ch.correct,
-                    message: ch.explanation ?? "xxx",
-                    buttonTitle: nil,
-                    timeout: 5.0,
-                    fadeOutDuration: 0.5,
-                    onButtonTapped: {
-                       print("onbuttontapped called ", answerGiven?.description ?? "No answer given")
-                      lastAnswerGiven = answerGiven
-                        dismiss() // Only dismiss the view
-                    }
-                )
-            }
-            .sheet(isPresented: $showInfo) {
-                ChallengeInfoScreen(challenge: ch)
-            }
-            .sheet(item: $showThumbsUp) { challenge in
-                PositiveSentimentView(id: challenge.id)
-                    .onDisappear {
-                        print("Thumbs-up sheet dismissed")
-                    }
-            }
-            .sheet(item: $showThumbsDown) { challenge in
-                NegativeSentimentView(id: challenge.id)
-                    .onDisappear {
-                        print("Thumbs-down sheet dismissed")
-                    }
             }
         }
         .onDisappear {
@@ -156,132 +194,186 @@ struct QandAScreen: View {
         }
     }
 
-  private func handleDismissal() {
-      guard let answer = lastAnswerGiven else {
-          print("No answer to process during dismissal.")
-          return
-      }
+    private func handleDismissal() {
+        guard let answer = lastAnswerGiven else { return }
+        let challenge = chmgr.everyChallenge[gs.board[row][col]]
+        if answerCorrect {
+            answeredCorrectly(challenge, row: row, col: col, answered: answer)
+        } else {
+            answeredIncorrectly(challenge, row: row, col: col, answered: answer)
+        }
+        questionedWasAnswered = true
+        isPresentingDetailView = false
+    }
 
-      let ch = chmgr.everyChallenge[gs.board[row][col]]
-      if answerCorrect {
-          answeredCorrectly(ch, row: row, col: col, answered: answer)
-      } else {
-          answeredIncorrectly(ch, row: row, col: col, answered: answer)
+  func toggleHint() {
+      let hint = chmgr.everyChallenge[gs.board[row][col]].hint
+      if hint.count > 1 {
+          showHint.toggle()
       }
-      questionedWasAnswered = true
-      isPresentingDetailView = false
   }
+
+      func handleGimmee() {
+          killTimer = true
+          let idx = gs.board[row][col]
+          let result = chmgr.replaceChallenge(at: idx)
+          switch result {
+          case .success(let index):
+              gs.gimmees -= 1
+              gs.board[row][col] = index[0]
+              gs.cellstate[row][col] = .unplayed
+              gs.replaced[row][col].append(idx)
+              gs.replacedcount += 1
+              print("Gimmee reallocation successful \(index)")
+          case .error(let error):
+              print("Couldn't handle gimmee reallocation \(error)")
+          }
+          gs.saveGameState()
+          dismiss()
+      }
+
+      func answeredCorrectly(_ ch: Challenge, row: Int, col: Int, answered: String) {
+          processAnswer(
+              ch: ch,
+              row: row,
+              col: col,
+              answered: answered,
+              status: .playedCorrectly
+          ) {
+              gs.rightcount += 1
+              chmgr.bumpRightcount(topic: ch.topic)
+          }
+      }
+
+      func answeredIncorrectly(_ ch: Challenge, row: Int, col: Int, answered: String) {
+          processAnswer(
+              ch: ch,
+              row: row,
+              col: col,
+              answered: answered,
+              status: .playedIncorrectly
+          ) {
+              gs.wrongcount += 1
+              chmgr.bumpWrongcount(topic: ch.topic)
+          }
+      }
+
+      private func processAnswer(
+          ch: Challenge,
+          row: Int,
+          col: Int,
+          answered: String,
+          status: ChallengeStatus,
+          updateStats: () -> Void
+      ) {
+          performConsistencyChecks(before: true)
+          updateStats()
+          updateGameState(for: ch, row: row, col: col, answered: answered, status: status)
+          performConsistencyChecks(before: false)
+      }
+
+      private func updateGameState(
+          for ch: Challenge,
+          row: Int,
+          col: Int,
+          answered: String,
+          status: ChallengeStatus
+      ) {
+          gs.movenumber += 1
+          gs.moveindex[row][col] = gs.movenumber
+          gs.cellstate[row][col] = GameCellState(from: status)
+          chmgr.stati[gs.board[row][col]] = status
+
+          chmgr.ansinfo[ch.id] = AnsweredInfo(
+              id: ch.id,
+              answer: answered,
+              outcome: status,
+              timestamp: Date(),
+              timetoanswer: elapsedTime,
+              gamenumber: gs.gamenumber,
+              movenumber: gs.movenumber,
+              row: row,
+              col: col
+          )
+
+          killTimer = true
+          logAnswer(ch: ch, row: row, col: col, status: status)
+          gs.saveGameState()
+          chmgr.save()
+      }
+
+      private func performConsistencyChecks(before: Bool) {
+          let phase = before ? "before" : "after"
+          chmgr.checkAllTopicConsistency("mark \(phase)")
+          conditionalAssert(gs.checkVsChaMan(chmgr: chmgr, message: "answered \(phase)"))
+      }
+
+      private func logAnswer(ch: Challenge, row: Int, col: Int, status: ChallengeStatus) {
+          let moveIndex = gs.moveindex[row][col]
+          TSLog("Challenge \(ch.id) index: \(moveIndex) answered with status \(status)")
+      }
+  }
+
+struct QandASectionView: View {
+    let chmgr: ChaMan
+    let gs: GameState
+    let challenge: Challenge
+    let geometry: GeometryProxy
+    @Binding var answerGiven: String?
+    @Binding var answerCorrect: Bool
+    let row: Int
+    let col: Int
+    @Binding var gimmeeAlert: Bool
+    let toggleHint: () -> Void
+    let showThumbsUp: (Challenge) -> Void
+    let showThumbsDown: (Challenge) -> Void
+
+    var body: some View {
+        VStack(spacing: 10) {
+            QandAButtonsView(
+                gimmeeAlert: $gimmeeAlert,
+                gimmees: gs.gimmees,
+                challenge: challenge,
+                toggleHint: toggleHint,
+                showThumbsUp: showThumbsUp,
+                showThumbsDown: showThumbsDown
+            )
+            Text(challenge.question)
+                .font(.title3)
+        }
+    }
 }
 
-extension QandAScreen {
-    func toggleHint() {
-        let hint = chmgr.everyChallenge[gs.board[row][col]].hint
-        if hint.count > 1 {
-            showHint.toggle()
+struct QandAButtonsView: View {
+    @Binding var gimmeeAlert: Bool
+    let gimmees: Int
+    let challenge: Challenge
+    let toggleHint: () -> Void
+    let showThumbsUp: (Challenge) -> Void
+    let showThumbsDown: (Challenge) -> Void
+
+    var body: some View {
+        HStack(spacing: 15) {
+            Button(action: { gimmeeAlert = true }) {
+                Image(systemName: "arrow.trianglehead.2.clockwise")
+            }
+            .disabled(gimmees < 1)
+
+            Button(action: toggleHint) {
+                Image(systemName: "lightbulb")
+            }
+            .disabled(challenge.hint.count <= 1)
+
+            Button(action: { showThumbsUp(challenge) }) {
+                Image(systemName: "hand.thumbsup")
+            }
+
+            Button(action: { showThumbsDown(challenge) }) {
+                Image(systemName: "hand.thumbsdown")
+            }
         }
-    }
-
-    func handleGimmee() {
-        killTimer = true
-        let idx = gs.board[row][col]
-        let result = chmgr.replaceChallenge(at: idx)
-        switch result {
-        case .success(let index):
-            gs.gimmees -= 1
-            gs.board[row][col] = index[0]
-            gs.cellstate[row][col] = .unplayed
-            gs.replaced[row][col].append(idx)
-            gs.replacedcount += 1
-            print("Gimmee reallocation successful \(index)")
-        case .error(let error):
-            print("Couldn't handle gimmee reallocation \(error)")
-        }
-        gs.saveGameState()
-        dismiss()
-    }
-
-    func answeredCorrectly(_ ch: Challenge, row: Int, col: Int, answered: String) {
-        processAnswer(
-            ch: ch,
-            row: row,
-            col: col,
-            answered: answered,
-            status: .playedCorrectly
-        ) {
-            gs.rightcount += 1
-            chmgr.bumpRightcount(topic: ch.topic)
-        }
-    }
-
-    func answeredIncorrectly(_ ch: Challenge, row: Int, col: Int, answered: String) {
-        processAnswer(
-            ch: ch,
-            row: row,
-            col: col,
-            answered: answered,
-            status: .playedIncorrectly
-        ) {
-            gs.wrongcount += 1
-            chmgr.bumpWrongcount(topic: ch.topic)
-        }
-    }
-
-    private func processAnswer(
-        ch: Challenge,
-        row: Int,
-        col: Int,
-        answered: String,
-        status: ChallengeStatus,
-        updateStats: () -> Void
-    ) {
-        performConsistencyChecks(before: true)
-        updateStats()
-        updateGameState(for: ch, row: row, col: col, answered: answered, status: status)
-        performConsistencyChecks(before: false)
-    }
-
-    private func updateGameState(
-        for ch: Challenge,
-        row: Int,
-        col: Int,
-        answered: String,
-        status: ChallengeStatus
-    ) {
-        gs.movenumber += 1
-        gs.moveindex[row][col] = gs.movenumber
-        gs.cellstate[row][col] = GameCellState(from: status)
-        chmgr.stati[gs.board[row][col]] = status
-
-        chmgr.ansinfo[ch.id] = AnsweredInfo(
-            id: ch.id,
-            answer: answered,
-            outcome: status,
-            timestamp: Date(),
-            timetoanswer: elapsedTime,
-            gamenumber: gs.gamenumber,
-            movenumber: gs.movenumber,
-            row: row,
-            col: col
-        )
-
-        killTimer = true
-        logAnswer(ch: ch, row: row, col: col, status: status)
-        gs.saveGameState()
-        chmgr.save()
-    }
-
-    private func performConsistencyChecks(before: Bool) {
-        let phase = before ? "before" : "after"
-        chmgr.checkAllTopicConsistency("mark \(phase)")
-        conditionalAssert(gs.checkVsChaMan(chmgr: chmgr, message: "answered \(phase)"))
-    }
-
-    private func logAnswer(ch: Challenge, row: Int, col: Int, status: ChallengeStatus) {
-        let moveIndex = gs.moveindex[row][col]
-        TSLog("Challenge \(ch.id) index: \(moveIndex) answered with status \(status)")
     }
 }
-
 extension GameCellState {
     init(from status: ChallengeStatus) {
         switch status {

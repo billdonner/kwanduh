@@ -14,38 +14,7 @@ let buttFont : Font = isIpad ? .title : .headline
 
 extension QandAScreen {
   
-   var hintButton: some View {
-       Button(action: {
-           toggleHint()
-       }) {
-           Image(systemName: "lightbulb")
-               .font(buttFont)
-               //.frame(width: buttSize, height:buttSize)
-               .cornerRadius(buttRadius)
-       }
-       .disabled(chmgr.everyChallenge[gs.board[row][col]].hint.count <= 1 )
-       .opacity(chmgr.everyChallenge[gs.board[row][col]].hint.count <= 1 ? 0.5:1.0)
-   }
-   var thumbsUpButton: some View {
-       Button(action: {
-         showThumbsUp =  chmgr.everyChallenge[gs.board[row][col]]
-       }){
-         Image(systemName: "hand.thumbsup")
-           .font(buttFont)
-               .cornerRadius(buttRadius)
-               //.symbolEffect(.wiggle,isActive: true)
-       }
-   }
-   var thumbsDownButton: some View {
-       Button(action: {
-         showThumbsDown = chmgr.everyChallenge[gs.board[row][col]]
-       }){
-         Image(systemName: "hand.thumbsdown")
-           .font(buttFont)
-               .cornerRadius(buttRadius)
-              // .symbolEffect(.wiggle,isActive: true)
-       }
-   }
+
    var passButton: some View {
      Button(action: {
        killTimer=true
@@ -81,28 +50,16 @@ extension QandAScreen {
          .cornerRadius(buttRadius)
      }
    }
-   var gimmeeButton: some View {
-     Button(action: {
-       gimmeeAlert = true
-     }) {
-       Image(systemName: "arrow.trianglehead.2.clockwise")
-         .font(buttFont)
-         //.frame(width: buttSize, height: buttSize)
-         .cornerRadius(buttRadius)
-     }
-     .disabled(gs.gimmees<1)
-     .opacity(gs.gimmees<1 ? 0.5:1)
-     
-   }
-   var infoButton: some View {
-     Button(action: {
-       showInfo = true
-     }) {
-       Image(systemName: "info.circle")
-         .font(buttFont)
-        // .frame(width: buttSize, height: buttSize)
-         .cornerRadius(buttRadius)
-     }
-   }
+
+//   var infoButton: some View {
+//     Button(action: {
+//       showInfo = true
+//     }) {
+//       Image(systemName: "info.circle")
+//         .font(buttFont)
+//        // .frame(width: buttSize, height: buttSize)
+//         .cornerRadius(buttRadius)
+//     }
+//   }
 
 }

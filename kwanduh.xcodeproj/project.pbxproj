@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
-		887A9C932CE3C06200013520 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 887A9C922CE3C06200013520 /* CommonAssets.xcassets */; };
-		887A9C942CE3C06200013520 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 887A9C922CE3C06200013520 /* CommonAssets.xcassets */; };
-		887A9C952CE3C06200013520 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 887A9C922CE3C06200013520 /* CommonAssets.xcassets */; };
+		889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
+		889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
+		889C00AD2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
 		88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A319162CA3194F005D0DF3 /* playdata-mini.json */; };
 		88A319F02CA325D8005D0DF3 /* playdata.json in Resources */ = {isa = PBXBuildFile; fileRef = 88A3198E2CA32097005D0DF3 /* playdata.json */; };
 		88A31A4C2CB2CD10005D0DF3 /* QandaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */; };
@@ -50,7 +50,7 @@
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		885183922CD1562700D686A6 /* kwannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		887A9C922CE3C06200013520 /* CommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CommonAssets.xcassets; sourceTree = "<group>"; };
+		889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "CommonAssets 12032024.xcassets"; sourceTree = "<group>"; };
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A319162CA3194F005D0DF3 /* playdata-mini.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "playdata-mini.json"; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 			children = (
 				88A3198C2CA32074005D0DF3 /* README.md */,
 				88C732FE2CEBCF5000871B02 /* kwanduh.xctestplan */,
-				887A9C922CE3C06200013520 /* CommonAssets.xcassets */,
+				889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */,
 				884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */,
 				88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */,
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
@@ -445,7 +445,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				887A9C942CE3C06200013520 /* CommonAssets.xcassets in Resources */,
+				889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
 				88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,7 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
-				887A9C952CE3C06200013520 /* CommonAssets.xcassets in Resources */,
+				889C00AD2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A319F02CA325D8005D0DF3 /* playdata.json in Resources */,
-				887A9C932CE3C06200013520 /* CommonAssets.xcassets in Resources */,
+				889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -171,6 +171,19 @@ final class GameLogicTests: XCTestCase {
          let result = isWinningPath(in: matrix)
          XCTAssertFalse(result, "Premature short win path.")
      }
+  func test4x4PossibleWhenRoadblocked() {
+         let matrix: [[GameCellState]] = [
+             [.unplayed, .unplayed, .blocked, .unplayed],
+             
+                 [.unplayed, .unplayed, .blocked, .unplayed],
+             
+                 [.unplayed, .unplayed, .blocked, .unplayed],
+             
+                 [.unplayed, .unplayed, .blocked, .unplayed]
+         ]
+         let result = isWinningPath(in: matrix)
+         XCTAssertFalse(result, "No Winning Path Should Be Possible When Column Roadblocked")
+     }
   func test4x4ClearDiagonalPath() {
          let matrix: [[GameCellState]] = [
              [.playedCorrectly, .unplayed, .unplayed, .unplayed],

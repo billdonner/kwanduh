@@ -1,10 +1,10 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.95
+// v 0.96
 
 import Foundation
 
-
+ 
 /// Represents a position in the matrix
 struct Coordinate: Hashable {
   let row: Int
@@ -55,8 +55,8 @@ func isWinningPath(in matrix: [[GameCellState]]) -> Bool {
         print("Winning path found: \(path)")
       printMatrix(matrix, winningPath: path.map {Coordinate (row: $0.row, col: $0.col) })
     } else {
-//        print("No winning path found.")
-//        printMatrix(matrix)
+        print("No winning path found.")
+        printMatrix(matrix)
     }
 
     return pathExists
@@ -381,7 +381,7 @@ func generateRandomMatrix(size: Int, blockedPercentage: Int) -> [[GameCellState]
     }
 
     // Ensure each corner has at least one adjacent unplayed cell
-    ensureAdjacentUnplayedCells(forCorners: cornerIndices, in: &flatMatrix, size: size)
+    //ensureAdjacentUnplayedCells(forCorners: cornerIndices, in: &flatMatrix, size: size)
 
     return matrix
 }
