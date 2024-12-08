@@ -4,7 +4,6 @@
 
 import Foundation
 
-
 /// Represents the state of a game cell
 enum GameCellState: Codable {
   case playedCorrectly
@@ -62,8 +61,8 @@ func isWinningPath(in matrix: [[GameCellState]]) -> Bool {
         print("Winning path found: \(path)")
       printMatrix(matrix, winningPath: path.map {Coordinate (row: $0.row, col: $0.col) })
     } else {
-       // print("No winning path found.")
-       // printMatrix(matrix)
+        print("No winning path found.")
+        printMatrix(matrix)
     }
 
     return pathExists
