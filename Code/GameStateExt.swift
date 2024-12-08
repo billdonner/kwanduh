@@ -8,6 +8,35 @@
 import Foundation
 extension GameState {
   
+  // call After Dimiss of QandA view
+  func markCorrectMove(chmgr:ChaMan,  row: Int,col: Int, ch: Challenge,  answered: String,elapsedTime:TimeInterval) {
+    movenumber += 1
+    moveindex[row][col] = movenumber
+    cellstate[row][col] = .playedCorrectly
+    rightcount += 1
+    chmgr.bumpRightcount(topic: ch.topic)
+    chmgr.stati[board[row][col]] = .playedCorrectly  // ****
+    chmgr.ansinfo[ch.id]  =
+    AnsweredInfo(id: ch.id, answer: answered, outcome:.playedCorrectly,
+                 timestamp: Date(), timetoanswer:elapsedTime, gamenumber: gamenumber, movenumber: movenumber,row:row,col:col)
+    saveGameState()
+    chmgr.save()
+  }
+  // call After Dimiss of QandA view
+  func markIncorrectMove(chmgr:ChaMan,row: Int,col: Int,ch: Challenge,  answered: String,elapsedTime:TimeInterval){
+    movenumber += 1
+    moveindex[row][col] = movenumber
+    cellstate[row][col] = .playedIncorrectly
+    wrongcount += 1
+    chmgr.bumpWrongcount(topic: ch.topic)
+    chmgr.stati[board[row][col]] = .playedIncorrectly  // ****
+    chmgr.ansinfo[ch.id]  =
+    AnsweredInfo(id: ch.id, answer: answered, outcome:.playedIncorrectly,
+                 timestamp: Date(), timetoanswer: elapsedTime, gamenumber: gamenumber, movenumber: movenumber,row:row,col:col)
+    saveGameState()
+    chmgr.save()
+  }
+  
   
   func moveHistory() -> [GameMove] {
     var moves: [GameMove] = []

@@ -7,7 +7,13 @@
 
 import Foundation
 
-
+enum ChallengeStatus : Int, Codable  {
+  case inReserve         // 0
+  case allocated         // 1
+  case playedCorrectly   // 2
+  case playedIncorrectly // 3
+  case abandoned         // 4
+}
 
 // The manager class to handle Challenge-related operations and state
 @Observable

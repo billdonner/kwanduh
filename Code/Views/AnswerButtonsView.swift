@@ -8,7 +8,7 @@
 import SwiftUI
   
 
-struct QandAnswerButtonsView: View {
+struct AnswerButtonsView: View {
 
   
   let row: Int
@@ -42,7 +42,7 @@ struct QandAnswerButtonsView: View {
           ScrollView(.horizontal) {
             HStack(spacing: 15) {
               ForEach(Array(answers.enumerated()), id: \.offset) { index, answer in
-                SoloAnswerButtonView(answer: answer, row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder(), taller: true,handler: handler)
+                SoloAnswerButtonView(answer: answer, row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder(), taller: true) { answer,row,col in handler(answer,row,col)}
               }
             }
             .padding(.horizontal)
@@ -57,33 +57,31 @@ struct QandAnswerButtonsView: View {
     } else if answers.count == 3 {
       return AnyView(
         VStack(spacing: 15) {
-          SoloAnswerButtonView(answer: answers[0], row: row, col: col, buttonWidth: contentWidth / 2, buttonHeight: contentWidth / 2, colorScheme: colorScheme, borderColor: colorForBorder() ,handler: handler )
+          SoloAnswerButtonView(answer: answers[0], row: row, col: col, buttonWidth: contentWidth / 2, buttonHeight: contentWidth / 2, colorScheme: colorScheme, borderColor: colorForBorder()  ) { answer,row,col in handler(answer,row,col)}
           HStack {
-            SoloAnswerButtonView(answer: answers[1], row: row, col: col, buttonWidth: contentWidth / 2.5, buttonHeight: contentWidth / 2.5, colorScheme: colorScheme, borderColor: colorForBorder()  ,handler: handler )
-            SoloAnswerButtonView(answer: answers[2], row: row, col: col, buttonWidth: contentWidth / 2.5, buttonHeight: contentWidth / 2.5, colorScheme: colorScheme, borderColor: colorForBorder()  ,handler: handler )
+            SoloAnswerButtonView(answer: answers[1], row: row, col: col, buttonWidth: contentWidth / 2.5, buttonHeight: contentWidth / 2.5, colorScheme: colorScheme, borderColor: colorForBorder() )  { answer,row,col in handler(answer,row,col)}
+            SoloAnswerButtonView(answer: answers[2], row: row, col: col, buttonWidth: contentWidth / 2.5, buttonHeight: contentWidth / 2.5, colorScheme: colorScheme, borderColor: colorForBorder() )  { answer,row,col in handler(answer,row,col)}
           }
         }
           .padding(.horizontal)
           .disabled(disabled)  // Disable all answer buttons after an answer is given
       )
-    }
-    else {
+    } else {
       let buttonWidth = min(geometry.size.width / 3 - 20, isIpad ? 200:100) * 1.5
       let buttonHeight = buttonWidth * 0.8 // Adjust height to fit more lines
-      
       return AnyView(
         VStack(spacing: 10) {
           HStack {
-            SoloAnswerButtonView(answer: answers[0], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme,borderColor: colorForBorder() ,handler: handler )
-            SoloAnswerButtonView(answer: answers[1], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder() ,handler: handler )
+            SoloAnswerButtonView(answer: answers[0], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme,borderColor: colorForBorder()) { answer,row,col in handler(answer,row,col)}
+            SoloAnswerButtonView(answer: answers[1], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder() ) { answer,row,col in handler(answer,row,col)}
           }
           HStack {
-            SoloAnswerButtonView(answer: answers[2], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder()  ,handler: handler )
-            SoloAnswerButtonView(answer: answers[3], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder()  ,handler: handler )
+            SoloAnswerButtonView(answer: answers[2], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder() ) { answer,row,col in handler(answer,row,col)}
+            SoloAnswerButtonView(answer: answers[3], row: row, col: col, buttonWidth: buttonWidth, buttonHeight: buttonHeight, colorScheme: colorScheme, borderColor: colorForBorder() ) { answer,row,col in handler(answer,row,col)}
           }
+        }
           .padding(.horizontal)
           .disabled(disabled)  // Disable all answer buttons after an answer is given
-        }
       )
     }
   }

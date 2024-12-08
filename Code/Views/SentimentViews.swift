@@ -239,7 +239,7 @@ struct NegativeSentimentView: View {
         }
       }
       .padding()
-      .navigationTitle("Send Thubs Down")
+      .navigationTitle("Send Thumbs Down")
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: {

@@ -6,7 +6,11 @@
 //
 
 import SwiftUI
-
+struct GameMove: Codable, Hashable {
+  let row: Int
+  let col: Int
+  let movenumber: Int
+}
 //enum DifficultyLevel: Int,Codable {
 //  case easy,normal,hard
 //}

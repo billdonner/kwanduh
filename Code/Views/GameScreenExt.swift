@@ -71,14 +71,12 @@ extension GameScreen /* actions */ {
                 gs.onwinpath[p.row][p.col] = true
             }
             activeAlert = .youWin
-          gs.playstate = .justWon
             return
         }
 
         if !isPossibleWinningPath(in: gs.cellstate) {
             TSLog("--->YOU LOSE")
             activeAlert = .youLose
-          gs.playstate = .justLost
             return
         }
 
@@ -136,6 +134,11 @@ extension GameScreen /* actions */ {
         }
     }
 
+    func onEndGamePressed() {
+      withAnimation {
+        endGame(status: .justAbandoned)
+      }
+    }
 
     func onBoardSizeChange() {
         // Placeholder for future logic
@@ -145,7 +148,7 @@ extension GameScreen /* actions */ {
         chmgr.dumpTopics()
     }
 
-    func startTheGame(boardsize: Int) -> Bool {
+    func onStartGame(boardsize: Int) -> Bool {
         print("onStartGame gamestate is \(gs.playstate)")
         if gs.playstate == .playingNow {
             gs.teardownAfterGame(state: .justAbandoned, chmgr: chmgr)

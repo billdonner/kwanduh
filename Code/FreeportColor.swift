@@ -33,7 +33,94 @@ func contrastingTextColor(for rgb: RGB) -> Color {
 func optimalTextColor(for color: Color) -> Color {
   contrastingTextColor(for: colorToRGB(color: color))
 }
-
+enum FreeportColor: Int, CaseIterable, Comparable,Codable {
+  // Enum cases synthesized from color names
+  case myLightYellow
+  case myDeepPink
+  case myLightBlue
+  case myRoyalBlue
+  case myPeach
+  case myOrange
+  case myLavender
+  case myMint
+  case myLightCoral
+  case myAqua
+  case myLemon
+  case mySkyBlue
+  case mySunshineYellow
+  case myOceanBlue
+  case mySeafoam
+  case myPalmGreen
+  case myCoral
+  case myLagoon
+  case myShell
+  case mySienna
+  case myCoconut
+  case myPineapple
+  case myBurntOrange
+  case myGoldenYellow
+  case myCrimsonRed
+  case myPumpkin
+  case myChestnut
+  case myHarvestGold
+  case myAmber
+  case myMaroon
+  case myRusset
+  case myMossGreen
+  case myIceBlue
+  case myMidnightBlue
+  case myFrost
+  case mySlate
+  case mySilver
+  case myPine
+  case myBerry
+  case myEvergreen
+  case myStorm
+  case myHolly
+  case myBlack0
+  case myBlack1
+  case myBlack2
+  case myBlack3
+  case myBlack4
+  case myBlack5
+  case myBlack6
+  case myBlack7
+  case myBlack8
+  case myBlack9
+  case myBlackA
+  case myBlackB
+  case myOffWhite
+  case myOffBlack
+  // Foreground enum cases
+  case myGold
+  case myHotPink
+  case myDarkOrange
+  case myDarkViolet
+  case myDarkGreen
+  case myCrimson
+  case myTeal
+  case myNavy
+  case myGoldenrod
+  case myForestGreen
+  case myDeepTeal
+  case myChocolate
+  case myBrown
+  case myDarkGoldenrod
+  case myDarkRed
+  case myOrangeRed
+  case mySaddleBrown
+  case myDarkOliveGreen
+  case myPrussianBlue
+  case myAliceBlue
+  case mySteelBlue
+  case myDarkSlateGray
+  case myDarkGray
+  case myWhite
+  
+  static func < (lhs: FreeportColor, rhs: FreeportColor) -> Bool {
+    return lhs.rawValue < rhs.rawValue
+  }
+}
 
 import SwiftUI
 

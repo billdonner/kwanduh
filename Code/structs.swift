@@ -3,6 +3,8 @@ import SwiftUI
 
 typealias ColorSchemeName = Int
 
+
+
 extension GameCellState {
   var borderColor: Color {
       switch self {
@@ -46,6 +48,13 @@ enum CornerPosition: CaseIterable {
 }
 
 
+enum StateOfPlay : Int, Codable {
+  case initializingApp
+  case playingNow
+  case justLost
+  case justWon
+  case justAbandoned
+}
 
 struct IdentifiablePoint: Identifiable {
   internal init(row: Int, col: Int, status: ChallengeStatus? = nil) {
