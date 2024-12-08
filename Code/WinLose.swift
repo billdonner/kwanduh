@@ -1,6 +1,6 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.96
+// v 0.97
 
 import Foundation
 
@@ -48,26 +48,53 @@ func pm(s:String,m:[[GameCellState]])->String {
 /// Determines if there is a valid winning path in the matrix and logs the path if it exists.
 /// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
 /// - Returns: `true` if a winning path exists, otherwise `false`
+/// Finds the actual winning path (if any) in the matrix
+/// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
+/// - Returns: A tuple containing the winning path as a list of positions and a boolean indicating if a winning path exists/// Determines if there is a valid winning path in the matrix.
+/// - Parameter matrix: The game board represented as a 2D array of `GameCellState`.
+/// - Returns: `true` if a winning path exists, otherwise `false`.
 func isWinningPath(in matrix: [[GameCellState]]) -> Bool {
-    // Check if losing conditions are met
-    if hasLosingCornerCondition(in: matrix) {
-        return false
-    }
-
-    // Determine if there is a valid path
-    let (path, pathExists) = winningPath(in: matrix)
-
-    if pathExists {
-        print("Winning path found: \(path)")
-      printMatrix(matrix, winningPath: path.map {Coordinate (row: $0.row, col: $0.col) })
-    } else {
-        print("No winning path found.")
-        printMatrix(matrix)
-    }
-
+    // Delegate to `winningPath` to determine if a winning path exists.
+    let (_, pathExists) = winningPath(in: matrix)
     return pathExists
 }
 
+/// Finds the actual winning path (if any) in the matrix.
+/// - Parameter matrix: The game board represented as a 2D array of `GameCellState`.
+/// - Returns: A tuple containing:
+///   - The winning path as a list of positions.
+///   - A boolean indicating if a winning path exists.
+func winningPath(in matrix: [[GameCellState]]) -> ([Coordinate], Bool) {
+    let n = matrix.count
+    guard n > 0 else { return ([], false) }
+
+    // Define diagonal traversal
+    let diagonals = [
+        (start: Coordinate(row: 0, col: 0), end: Coordinate(row: n - 1, col: n - 1), step: (1, 1)),
+        (start: Coordinate(row: 0, col: n - 1), end: Coordinate(row: n - 1, col: 0), step: (1, -1))
+    ]
+
+    for diagonal in diagonals {
+        var path: [Coordinate] = []
+        var current = diagonal.start
+
+        // Traverse the diagonal
+        while current.row >= 0 && current.row < n && current.col >= 0 && current.col < n {
+            if matrix[current.row][current.col] != .playedCorrectly {
+                break
+            }
+            path.append(current)
+            current = Coordinate(row: current.row + diagonal.step.0, col: current.col + diagonal.step.1)
+        }
+
+        // Check if the diagonal is complete
+        if current == Coordinate(row: diagonal.end.row + diagonal.step.0, col: diagonal.end.col + diagonal.step.1) {
+            return (path, true)
+        }
+    }
+
+    return ([], false)
+}
 /// Determines if a theoretical winning path is possible
 /// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
 /// - Returns: `true` if a possible path exists, otherwise `false`
@@ -211,65 +238,6 @@ func hasPotentialPath(in matrix: [[GameCellState]]) -> Bool {
   }
 
   return false
-}
-
-/// Finds the actual winning path (if any) in the matrix
-/// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
-/// - Returns: A tuple containing the winning path as a list of positions and a boolean indicating if a winning path exists
-func winningPath(in matrix: [[GameCellState]]) -> ([Coordinate], Bool) {
-  let n = matrix.count
-  guard n > 0 else { return ([], false) }
-
-  let startPoints = [
-    Coordinate(row: 0, col: 0), Coordinate(row: 0, col: n - 1),
-  ]
-  let endPoints = [
-    Coordinate(row: n - 1, col: n - 1), Coordinate(row: n - 1, col: 0),
-  ]
-  let directions = [
-    (0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1),
-  ]
-
-  /// Breadth-first search to find the path
-  func bfs(start: Coordinate, end: Coordinate) -> ([Coordinate], Bool) {
-    var queue: [(Coordinate, [Coordinate])] = [(start, [start])]
-    var visited = Set<Coordinate>()
-    visited.insert(start)
-
-    while !queue.isEmpty {
-      let (current, path) = queue.removeFirst()
-
-      if current == end && matrix[current.row][current.col] == .playedCorrectly
-      {
-        return (path, true)
-      }
-
-      for direction in directions {
-        let newPosition = Coordinate(
-          row: current.row + direction.0, col: current.col + direction.1)
-        if newPosition.row >= 0, newPosition.row < n, newPosition.col >= 0,
-          newPosition.col < n,
-          !visited.contains(newPosition),
-          matrix[newPosition.row][newPosition.col] == .playedCorrectly
-        {
-
-          visited.insert(newPosition)
-          queue.append((newPosition, path + [newPosition]))
-        }
-      }
-    }
-
-    return ([], false)
-  }
-
-  for i in 0..<startPoints.count {
-    let (path, found) = bfs(start: startPoints[i], end: endPoints[i])
-    if found {
-      return (path, true)
-    }
-  }
-
-  return ([], false)
 }
 
 /// Checks if a specific cell has adjacent neighbors in specified states

@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.57.3 fixed new shortpath win
 - version 0.7.57.2 some debugging still necessary 
 - version 0.7.57.1 fixes alerts finally starts again,qascreen does not directly affect gamestate,adjust spacing between major front screen components based upon screen size,adjust border size to fit better
 - version 0.7.56.31 moved to major new version as was confusion 
