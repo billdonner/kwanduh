@@ -38,7 +38,7 @@ struct GameScreen: View {
     let id=UUID()
   }
   
-  @State var   qarb: QAReturnBlock? = nil
+  @State var   qarb: QARBOp? = nil
   @Bindable var gs: GameState
   @Bindable var chmgr: ChaMan
   @Bindable var lrdb: LeaderboardService
@@ -155,14 +155,16 @@ struct GameScreen: View {
           return
         }
         print("QA screen return qablock \(qarb)")
-        switch qarb.op {
-        case .correct:
-          gs.markCorrectMove(chmgr: chmgr, row: qarb.row, col: qarb.col, ch: qarb.ch, answered: qarb.answered, elapsedTime: qarb.elapsed)
-        case .incorrect:
-          gs.markIncorrectMove(chmgr: chmgr, row: qarb.row, col: qarb.col, ch: qarb.ch, answered: qarb.answered, elapsedTime: qarb.elapsed)
-        case .replace:
-          break
-        case .donothing:
+        switch qarb {
+  
+        case .correct(let row, let col, let elapsed, let ch, let answered):
+          gs.markCorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
+        case .incorrect(let row, let col, let elapsed, let ch, let answered):
+          gs.markIncorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
+        case .replace(let row, let col, let elapsed):
+          gs.markReplacementMove(chmgr: chmgr, row:  row, col: col, elapsedTime: elapsed)
+        case .donothing :
+          // should increase elapsed time
           break
         }
       }) { cha in

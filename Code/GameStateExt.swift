@@ -9,6 +9,26 @@ import Foundation
 extension GameState {
   
   // call After Dimiss of QandA view
+ func markReplacementMove(chmgr:ChaMan,row:Int,col:Int,elapsedTime:TimeInterval) {
+    let idx = board[row][col]
+    let result = chmgr.replaceChallenge(at:board[row][col])
+    switch result {
+    case .success(let index):
+      gimmees -= 1
+      board[row][col] = index[0]
+      cellstate[row][col] = .unplayed
+      replaced[row][col] += [idx] // keep track of what we are replacing
+      replacedcount += 1
+      print("Gimmee realloation successful \(index)")
+      
+    case .error(let error):
+      print("Couldn't handle gimmee reallocation \(error)")
+    }
+    saveGameState()
+   chmgr.save()
+  }
+  
+  // call After Dimiss of QandA view
   func markCorrectMove(chmgr:ChaMan,  row: Int,col: Int, ch: Challenge,  answered: String,elapsedTime:TimeInterval) {
     movenumber += 1
     moveindex[row][col] = movenumber
@@ -36,7 +56,7 @@ extension GameState {
     saveGameState()
     chmgr.save()
   }
-  
+  ////////
   
   func moveHistory() -> [GameMove] {
     var moves: [GameMove] = []

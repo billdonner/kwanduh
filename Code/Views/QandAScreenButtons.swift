@@ -46,21 +46,21 @@ extension QandAScreen {
               // .symbolEffect(.wiggle,isActive: true)
        }
    }
-   var passButton: some View {
-     Button(action: {
-       let ch = chmgr.everyChallenge[gs.board[row][col]]
-       handlePass()
-       qarb = QAReturnBlock(op: .donothing, ch: ch, row: row, col: col, answered: "", elapsed: elapsedTime)
-       dismiss() // get out now
-     }) {
-       Image(systemName: "multiply.circle")
-         .font(.title)
-         .foregroundColor(.white)
-         .frame(width: buttSize, height: buttSize)
-         .background(Color.gray)
-         .cornerRadius(buttRadius)
-     }
-   }
+//   var passButton: some View {
+//     Button(action: {
+//       let ch = chmgr.everyChallenge[gs.board[row][col]]
+//       handlePass()
+//       qarb = QAReturnBlock(op: .donothing, ch: ch, row: row, col: col, answered: "", elapsed: elapsedTime)
+//       dismiss() // get out now
+//     }) {
+//       Image(systemName: "multiply.circle")
+//         .font(.title)
+//         .foregroundColor(.white)
+//         .frame(width: buttSize, height: buttSize)
+//         .background(Color.gray)
+//         .cornerRadius(buttRadius)
+//     }
+//   }
    var markCorrectButton: some View {
      Button(action: {
        let x = chmgr.everyChallenge[gs.board[row][col]]

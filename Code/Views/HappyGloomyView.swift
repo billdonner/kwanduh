@@ -20,8 +20,8 @@ struct HappySmileyView : View {
 
 struct BorderView: View {
     let color: Color
-    let fudge = 1.0
-    let lineWidth: CGFloat = 7.0
+  let fudge = 0.5
+    let lineWidth: CGFloat = 11.0
     @Environment(\.colorScheme) var colorScheme // system light/dark
     
     var body: some View {

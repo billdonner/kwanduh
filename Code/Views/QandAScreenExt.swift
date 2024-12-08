@@ -76,33 +76,33 @@ extension QandAScreen {
 
 }
 enum QARBOp {
-  case correct
-  case incorrect
-  case replace
-  case donothing
+  case correct(row:Int,col:Int,elapsed:TimeInterval,ch:Challenge,answered:String)
+  case incorrect(row:Int,col:Int,elapsed:TimeInterval,ch:Challenge,answered:String)
+  case replace(row:Int,col:Int,elapsed:TimeInterval)
+  case donothing(row:Int,col:Int,elapsed:TimeInterval)
 }
-struct QAReturnBlock {
-  let op:QARBOp
-  let ch:Challenge
-  let row:Int
-  let col:Int
-  let answered:String
-  let elapsed:TimeInterval
-}
+//struct QAReturnBlock {
+//  let op:QARBOp
+//  let row:Int
+//  let col:Int
+//  let ch:Challenge?
+//  let answered:String? // not need for replace
+//  let elapsed:TimeInterval? // not need for replac
+//}
 
 extension QandAScreen {
   
-func handleDismissal(toRoot:Bool) {
-    if toRoot {
-     // withAnimation(.easeInOut(duration: 0.75)) { // Slower dismissal
-        isPresentingDetailView = false
-        dismiss()
-     // }
-    } else {
-      answerGiven = nil //showAnsweredAlert = false
-      showHint=false //  showHintAlert = false
-    }
-  }
+//func handleDismissal(toRoot:Bool) {
+//    if toRoot {
+//     // withAnimation(.easeInOut(duration: 0.75)) { // Slower dismissal
+//        isPresentingDetailView = false
+//        dismiss()
+//     // }
+//    } else {
+//      answerGiven = nil //showAnsweredAlert = false
+//      showHint=false //  showHintAlert = false
+//    }
+//  }
   
   func toggleHint() {
     if chmgr.everyChallenge[gs.board[row][col]]
@@ -111,48 +111,34 @@ func handleDismissal(toRoot:Bool) {
     }
   }
   
-  func handleGimmee() {
+
+  
+  func gimmeeRequested(row:Int,col:Int,elapsed:TimeInterval) -> QARBOp {
 
     killTimer = true
-     
-    let idx = gs.board[row][col]
-    let result = chmgr.replaceChallenge(at:idx)
-    switch result {
-    case .success(let index):
-      gs.gimmees -= 1
-      gs.board[row][col] = index[0]
-      gs.cellstate[row][col] = .unplayed
-      gs.replaced[row][col] += [idx] // keep track of what we are replacing
-      gs.replacedcount += 1
-      print("Gimmee realloation successful \(index)")
-      
-    case .error(let error):
-      print("Couldn't handle gimmee reallocation \(error)")
-    }
-    gs.saveGameState()
-    dismiss()
+
+    return QARBOp.replace(row:row,col:col,elapsed:elapsed)
   }
   
-  func handlePass() {
+  func noAnswerGiven(row:Int,col:Int,elapsed:TimeInterval)  -> QARBOp{
     killTimer=true
-    dismiss()
+
+    return QARBOp.donothing(row:row,col:col,elapsed:elapsed)
   }
   
-  
-  
-  func answeredCorrectly(_ ch:Challenge,row:Int,col:Int,answered:String,elapsed:TimeInterval)-> QAReturnBlock {
+  func answeredCorrectly(_ ch:Challenge,row:Int,col:Int,answered:String,elapsed:TimeInterval)-> QARBOp {
     answerCorrect = true
     killTimer=true
     chmgr.checkAllTopicConsistency("mark correct before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredCorrectly"))
-    return QAReturnBlock(op:.incorrect, ch: ch, row: row,col:col,answered:answered,elapsed: elapsed)
+    return QARBOp.correct(row: row,col:col,elapsed:elapsed,ch: ch, answered: answered)
   }
-  func answeredIncorrectly(_ ch:Challenge,row:Int,col:Int,answered:String,elapsed:TimeInterval) -> QAReturnBlock {
+  func answeredIncorrectly(_ ch:Challenge,row:Int,col:Int,answered:String,elapsed:TimeInterval) -> QARBOp {
     answerCorrect = false
     killTimer=true
     chmgr.checkAllTopicConsistency("mark incorrect before")
     conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"answeredInCorrectly"))
-    return QAReturnBlock(op:.incorrect, ch: ch, row: row,col:col,answered:answered,elapsed: elapsed)
+    return QARBOp.incorrect(row: row,col:col,elapsed:elapsed,ch: ch, answered: answered)
   }
   func handleAnswerSelection(answer: String,row:Int,col:Int) {
     if !questionedWasAnswered { // only allow one answer
