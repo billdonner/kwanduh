@@ -121,6 +121,7 @@ extension ChaMan {
         gs.difficultylevel = gb.difficultylevel
         gs.movenumber = gb.movenumber
         gs.moveindex = gb.moveindex
+        gs.savedGamePaths = gb.savedGamePaths
         gs.onwinpath = gb.onwinpath
         gs.replaced = gb.replaced
       }

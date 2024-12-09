@@ -63,7 +63,7 @@ struct GameScreenActionMenuView: View {
             }) {
                 Text("Game History")
             }
-            .disabled(true)
+            .disabled(false)
 
             Button(action: {
                 state.onboardingDone.wrappedValue = false

@@ -136,7 +136,7 @@ struct FreeportSettingsScreen: View {
           FetcherView( )
         }
         .sheet(isPresented: $showGameLog) {
-          GameLogScreen(gs: gs, chmgr: chmgr )
+          GameLogScreen(gameState: gs, challengeManager: chmgr )
         }
         .sheet(isPresented: $showEnvDump) {
           EnvironmentDumpView()

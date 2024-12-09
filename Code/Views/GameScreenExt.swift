@@ -170,6 +170,7 @@ extension GameScreen /* actions */ {
         isTouching = false // Turn off overlay
         chmgr.checkAllTopicConsistency("end game")
         gs.teardownAfterGame(state: status, chmgr: chmgr)
+      let _ = gs.saveGameStateToFile()
     }
 
     private func resetAlerts() {

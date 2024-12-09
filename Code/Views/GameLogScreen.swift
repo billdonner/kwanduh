@@ -1,101 +1,111 @@
-//
-//  GameLogScreen.swift
-//  basic
-//
-//  Created by bill donner on 8/13/24.
-//
-
 import SwiftUI
 
-struct GameLogScreen: View {
-  internal init( gs: GameState,chmgr:ChaMan) {
-    self.movehistory = gs.moveHistory()
-    self.gs = gs
-    self.chmgr = chmgr
-  }
-  @State var showDetails :Challenge? = nil
-  @State var movehistory: [GameMove] 
-  let gs:GameState
-  let chmgr:ChaMan
-  var body: some View {
-    ZStack {
-      DismissButtonView()
-      VStack{
+struct SingleGameLogView: View {
+    let gameState: GameState
+    let challengeManager: ChaMan
+
+    var body: some View {
         VStack {
-          Text("Game #\(gs.gamenumber)").font(.title)
-          Text("\(gs.gamestart)").font(.footnote)
-          Text("\(Int(gs.totaltime)) secs").font(.footnote)
-          Text("\(joinWithCommasAnd(Array(gs.topicsinplay.keys)))").font(.footnote)
-          
-          List {
-            ForEach($movehistory, id:\.self ) { $move in
-              let row = move.row
-              let col = move.col
-              let reps = gs.replaced[row][col] // a vector of challenge indices
-              let ch = chmgr.everyChallenge[gs.board[row][col]]
-              let ansinfo = chmgr.ansinfo[ch.id]
-              let sym = switch gs.cellstate[row][col] {
-              case .playedCorrectly:
-                "✅"
-              case .playedIncorrectly:
-                "❌"
-              default:
-                ""
-              }
-              Text("\(move.movenumber) : @(\(row),\(col))\(ch.topic)")
-              
+            VStack(spacing: 8) {
+              Text(gameState.playstate != .playingNow ? "Game #\(gameState.gamenumber)" : "Now Playing").font(.title)
               HStack {
-                Text("\(ch.question)")
-                Spacer()
-                Image(systemName: "chevron.right")
-                  .foregroundColor(.gray)
-              }.onTapGesture {
-                showDetails = ch
+                Text("\(gameState.gamestart)").font(.footnote)
+                Text("\(Int(gameState.totaltime)) seconds").font(.footnote)
               }
-              .fullScreenCover(item: $showDetails)
-              { challenge in
-                if let ansinfo = ansinfo {
-                  ReplayingScreen(ch: challenge, ansinfo: ansinfo, gs: gs)
+                Text("Topics: \(joinWithCommasAnd(Array(gameState.topicsinplay.keys)))").font(.footnote)
+            }
+            .padding(.horizontal)
+
+            GameBoardView(gameState: gameState)
+            .padding(.horizontal)
+
+            List {
+                ForEach(gameState.moveHistory(), id: \.self) { move in
+                    VStack(alignment: .leading, spacing: 4) {
+                        let row = move.row
+                        let col = move.col
+                        let replacedChallenges = gameState.replaced[row][col] // Track replacements
+                        let challenge = challengeManager.everyChallenge[gameState.board[row][col]]
+                        let answerInfo = challengeManager.ansinfo[challenge.id]
+                        let statusSymbol: String = switch gameState.cellstate[row][col] {
+                        case .playedCorrectly: "✅"
+                        case .playedIncorrectly: "❌"
+                        default: ""
+                        }
+
+                        Text("\(move.movenumber): (\(row + 1),\(col + 1)) - \(challenge.topic)")
+                            .font(.headline)
+
+                        Text("Question: \(challenge.question)")
+                            .font(.subheadline)
+
+                        if let ansInfo = answerInfo {
+                            Text("Your Answer: \(ansInfo.answer) \(statusSymbol)")
+                                .font(.caption)
+                        }
+
+                        if !replacedChallenges.isEmpty {
+                            Text("Replaced Challenges:")
+                                .font(.caption)
+                            ForEach(replacedChallenges, id: \.self) { repIndex in
+                                let replacedChallenge = challengeManager.everyChallenge[repIndex]
+                                Text("-> \(replacedChallenge.question)")
+                                    .font(.caption)
+                            }
+                        }
+                    }
                 }
-              }
-              Text("correct answer: \(ch.correct)")
-              HStack {
-                Text("your answer: \(ansinfo?.answer ?? "none" )")
-                Spacer()
-                Text("\(sym)").font(.caption)
-              }
-              if reps.count > 0 {
-                // Text("Question: \(ch.question)")
-                ForEach(reps,id:\.self) { rep in
-                  let cha = chmgr.everyChallenge[rep]
-                  Text(">>>Replaced: \(cha.question)")
-                }
+            }
+            .listStyle(InsetGroupedListStyle())
+            .padding(.horizontal)
+
+            Spacer()
+
+            // Display game state message
+            switch gameState.playstate {
+            case .initializingApp:
+                Text("Not currently playing")
+            case .playingNow:
+                Text("Currently playing")
+            case .justLost:
+                Text("You lost 😞")
+            case .justWon:
+                Text("You won! 😎")
+                Text("Winning Path: \(gameState.prettyPathOfGameMoves())")
+            case .justAbandoned:
+                Text("Game abandoned")
+            }
+        }
+        .padding()
+    }
+}
+struct GameLogScreen: View {
+   let  gameState: GameState
+    let challengeManager: ChaMan
+
+  var body: some View {
+    VStack{
+      let paths = gameState.savedGamePaths
+        TabView {
+          if gameState.playstate  == .playingNow {
+            SingleGameLogView(gameState: gameState, challengeManager: challengeManager)
+          }
+          if !paths.isEmpty {
+            ForEach(paths.reversed(), id: \.self) { path in
+              if let loadedGameState = GameState.loadGameStateFromFile(at: path) {
+                SingleGameLogView(gameState: loadedGameState, challengeManager: challengeManager)
+              } else {
+                Text("Failed to load game at path: \(path)")
+                  .foregroundColor(.red)
+                  .padding()
               }
             }
-          }// list
-          
-          
-          switch gs.playstate {
-          case .initializingApp:
-            Text("You are not currently playing")
-          case .playingNow:
-            Text("Currently playing")
-          case .justLost:
-            Text("You lost 😞")
-          case .justWon:
-            Text("You won 😎")
-            Text("winning path is \(gs.prettyPathOfGameMoves())")
-          case .justAbandoned:
-            Text("You abandonded this game")
-          }//switch
-          
+          }
         }
-        
-      }
+        .tabViewStyle(PageTabViewStyle())
+      
+    }.dismissable {
+  print ("dismissed")
     }
   }
-}
-
-#Preview {
-  GameLogScreen(gs:GameState.mock, chmgr:ChaMan.mock)
 }

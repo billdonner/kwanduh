@@ -190,8 +190,8 @@ struct GameScreen: View {
       .sheet(isPresented: $showSendComment) {
         CommentsView()
       }
-      .fullScreenCover(isPresented: $showGameLog) {
-        GameLogScreen(gs:gs, chmgr: chmgr)
+      .sheet(isPresented: $showGameLog) {
+        GameLogScreen(gameState:gs, challengeManager: chmgr)
       }
       .sheet(isPresented: $showFreeportSettings) {
         FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
