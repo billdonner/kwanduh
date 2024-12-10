@@ -91,7 +91,6 @@ enum FreeportColor: Int, CaseIterable, Comparable,Codable {
   case myBlackB
   case myOffWhite
   case myOffBlack
-  // Foreground enum cases
   case myGold
   case myHotPink
   case myDarkOrange
@@ -139,14 +138,12 @@ struct ColorManager {
     .myLemon: (Color.yellow, "Lemon"), // Spring
     .mySkyBlue: (Color(red: 135/255, green: 206/255, blue: 235/255), "Sky Blue"), // Spring
     .mySunshineYellow: (Color(red: 255/255, green: 255/255, blue: 0/255), "Sunshine Yellow"), // Spring
-    
       .myOceanBlue: (Color(red: 0/255, green: 105/255, blue: 148/255), "Ocean Blue"), // Summer
     .mySeafoam: (Color(red: 70/255, green: 240/255, blue: 220/255), "Seafoam"), // Summer
     .myPalmGreen: (Color(red: 34/255, green: 139/255, blue: 34/255), "Palm Green"), // Summer
     .myCoral: (Color(red: 255/255, green: 127/255, blue: 80/255), "Coral"), // Summer
     .myLagoon: (Color(red: 72/255, green: 209/255, blue: 204/255), "Lagoon"), // Summer
     .myShell: (Color(red: 210/255, green: 105/255, blue: 30/255), "Shell"), // Summer
-    
       .mySienna: (Color(red: 160/255, green: 82/255, blue: 45/255), "Sienna"), // Neutral??
     .myCoconut: (Color(red: 139/255, green: 69/255, blue: 19/255), "Coconut"), // Summer
     .myPineapple: (Color(red: 255/255, green: 223/255, blue: 0/255), "Pineapple"), // Summer
@@ -154,7 +151,6 @@ struct ColorManager {
     .myGoldenYellow: (Color(red: 255/255, green: 223/255, blue: 0/255), "Golden Yellow"), // Summer
     .myCrimsonRed: (Color(red: 139/255, green: 0/255, blue: 0/255), "Crimson Red"), // Summer
     .myPumpkin: (Color(red: 255/255, green: 117/255, blue: 24/255), "Pumpkin"), // Summer
-    
       .myChestnut: (Color(red: 149/255, green: 69/255, blue: 53/255), "Chestnut"), // Fall
     .myHarvestGold: (Color(red: 218/255, green: 165/255, blue: 32/255), "Harvest Gold"), // Fall
     .myAmber: (Color(red: 255/255, green: 191/255, blue: 0/255), "Amber"), // Fall
@@ -167,28 +163,13 @@ struct ColorManager {
     .mySlate: (Color(red: 47/255, green: 79/255, blue: 79/255), "Slate"), // Winter
     .mySilver: (Color(red: 169/255, green: 169/255, blue: 169/255), "Silver"), // Winter
     .myPine: (Color(red: 0/255, green: 100/255, blue: 0/255), "Pine"), // Winter
-    
-      .myBerry: (Color(red: 139/255, green: 0/255, blue: 0/255), "Berry"), // Fall
+    .myBerry: (Color(red: 139/255, green: 0/255, blue: 0/255), "Berry"), // Fall
     .myEvergreen: (Color(red: 0/255, green: 100/255, blue: 0/255), "Evergreen"), // Winter
     .myStorm: (Color(red: 119/255, green: 136/255, blue: 153/255), "Storm"), // Winter
     .myHolly: (Color(red: 0/255, green: 128/255, blue: 0/255), "Holly"), // Winter
-    .myBlack0: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack1: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack2: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack3: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack4: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack5: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack6: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack7: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack8: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlack9: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlackA: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
-    .myBlackB: (Color(red: 0/255, green: 0/255, blue: 0/255), "Black"), // Neutral
     .myOffBlack: (Color(red: 0.1, green: 0.1, blue: 0.1), "Off Black"), // Neutral
     .myOffWhite: (Color(red: 0.95, green: 0.95, blue: 0.95), "Off White"), // Neutral
-    
-    // Static array for foreground colors
-      .myGold: (Color(red: 255/255, green: 223/255, blue: 0/255), "Gold"), // Neutral
+    .myGold: (Color(red: 255/255, green: 223/255, blue: 0/255), "Gold"), // Neutral
     .myHotPink: (Color(red: 255/255, green: 20/255, blue: 147/255), "Hot Pink"), // Error
     .myRoyalBlue: (Color(red: 65/255, green: 105/255, blue: 225/255), "Royal Blue"), // Neutral
     .myDarkOrange: (Color(red: 255/255, green: 191/255, blue: 0/255), "Dark Orange"), // Fall
@@ -248,40 +229,28 @@ struct ColorManager {
   }
 }
 
-
-
-let bleakColors: [FreeportColor] = [
-  .myBlack0, .myBlack1, .myBlack2, .myBlack3, .myBlack4,
-  .myBlack5, .myBlack6, .myBlack7, .myBlack8, .myBlack9,
-  // .myBlackA,.myBlackB
-]
-
 let winterColors: [FreeportColor] = [
   .myIceBlue,.myFrost,.myMint,.myBrown,.myPrussianBlue,.myNavy,.myBerry,.myLavender,.myPine,.mySilver
-  //.myIceBlue, .myMidnightBlue, .myFrost, .mySlate, .mySilver,
-  //.myPine, .myBerry, .myEvergreen, .myStorm, .myHolly,
-  // .myOffWhite, .myOffBlack
 ]
 
 let springColors: [FreeportColor] = [
   .myLightYellow, .myDeepPink, .myLightBlue, .myPeach, .myLavender,
   .myMint, .myLightCoral, .myAqua, .myLemon, .mySkyBlue,
-  // .myOffWhite, .myOffBlack
 ]
 
 let summerColors: [FreeportColor] = [
   .mySkyBlue, .mySunshineYellow, .myOceanBlue, .mySeafoam, .myPalmGreen,
   .myCoral, .myLagoon, .myShell, .myCoconut, .myPineapple,
-  // .myOffWhite, .myOffBlack
 ]
 
 let fallColors: [FreeportColor] = [
   .myBurntOrange, .myGoldenYellow, .myCrimsonRed, .myPumpkin, .myChestnut,
   .myHarvestGold, .myAmber, .myMaroon, .myRusset, .myMossGreen,
-  //.myOffWhite, .myOffBlack
 ]
+
+
 let allColorSchemes: [[FreeportColor]] = [
-  bleakColors, winterColors, springColors, summerColors, fallColors
+  winterColors, springColors, summerColors, fallColors
 ]
 func allColorsForScheme(_ schmindx: Int) -> [FreeportColor] {
   let x = allColorSchemes[schmindx]
@@ -297,7 +266,7 @@ func availableColorsForScheme (_ schmindx: Int) -> [FreeportColor] {
 }
 
 
-let allSchemeNames: [String] = ["Bleak","Winter","Spring","Summer","Autumn"]
+let allSchemeNames: [String] = [ "Winter","Spring","Summer","Autumn"]//["Bleak","Winter","Spring","Summer","Autumn"]
 /*
  Rework the basic topics->mycolor dict from one scheme to another, each topic is separately processed
  

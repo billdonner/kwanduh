@@ -6,6 +6,12 @@
 //
 import SwiftUI
 
+
+
+let maxShowOtherDiag = 2
+let maxShowSameDiag = 2
+
+
 enum GameAlertType: Identifiable {
     case mustTapAdjacentCell
     case mustStartInCorner
@@ -27,7 +33,8 @@ enum GameAlertType: Identifiable {
         }
     }
 }
- 
+
+
 struct GameScreen: View {
   
   struct Xdi: Identifiable
@@ -63,7 +70,8 @@ struct GameScreen: View {
   @State var isPlayingButtonState = false
   
   @State var activeAlert: GameAlertType?
-  
+  @State var otherDiagShownCount = maxShowOtherDiag
+  @State var sameDiagShownCount = maxShowSameDiag
   @State var alreadyPlayed: Xdi?
   
   @Environment(\.dismiss) var dismiss
@@ -197,54 +205,64 @@ struct GameScreen: View {
         FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
       }
       .alert(item: $activeAlert) { alertType in
+   
         alert(for: alertType)
+          
       }
     }
   }
   
   // Generates the appropriate alert based on the activeAlert state
   
+  private func nilAlert () -> Alert {
+    return Alert(title:Text(""),message: Text(""),dismissButton: .cancel(Text(""), action: {
+      dismiss()
+    }))
+  }
+  
   private func alert(for type: GameAlertType) -> Alert {
-    
-    switch type {
-    case .mustTapAdjacentCell:
-      Alert(
-        title: Text("Touch a box next to one you've already played . . ."),
-        dismissButton: .cancel(Text("OK"), action: { dismiss() })
-      )
-    case .mustStartInCorner:
-      Alert(
-        title: Text("Start out in a corner"),
-        dismissButton: .cancel(Text("OK"), action: { dismiss() })
-      )
-    case .cantStart:
-      Alert(
-        title: Text("You need to add at least one more topic."),
-        message: Text("The total number of questions in your topics must be at least the number of boxes in your game board."),
-        dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
-      )
-    case .otherDiagonal:
-      Alert(
-        title: Text("Go for the other diagonal!"),
-        dismissButton: .cancel(Text("OK"), action: { dismiss() })
-      )
+   
+      switch type {
+      case .mustTapAdjacentCell:
+        return Alert(
+          title: Text("Touch a box next to one you've already played . . ."),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      case .mustStartInCorner:
+        return Alert(
+          title: Text("Start out in a corner"),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      case .cantStart:
+        return Alert(
+          title: Text("You need to add at least one more topic."),
+          message: Text("The total number of questions in your topics must be at least the number of boxes in your game board."),
+          dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
+        )
+      case .otherDiagonal:
+        return  Alert(
+          title: Text("Go for the other diagonal!"),
+          dismissButton: .cancel(Text("OK"), action: { dismiss() })
+        )
+      
     case .sameSideDiagonal:
-      Alert(
+        return  Alert(
         title: Text("Winning path connects corners on opposite sides of a diagonal!"),
         dismissButton: .cancel(Text("OK"), action: { dismiss() })
       )
     case .youWin:
-      Alert(
-        title: Text("You Win"),
-        message: Text("Good job, keep going..."),
+        return Alert(
+          title: Text("You Win").font(.largeTitle),
+        message: Text("Good job, keep going...").font(.title),
         dismissButton: .cancel(Text("OK"), action: { onYouWin() })
       )
     case .youLose:
-      Alert(
-        title: Text("You Lose"),
-        message: Text("Lost this time, but keep going..."),
+        return Alert(
+        title: Text("Lost this time").font(.largeTitle),
+        message: Text("but keep going...").font(.title),
         dismissButton: .cancel(Text("OK"), action: { onYouLose() })
       )
     }
   }
+   
 }

@@ -78,8 +78,8 @@ struct QandAScreen: View {
             + ch.correct,
           message: ch.explanation ?? "xxx",
           buttonTitle: nil,
-          timeout: 5.0,
-          fadeOutDuration: 0.5,
+          timeout: 2.0,
+          fadeOutDuration: 0.1,
           onButtonTapped: {
             //handleDismissal(toRoot:true)
             isPresentingDetailView = false

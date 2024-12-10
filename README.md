@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.59.1 fixed diag alert annoyances and  
 - version 0.7.58.1 game log screen pans thru old games
 - version 0.7.57.4 game log screen improvements
 - version 0.7.57.3 fixed new shortpath win
