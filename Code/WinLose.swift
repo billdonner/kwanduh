@@ -1,6 +1,6 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.97
+// v 0.98
 
 import Foundation
 
@@ -68,28 +68,53 @@ func winningPath(in matrix: [[GameCellState]]) -> ([Coordinate], Bool) {
     let n = matrix.count
     guard n > 0 else { return ([], false) }
 
-    // Define diagonal traversal
+    // Define diagonals with start and end points
     let diagonals = [
-        (start: Coordinate(row: 0, col: 0), end: Coordinate(row: n - 1, col: n - 1), step: (1, 1)),
-        (start: Coordinate(row: 0, col: n - 1), end: Coordinate(row: n - 1, col: 0), step: (1, -1))
+        (start: Coordinate(row: 0, col: 0), end: Coordinate(row: n - 1, col: n - 1)),
+        (start: Coordinate(row: 0, col: n - 1), end: Coordinate(row: n - 1, col: 0))
     ]
 
-    for diagonal in diagonals {
-        var path: [Coordinate] = []
-        var current = diagonal.start
+    // Directions for exploring neighbors (all 8 directions)
+    let directions = [
+        (0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)
+    ]
 
-        // Traverse the diagonal
-        while current.row >= 0 && current.row < n && current.col >= 0 && current.col < n {
-            if matrix[current.row][current.col] != .playedCorrectly {
-                break
+    /// Helper function to perform BFS
+    func bfs(start: Coordinate, end: Coordinate) -> [Coordinate]? {
+        var queue: [(Coordinate, [Coordinate])] = [(start, [start])]
+        var visited: Set<Coordinate> = [start]
+
+        while !queue.isEmpty {
+            let (current, path) = queue.removeFirst()
+
+            if current == end {
+                return path
             }
-            path.append(current)
-            current = Coordinate(row: current.row + diagonal.step.0, col: current.col + diagonal.step.1)
+
+            for direction in directions {
+                let neighbor = Coordinate(
+                    row: current.row + direction.0,
+                    col: current.col + direction.1
+                )
+
+                if neighbor.row >= 0, neighbor.row < n, neighbor.col >= 0, neighbor.col < n,
+                   !visited.contains(neighbor),
+                   matrix[neighbor.row][neighbor.col] == .playedCorrectly {
+                    visited.insert(neighbor)
+                    queue.append((neighbor, path + [neighbor]))
+                }
+            }
         }
 
-        // Check if the diagonal is complete
-        if current == Coordinate(row: diagonal.end.row + diagonal.step.0, col: diagonal.end.col + diagonal.step.1) {
-            return (path, true)
+        return nil
+    }
+
+    // Check each diagonal
+    for (start, end) in diagonals {
+        if matrix[start.row][start.col] == .playedCorrectly, matrix[end.row][end.col] == .playedCorrectly {
+            if let path = bfs(start: start, end: end) {
+                return (path, true)
+            }
         }
     }
 

@@ -57,6 +57,9 @@ struct GameScreen: View {
   @State var isTouching: Bool = false
   @State var firstMove = true
   
+  @State  var isWinAlertPresented = false
+
+  
   @State var showSettings = false
   @State var showLeaderboard = false
   @State var showSendComment = false
@@ -139,6 +142,7 @@ struct GameScreen: View {
           isTouching: $isTouching
         )
         .layoutPriority(2)
+
       }
       .debugBorder()
       .onAppear {
@@ -155,6 +159,17 @@ struct GameScreen: View {
         if let ansinfo = chmgr.ansinfo[xdi.challenge.id] {
           ReplayingScreen(ch: xdi.challenge, ansinfo: ansinfo, gs: gs)
         }
+      }
+      .fullScreenCover(isPresented: $isWinAlertPresented){
+        WinAlertView(
+            title: "You Win!",
+            message: "Good job, keep going...",
+            dismissAction: {
+                isWinAlertPresented = false
+            }
+        )
+        .transition(.opacity) // Smooth fade in/out transition
+        .animation(.easeInOut, value: isWinAlertPresented)
       }
       .fullScreenCover(item: $chal,onDismiss:  {
         // take a look at the binding
@@ -265,4 +280,88 @@ struct GameScreen: View {
     }
   }
    
+}
+
+// Win Alert View
+struct WinAlertView: View {
+    var title: String
+    var message: String
+    var dismissAction: () -> Void
+    @State private var animateFireworks = false
+
+    var body: some View {
+        ZStack {
+            // Semi-transparent background to allow gradient bleed
+            LinearGradient(
+                gradient: Gradient(colors: [Color.red.opacity(0.3), Color.blue.opacity(0.3)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                // Fireworks icon
+                Image(systemName: "fireworks")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: animateFireworks ? 120 : 100, height: animateFireworks ? 120 : 100)
+                    .foregroundColor(.red)
+                    .scaleEffect(animateFireworks ? 1.1 : 1.0)
+                    .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animateFireworks)
+
+                // Title
+                Text(title)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .padding(.top, 10)
+
+                // Message
+                Text(message)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+
+                // Dismiss button
+                Button(action: dismissAction) {
+                    Text("OK")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.8)]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .overlay(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.red.opacity(0.1), Color.blue.opacity(0.1)]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .shadow(radius: 10)
+            )
+            .padding(.horizontal, 30)
+        }
+        .onAppear {
+            animateFireworks = true
+        }
+        .onDisappear {
+            animateFireworks = false
+        }
+    }
 }

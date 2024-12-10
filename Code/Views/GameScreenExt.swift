@@ -78,7 +78,8 @@ extension GameScreen /* actions */ {
       for p in path {
         gs.onwinpath[p.row][p.col] = true
       }
-      activeAlert = .youWin
+      isWinAlertPresented = true
+      //activeAlert = .youWin
       return
     }
 
