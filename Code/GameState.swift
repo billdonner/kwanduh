@@ -154,12 +154,13 @@ class GameState: Codable {
 
       return blockedCells
   }
+  
+  // does not reset movenumber
   func setupForNewGame(boardsize: Int, chmgr: ChaMan) -> Bool {
     // assume all cleaned up, using size
     var allocatedChallengeIndices: [Int] = []
 
     self.gamestart = Date()
-    self.movenumber = 0
     self.lastmove = nil
     self.boardsize = boardsize
     ///////////////

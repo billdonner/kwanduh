@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct TopBarView: View {
+    let gs: GameState
     @Binding var playState: StateOfPlay
     @Binding var isPlayingButtonState: Bool
     @Binding var showSettings: Bool
@@ -49,6 +50,7 @@ struct TopBarView: View {
                     }
                 }
             }
+            .disabled(gs.movenumber == 0  && playState == StateOfPlay.playingNow)
             .font(.title3)
 
             Spacer()

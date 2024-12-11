@@ -72,11 +72,7 @@ struct AltGridView : View {
 struct MainGridView : View {
   @Bindable var  gs:GameState
   let chmgr:ChaMan
-//  @Binding var boardsize: Int
-  @Binding var firstMove: Bool
   @Binding var isTouching : Bool
- // @Binding var marqueeMessage: String
- // @Binding var useOtherDiagonalAlert : Bool
   let onSingleTap: (Int,Int) -> Void
   
   var body: some View {
@@ -94,21 +90,13 @@ struct MainGridView : View {
               if row < gs.boardsize  && col < gs.boardsize && cellSize > 0 //added
               //&&  gs.board[row][col] >= 0
               { // ensure its inbounds and allocated
-              // if gs.gamestate == .playingNow {
-                  SingleCellView(gs:gs,chmgr:chmgr,row:row,col:col,
-                                 chidx:gs.board[row][col],
-                                 status:gs.cellstate[row][col],
-                                 cellSize: cellSize,  onSingleTap:  onSingleTap,firstMove:$firstMove,isTouching:$isTouching)//,marqueeMessage: $marqueeMessage)//,useOtherDiagonalAlert: $useOtherDiagonalAlert)
-//                } else {
-//                  Color.offWhite
-//                    .frame(width: cellSize, height: cellSize)
-//                }
+                // if gs.gamestate == .playingNow {
+                SingleCellView(gs:gs,chmgr:chmgr,row:row,col:col,
+                               chidx:gs.board[row][col],
+                               status:gs.cellstate[row][col],
+                               cellSize: cellSize,  onSingleTap:  onSingleTap,isTouching:$isTouching)
+                Spacer(minLength:spacing/2)
               }
-//              else {
-//                Color.clear
-//                  .frame(width: cellSize, height: cellSize)
-//              }
-              Spacer(minLength:spacing/2)
             }
           }
         }
@@ -121,8 +109,6 @@ struct MainGridView : View {
 #Preview ("MainGridView") {
   MainGridView(gs:GameState.mock,
                chmgr: ChaMan(playData: PlayData.mock),
-              // boardsize: .constant(GameState.mock.boardsize),
-               firstMove: .constant(true),
                isTouching: .constant(false)  ,
               // useOtherDiagonalAlert: .constant(true)
               onSingleTap: { row,col in

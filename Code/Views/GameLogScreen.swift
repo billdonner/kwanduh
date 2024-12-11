@@ -33,11 +33,11 @@ struct SingleGameLogView: View {
                         default: ""
                         }
 
-                        Text("\(move.movenumber): (\(row + 1),\(col + 1)) - \(challenge.topic)")
+                        Text("\(move.movenumber):")
                             .font(.headline)
 
                         Text("Question: \(challenge.question)")
-                            .font(.subheadline)
+                            .font(.headline)
 
                         if let ansInfo = answerInfo {
                             Text("Your Answer: \(ansInfo.answer) \(statusSymbol)")

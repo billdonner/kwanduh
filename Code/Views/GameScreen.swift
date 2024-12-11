@@ -6,10 +6,8 @@
 //
 import SwiftUI
 
+// removed firstmove
 
-
-let maxShowOtherDiag = 2
-let maxShowSameDiag = 2
 
 
 enum GameAlertType: Identifiable {
@@ -55,8 +53,7 @@ struct GameScreen: View {
   @AppStorage("OnboardingDone") private var onboardingdone = false
   
   @State var isTouching: Bool = false
-  @State var firstMove = true
-  
+ 
   @State  var isWinAlertPresented = false
 
   
@@ -84,6 +81,7 @@ struct GameScreen: View {
       VStack(spacing:  spacing(for:geometry.size.width)) {
         // Top bar
         TopBarView(
+          gs:gs,
           playState: $gs.playstate,
           isPlayingButtonState: $isPlayingButtonState,
           showSettings: $showSettings,
@@ -96,7 +94,7 @@ struct GameScreen: View {
           showFreeportSettings: $showFreeportSettings,
           gameTitle: gameTitle,
           onStartGame: {
-            onStartGame(boardsize: gs.boardsize)
+            startTheGame(boardsize: gs.boardsize)
           },
           onEndGamePressed: {
             onEndGamePressed()
@@ -118,7 +116,6 @@ struct GameScreen: View {
         MainGridView(
           gs: gs,
           chmgr: chmgr,
-          firstMove: $firstMove,
           isTouching: $isTouching,
           onSingleTap: onSingleTap
         )
@@ -146,7 +143,7 @@ struct GameScreen: View {
       }
       .debugBorder()
       .onAppear {
-        firstMove = true
+       // firstMove = true
       }
       .onChange(of: gs.cellstate) {
         onChangeOfCellState()
@@ -166,8 +163,10 @@ struct GameScreen: View {
             message: "Good job, keep going...",
             dismissAction: {
                 isWinAlertPresented = false
+                onYouWin()
             }
         )
+        .background(Color.clear)
         .transition(.opacity) // Smooth fade in/out transition
         .animation(.easeInOut, value: isWinAlertPresented)
       }

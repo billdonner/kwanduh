@@ -24,7 +24,7 @@ extension GameScreen /* actions */ {
     }
 
     // When a player tries to start the game in a box other than a corner, show the appropriate alert
-    if gs.playstate == .playingNow && firstMove
+    if gs.playstate == .playingNow && (gs.movenumber == 0)
       && !gs.isCornerCell(row: row, col: col)
     {
       activeAlert = .mustStartInCorner
@@ -32,7 +32,7 @@ extension GameScreen /* actions */ {
     }
 
     // If a player tries to play a box that is not adjacent to a played box, show the adjacent-cell alert
-    if gs.playstate == .playingNow && !firstMove
+    if gs.playstate == .playingNow && gs.movenumber != 0
       && !gs.isCornerCell(row: row, col: col)
       && !hasAdjacentNeighbor(
         withStates: [.playedCorrectly, .playedIncorrectly],
@@ -50,7 +50,7 @@ extension GameScreen /* actions */ {
     {
       // Consider valid tap if first move corner cell or not first and valid adjacent conditions
       validTap =
-        firstMove
+      gs.movenumber == 0 
         ? gs.isCornerCell(row: row, col: col)
         : (gs.isCornerCell(row: row, col: col)
           || hasAdjacentNeighbor(
@@ -62,7 +62,7 @@ extension GameScreen /* actions */ {
 
     if validTap {
       gs.lastmove = GameMove(row: row, col: col, movenumber: gs.movenumber)
-      firstMove = false
+      //firstMove = false
       // This kicks off the full-screen cover of the QandAScreen
       chal = IdentifiablePoint(
         row: row, col: col, status: chmgr.stati[row * gs.boardsize + col])
@@ -173,8 +173,8 @@ extension GameScreen /* actions */ {
     chmgr.dumpTopics()
   }
 
-  func onStartGame(boardsize: Int) -> Bool {
-    print("onStartGame gamestate is \(gs.playstate)")
+  func startTheGame(boardsize: Int) -> Bool {
+    print("startTheGame gamestate is \(gs.playstate)")
     if gs.playstate == .playingNow {
       gs.teardownAfterGame(state: .justAbandoned, chmgr: chmgr)
     }
@@ -183,11 +183,12 @@ extension GameScreen /* actions */ {
     let ok = gs.setupForNewGame(boardsize: boardsize, chmgr: chmgr)
     if !ok {
       print(
-        "Failed to allocate \(gs.boardsize * gs.boardsize) challenges for topics \(gs.topicsinplay.keys.joined(separator: ","))"
+        "Failed to allocate \(boardsize * boardsize) challenges for topics \(gs.topicsinplay.keys.joined(separator: ","))"
       )
       print("Consider changing the topics in settings and trying again ...")
     } else {
-      firstMove = true
+    // all good, reset movenumber
+      gs.movenumber = 0
     }
     TSLog("--->NEW GAME STARTED")
     return ok

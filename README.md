@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.59.3 using gs.movenumber vs firstmove; improved isPossble..., remove spontaneous startIncorner when restaring, made empty games impossible, fixed play behavior after win
 - version 0.7.59.2 fixed winning path problems, improved winning alert, remove bleakness
 - version 0.7.59.1 fixed diag alert annoyances and  
 - version 0.7.58.1 game log screen pans thru old games

@@ -1,6 +1,6 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.98
+// v 0.99
 
 import Foundation
 
@@ -124,65 +124,68 @@ func winningPath(in matrix: [[GameCellState]]) -> ([Coordinate], Bool) {
 /// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
 /// - Returns: `true` if a possible path exists, otherwise `false`
 func isPossibleWinningPath(in matrix: [[GameCellState]]) -> Bool {
-  let n = matrix.count
-  guard n > 0 else { return false }
+    let n = matrix.count
+    guard n > 0 else { return false }
 
-  // Check for losing conditions
-  if hasLosingCornerCondition(in: matrix) {
-    return false
-  }
+    // Check for losing conditions
+    if hasLosingCornerCondition(in: matrix) {
+        return false
+    }
 
-  // Define start and end points for diagonals
-  let startPoints = [(0, 0), (0, n - 1)]
-  let endPoints = [(n - 1, n - 1), (n - 1, 0)]
-  let directions = [
-    (0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1),
-  ]
+    // Define start and end points for diagonals
+    let startPoints = [(0, 0), (0, n - 1)]
+    let endPoints = [(n - 1, n - 1), (n - 1, 0)]
+    let directions = [
+        (0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1),
+    ]
 
-  /// Breadth-first search to determine if a path exists
-  func bfs(start: (Int, Int), end: (Int, Int)) -> Bool {
-    var queue = [start]
-    var visited = Set<String>()
-    visited.insert("\(start.0),\(start.1)")
+    /// Helper function to check if a cell is valid for traversal
+    func isValidCell(_ row: Int, _ col: Int) -> Bool {
+        return row >= 0 && row < n && col >= 0 && col < n &&
+               matrix[row][col] != .blocked && matrix[row][col] != .playedIncorrectly
+    }
 
-    while !queue.isEmpty {
-      let (row, col) = queue.removeFirst()
+    /// Breadth-first search to determine if a path exists
+    func bfs(start: (Int, Int), end: (Int, Int)) -> Bool {
+        var queue = [start]
+        var visited = Set<String>()
+        visited.insert("\(start.0),\(start.1)")
 
-      // Check if we've reached the end point
-      if (row, col) == end {
-        return true
-      }
+        while !queue.isEmpty {
+            let (row, col) = queue.removeFirst()
 
-      // Explore neighbors
-      for dir in directions {
-        let newRow = row + dir.0
-        let newCol = col + dir.1
-        let key = "\(newRow),\(newCol)"
+            // Check if we've reached the end point
+            if (row, col) == end {
+                return true
+            }
 
-        if newRow >= 0, newRow < n, newCol >= 0, newCol < n,
-          !visited.contains(key),
-          matrix[newRow][newCol] != .blocked,
-          matrix[newRow][newCol] != .playedIncorrectly
-        {
-          queue.append((newRow, newCol))
-          visited.insert(key)
+            // Explore neighbors
+            for dir in directions {
+                let newRow = row + dir.0
+                let newCol = col + dir.1
+                let key = "\(newRow),\(newCol)"
+
+                if isValidCell(newRow, newCol), !visited.contains(key) {
+                    queue.append((newRow, newCol))
+                    visited.insert(key)
+                }
+            }
         }
-      }
+
+        return false
+    }
+
+    // Check each diagonal separately
+    for (start, end) in zip(startPoints, endPoints) {
+        if isValidCell(start.0, start.1) && isValidCell(end.0, end.1) {
+            if bfs(start: start, end: end) {
+                return true
+            }
+        }
     }
 
     return false
-  }
-
-  // Check each diagonal separately
-  for (start, end) in zip(startPoints, endPoints) {
-    if bfs(start: start, end: end) {
-      return true
-    }
-  }
-
-  return false
 }
-
 /// Checks if there are conditions that would automatically result in a loss
 /// - Parameter matrix: The game board represented as a 2D array of `GameCellState`
 /// - Returns: `true` if losing conditions exist, otherwise `false`

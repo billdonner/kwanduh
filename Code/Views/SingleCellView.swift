@@ -34,7 +34,6 @@ struct SingleCellView: View {
   let status: GameCellState
   let cellSize: CGFloat
   let onSingleTap: (_ row: Int, _ col: Int) -> Void
-  @Binding var firstMove: Bool
   @Binding var isTouching: Bool
   @Environment(\.colorScheme) var colorScheme
   
@@ -65,7 +64,7 @@ struct SingleCellView: View {
     guard let (orow, ocol) = gs.oppositeCornerCell(row: row, col: col) else {
       return false // if not corner dont need target
      }
-    guard  !firstMove else {
+    guard  gs.movenumber != 0 else {
        return true // this guard must be after we determine its a
      }
     //if the opposite corner is empty or green
@@ -261,7 +260,6 @@ struct SingleCellView: View {
     status: .unplayed,
     cellSize: 250,
     onSingleTap: { _, _ in },
-    firstMove: .constant(false),
     isTouching: .constant(false)
     )
   
@@ -278,8 +276,7 @@ struct SingleCellView: View {
     chidx: 0,
     status: .unplayed,
     cellSize: 250,
-    onSingleTap: { _, _ in  },
-    firstMove: .constant(true),
+    onSingleTap: { _, _ in  }, 
     isTouching: .constant(true)
   )
   
