@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		881F5C6D2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */; };
+		881F5C6E2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */; };
+		881F5C6F2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */; };
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
@@ -46,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConfiguration.swift; sourceTree = "<group>"; };
 		884C9CF62CBED6740059E758 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,6 +216,7 @@
 				889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */,
 				884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */,
 				88A31A4A2CB2CD10005D0DF3 /* QandaConfiguration.swift */,
+				881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */,
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
 				88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
@@ -498,6 +503,7 @@
 			files = (
 				88F9B1C82CD15AAC005E9728 /* CloudKitConfiguration.swift in Sources */,
 				88F9B1C72CD159D0005E9728 /* KwannaConfiguration.swift in Sources */,
+				881F5C6E2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +520,7 @@
 			files = (
 				884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */,
 				88A31A4E2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift in Sources */,
+				881F5C6D2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +537,7 @@
 			files = (
 				884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */,
 				88A31A4C2CB2CD10005D0DF3 /* QandaConfiguration.swift in Sources */,
+				881F5C6F2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

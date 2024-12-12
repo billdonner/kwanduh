@@ -8,20 +8,6 @@
 
 import SwiftUI 
 
-
-// Assuming a mock PlayData JSON file in the main bundle
-
-let bonusPerWin = 10
-let penaltyPerLoss = 0//2
-let bonusPerRight = 3
-let penaltyPerWrong = 0//1
-let penaltyPerReplaced = 2
-
-let maxShowOtherDiag = 2
-let maxShowSameDiag = 2
-
-
-
 @main
 struct mainApp : App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate

@@ -119,42 +119,41 @@ class GameState: Codable {
 
   }
 
-
   func cellsToBlock() -> Set<Coordinate> {
-      let totalCells = boardsize * boardsize
-      let blockedCellsCount = Int(Double(totalCells) * 0.25)
+      // Define a tight configuration for generating blocked cells
+    let config = boardsize == 3 ? MatrixConfiguration(
+      maxBlockedPercentage: 25,          // Up to 40% blocked cells
+      minBlockedPercentage:10,          // At least 20% blocked cells
+      maxBlockedPerRowCol: 70,           // Max 50% blocked cells per row/column
+      maxBlockedPerDiagonal: 30,         // Max 30% blocked cells per diagonal
+      cornersRequireAdjacentUnplayed: 1,
+      maxAdjacentBlockedPercentage: 10  // Each corner must have 1 unplayed neighbor
+    )
+    :
+    MatrixConfiguration(
+        maxBlockedPercentage: 40,          // Up to 50% blocked cells
+        minBlockedPercentage: 20,          // At least 20% blocked cells
+        maxBlockedPerRowCol: 50,           // Max 50% blocked cells per row/column
+        maxBlockedPerDiagonal: 40,         // Max 40% blocked cells per diagonal
+        cornersRequireAdjacentUnplayed: 2,
+        maxAdjacentBlockedPercentage: 10  // Corners must have 2 unplayed neighbors
+    )
+
+      // Call the generateRandomMatrix function with the current board size and configuration
+      let randomMatrix = generateRandomMatrix(size: boardsize, configuration: config)
+
+      // Convert blocked cells in the matrix to a set of coordinates
       var blockedCells: Set<Coordinate> = []
-      
-      while blockedCells.count < blockedCellsCount {
-          let row = Int.random(in: 0..<boardsize)
-          let col = Int.random(in: 0..<boardsize)
-          let coordinate = Coordinate(row: row, col: col)
-
-          // Skip if it's a corner cell or already blocked
-          if isCornerCell(row: row, col: col) || blockedCells.contains(coordinate) {
-              continue
-          }
-
-          // Temporarily add the cell to the blocked list
-          blockedCells.insert(coordinate)
-          
-          // Create a temporary cell state with the blocked cells
-          var tempCellState = cellstate
-          for blockedCell in blockedCells {
-              tempCellState[blockedCell.row][blockedCell.col] = .blocked
-          }
-          
-          // Check if a winning path is still possible
-        if !isPossibleWinningPath(in: tempCellState) {
-              // If not, revert the block
-              blockedCells.remove(coordinate)
-              TSLog("cellstoBlock did not find a winning path, retrying!")
+      for row in 0..<boardsize {
+          for col in 0..<boardsize {
+              if randomMatrix[row][col] == .blocked {
+                  blockedCells.insert(Coordinate(row: row, col: col))
+              }
           }
       }
 
       return blockedCells
   }
-  
   // does not reset movenumber
   func setupForNewGame(boardsize: Int, chmgr: ChaMan) -> Bool {
     // assume all cleaned up, using size

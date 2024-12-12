@@ -1,6 +1,6 @@
 //
 // This file is maintained in the mac app Winner, which has about 100 test cases for this vital code
-// v 0.99
+// v 0.991
 
 import Foundation
 
@@ -15,6 +15,14 @@ enum GameCellState: Codable {
 struct Coordinate: Hashable {
   let row: Int
   let col: Int
+}
+struct MatrixConfiguration {
+    let maxBlockedPercentage: Int        // Max percentage of blocked cells in the matrix
+    let minBlockedPercentage: Int        // Min percentage of blocked cells in the matrix
+    let maxBlockedPerRowCol: Int         // Max percentage of blocked cells per row/col
+    let maxBlockedPerDiagonal: Int       // Max percentage of blocked cells per diagonal
+    let cornersRequireAdjacentUnplayed: Int // Minimum number of adjacent `unplayed` cells for corners
+    let maxAdjacentBlockedPercentage: Int   // Max percentage of adjacent blocked cells (for larger boards)
 }
 /// Prints a matrix of `GameCellState` with winning path cells highlighted.
 /// - Parameters:
@@ -328,65 +336,184 @@ func numberOfPossibleMoves(in matrix: [[GameCellState]]) -> Int {
   return possibleMoves
 }
 
-
-/// Generates a random game board matrix with only `unplayed` and `blocked` cells,
-/// ensuring the corner cells are never blocked and have at least one adjacent `unplayed` cell.
+/// Determines if a given cell is a corner cell.
+/// - Parameters:
+///   - row: The row index of the cell.
+///   - col: The column index of the cell.
+///   - size: The size of the square matrix.
+/// - Returns: `true` if the cell is a corner cell, otherwise `false`.
+func isCornerCell(row: Int, col: Int, size: Int) -> Bool {
+    return (row == 0 && col == 0) ||                     // Top-left corner
+           (row == 0 && col == size - 1) ||             // Top-right corner
+           (row == size - 1 && col == 0) ||             // Bottom-left corner
+           (row == size - 1 && col == size - 1)         // Bottom-right corner
+}
+/// Generates a random game board matrix with configurable constraints for blocked and unplayed cells.
+///
+/// ### Constraints:
+/// 1. Blocked Cell Distribution:
+///    a. Blocked cells should be distributed as evenly as possible with no clustering.
+///    b. Blocked cells must not be vertically or horizontally adjacent, but diagonal adjacency is allowed.
+/// 2. Fallback for Placement Constraints:
+///    a. If strict adherence to constraints is not possible due to high `blockedPercentage`, allow slight adjacency violations.
+/// 3. Blocked Percentage:
+///    a. The percentage of blocked cells must not exceed 60% of the matrix.
+/// 4. Edge and Corner Constraints:
+///    a. Corners must never be blocked.
+///    b. Each corner must have at least two adjacent `unplayed` cells.
+/// 5. Randomization:
+///    a. Fully random placement is fine (does not need reproducibility via seeding).
+/// 6. Local Restrictions:
+///    a. A single row or column can have at most 50% blocked cells.
+///    b. No more than 40% of the cells on a diagonal can be blocked.
+///
 /// - Parameters:
 ///   - size: The size of the square matrix (e.g., 4 for a 4x4 matrix).
-///   - blockedPercentage: The percentage (0-100) of cells that should be `blocked`.
+///   - configuration: A `MatrixConfiguration` struct containing the rules for blocked cells.
 /// - Returns: A 2D array of `GameCellState`.
-func generateRandomMatrix(size: Int, blockedPercentage: Int) -> [[GameCellState]] {
+///
+///
+func generateRandomMatrix(size: Int, configuration: MatrixConfiguration) -> [[GameCellState]] {
     guard size > 0 else { return [] }
-    guard blockedPercentage >= 0 && blockedPercentage <= 100 else {
-        fatalError("blockedPercentage must be between 0 and 100.")
+    guard configuration.maxBlockedPercentage >= configuration.minBlockedPercentage,
+          configuration.maxBlockedPercentage <= 100 else {
+        fatalError("Invalid blocked percentage configuration. Ensure 0 <= minBlockedPercentage <= maxBlockedPercentage <= 100.")
     }
 
     let totalCells = size * size
-    let cornerIndices = [
-        0,                       // Top-left corner
-        size - 1,                // Top-right corner
-        totalCells - size,       // Bottom-left corner
-        totalCells - 1           // Bottom-right corner
-    ]
+    let maxBlockedCells = Int(round(Double(totalCells * configuration.maxBlockedPercentage) / 100.0))
+    let minBlockedCells = Int(round(Double(totalCells * configuration.minBlockedPercentage) / 100.0))
+    let maxBlockedPerRowCol = (size * configuration.maxBlockedPerRowCol) / 100
+    let maxBlockedPerDiagonal = (size * configuration.maxBlockedPerDiagonal) / 100
+    let maxAdjacentBlockedCells = (totalCells * configuration.maxAdjacentBlockedPercentage) / 100
 
-    // Calculate the exact number of blocked cells
-    let blockedCellsTarget = Int(round(Double(totalCells * blockedPercentage) / 100.0))
+    var matrix = Array(repeating: Array(repeating: GameCellState.unplayed, count: size), count: size)
+    var blockedCount = 0
+    var adjacentBlockedCount = 0
 
-    // Initialize a flat matrix with all cells as unplayed
-    var flatMatrix: [GameCellState] = Array(repeating: .unplayed, count: totalCells)
+    /// Helper function to validate blocked cell placement
+    func isValidBlockedPlacement(row: Int, col: Int) -> Bool {
+        if isCornerCell(row: row, col: col, size: size) { return false }
 
-    // Ensure corners are explicitly unplayed
-    for corner in cornerIndices {
-        flatMatrix[corner] = .unplayed
+        // Limit blocked cells per row/column
+        let rowBlocked = matrix[row].filter { $0 == .blocked }.count
+        let colBlocked = (0..<size).filter { matrix[$0][col] == .blocked }.count
+        if rowBlocked >= maxBlockedPerRowCol || colBlocked >= maxBlockedPerRowCol {
+            return false
+        }
+
+        // Limit blocked cells on diagonals
+        if row == col || row + col == size - 1 {
+            let diagonalBlocked = (0..<size).filter { matrix[$0][$0] == .blocked }.count
+            let antiDiagonalBlocked = (0..<size).filter { matrix[$0][size - 1 - $0] == .blocked }.count
+            if (row == col && diagonalBlocked >= maxBlockedPerDiagonal) ||
+                (row + col == size - 1 && antiDiagonalBlocked >= maxBlockedPerDiagonal) {
+                return false
+            }
+        }
+
+        // Check adjacency constraints for larger boards
+        let neighbors = [
+            (row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)
+        ]
+        var adjacentBlocked = 0
+        for (r, c) in neighbors {
+            if r >= 0 && r < size && c >= 0 && c < size && matrix[r][c] == .blocked {
+                adjacentBlocked += 1
+            }
+        }
+        if size > 3 && adjacentBlockedCount + adjacentBlocked > maxAdjacentBlockedCells {
+            return false
+        }
+
+        return true
     }
 
-    // Add blocked cells, excluding corners
-    var blockedIndices = Set<Int>()
-    while blockedIndices.count < blockedCellsTarget {
-        let randomIndex = Int.random(in: 0..<totalCells)
-        if !cornerIndices.contains(randomIndex) && !blockedIndices.contains(randomIndex) {
-            blockedIndices.insert(randomIndex)
+    /// Adjust corners to ensure compliance with adjacency rules
+    func adjustCorners() {
+        let corners = [
+            (0, 0),                  // Top-left corner
+            (0, size - 1),           // Top-right corner
+            (size - 1, 0),           // Bottom-left corner
+            (size - 1, size - 1)     // Bottom-right corner
+        ]
+        let directions = [
+            (-1, -1), (-1, 0), (-1, 1),
+            (0, -1),         (0, 1),
+            (1, -1), (1, 0), (1, 1)
+        ]
+
+        for corner in corners {
+            let (row, col) = corner
+            let adjacentCells = directions.map { (dr, dc) in
+                (row + dr, col + dc)
+            }.filter { r, c in
+                r >= 0 && r < size && c >= 0 && c < size
+            }
+
+            let unplayedNeighbors = adjacentCells.filter {
+                matrix[$0.0][$0.1] == .unplayed
+            }
+
+            // Ensure at least two adjacent unplayed cells
+            if unplayedNeighbors.count < configuration.cornersRequireAdjacentUnplayed {
+                for neighbor in adjacentCells {
+                    if matrix[neighbor.0][neighbor.1] == .blocked {
+                        matrix[neighbor.0][neighbor.1] = .unplayed
+                    }
+                    if unplayedNeighbors.count >= configuration.cornersRequireAdjacentUnplayed {
+                        break
+                    }
+                }
+            }
         }
     }
 
-    // Apply blocked indices to the flat matrix
-    for index in blockedIndices {
-        flatMatrix[index] = .blocked
-    }
-
-    // Convert the flat matrix back into a 2D array
-    var matrix: [[GameCellState]] = []
+    // Populate the matrix with blocked cells while adhering to constraints
+    var validCells = [(Int, Int)]()
     for row in 0..<size {
-        let start = row * size
-        let end = start + size
-        matrix.append(Array(flatMatrix[start..<end]))
+        for col in 0..<size {
+            validCells.append((row, col))
+        }
+    }
+    validCells.shuffle()
+
+    for (row, col) in validCells {
+        if blockedCount >= maxBlockedCells { break }
+        if isValidBlockedPlacement(row: row, col: col) {
+            matrix[row][col] = .blocked
+            blockedCount += 1
+
+            // Count adjacent blocked cells for larger boards
+            if size > 3 {
+                let neighbors = [
+                    (row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)
+                ]
+                for (r, c) in neighbors {
+                    if r >= 0 && r < size && c >= 0 && c < size && matrix[r][c] == .blocked {
+                        adjacentBlockedCount += 1
+                    }
+                }
+            }
+        }
     }
 
-    // Ensure each corner has at least one adjacent unplayed cell
-    //ensureAdjacentUnplayedCells(forCorners: cornerIndices, in: &flatMatrix, size: size)
+    // If fewer than minBlockedCells, add more blocked cells even if constraints are slightly violated
+    validCells.shuffle()
+    while blockedCount < minBlockedCells {
+        if let (row, col) = validCells.popLast() {
+            matrix[row][col] = .blocked
+            blockedCount += 1
+        }
+    }
+
+    // Ensure corner adjustments after placement
+    adjustCorners()
 
     return matrix
 }
+
+
 /// Ensures that each corner cell has at least one adjacent `unplayed` cell.
 /// - Parameters:
 ///   - corners: Indices of corner cells.
