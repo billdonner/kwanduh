@@ -146,7 +146,9 @@ struct GameScreen: View {
        // firstMove = true
       }
       .onChange(of: gs.cellstate) {
-        onChangeOfCellState()
+        withAnimation {
+          onChangeOfCellState()
+        }
       }
       .onChange(of: gs.currentscheme) {
         gs.topicsinplay = colorize(scheme: gs.currentscheme, topics: Array(gs.topicsinplay.keys))
@@ -177,17 +179,19 @@ struct GameScreen: View {
           return
         }
         print("QA screen return qablock \(qarb)")
-        switch qarb {
-  
-        case .correct(let row, let col, let elapsed, let ch, let answered):
-          gs.markCorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
-        case .incorrect(let row, let col, let elapsed, let ch, let answered):
-          gs.markIncorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
-        case .replace(let row, let col, let elapsed):
-          gs.markReplacementMove(chmgr: chmgr, row:  row, col: col, elapsedTime: elapsed)
-        case .donothing :
-          // should increase elapsed time
-          break
+        withAnimation {
+          switch qarb {
+            
+          case .correct(let row, let col, let elapsed, let ch, let answered):
+            gs.markCorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
+          case .incorrect(let row, let col, let elapsed, let ch, let answered):
+            gs.markIncorrectMove(chmgr: chmgr, row: row, col:  col, ch: ch, answered:  answered, elapsedTime:  elapsed)
+          case .replace(let row, let col, let elapsed):
+            gs.markReplacementMove(chmgr: chmgr, row:  row, col: col, elapsedTime: elapsed)
+          case .donothing :
+            // should increase elapsed time
+            break
+          }
         }
       }) { cha in
         QandAScreen(
@@ -273,7 +277,7 @@ struct GameScreen: View {
     case .youLose:
         return Alert(
         title: Text("Lost this time").font(.largeTitle),
-        message: Text("but keep going...").font(.title),
+        message: Text("but keep going...").font(.largeTitle),
         dismissButton: .cancel(Text("OK"), action: { onYouLose() })
       )
     }

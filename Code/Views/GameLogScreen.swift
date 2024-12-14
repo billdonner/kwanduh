@@ -32,12 +32,14 @@ struct SingleGameLogView: View {
                         case .playedIncorrectly: "❌"
                         default: ""
                         }
-
+                      HStack {
                         Text("\(move.movenumber):")
-                            .font(.headline)
-
+                          .font(.headline)
+                        
                         Text("Question: \(challenge.question)")
-                            .font(.headline)
+                          .font(.headline)
+                        Spacer()
+                      }
 
                         if let ansInfo = answerInfo {
                             Text("Your Answer: \(ansInfo.answer) \(statusSymbol)")
