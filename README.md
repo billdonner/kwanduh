@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7.60.2 fix for carol
 - version 0.7.60.1 max five topics enforced, max five colors per scheme enforced, no other changes
 - version 0.7.59.4 completely replaced blocking cell generation 
 - version 0.7.59.3 using gs.movenumber vs firstmove; improved isPossble..., remove spontaneous startIncorner when restaring, made empty games impossible, fixed play behavior after win

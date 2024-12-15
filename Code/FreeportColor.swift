@@ -150,13 +150,17 @@ struct ColorManager {
     .myWhite: (Color(red: 255/255, green: 255/255, blue: 255/255), "White") // Fall
   ]
   
+  // Function to retrieve a background color for a FreeportColor
+  static func backgroundColor(for topicColor: FreeportColor) -> Color {
+    return mycolors[topicColor]?.color ?? Color.clear
+  }
 }
 
 
 
 
 //MARK:- The Schemes Themselves
-struct ColorScheme {
+struct FreeportColorScheme {
     let name: String
     let colors: [FreeportColor]
 }
@@ -178,11 +182,11 @@ let fallColors: [FreeportColor] = [
 ]
 
 
-let allSchemes: [ColorScheme] = [
-    ColorScheme(name: "Winter", colors: winterColors),
-    ColorScheme(name: "Spring", colors: springColors),
-    ColorScheme(name: "Summer", colors: summerColors),
-    ColorScheme(name: "Autumn", colors: fallColors)
+let allSchemes: [FreeportColorScheme] = [
+    FreeportColorScheme(name: "Winter", colors: winterColors),
+    FreeportColorScheme(name: "Spring", colors: springColors),
+    FreeportColorScheme(name: "Summer", colors: summerColors),
+    FreeportColorScheme(name: "Autumn", colors: fallColors)
 ]
 
 

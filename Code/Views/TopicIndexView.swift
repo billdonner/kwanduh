@@ -31,12 +31,12 @@ struct TopicIndexView: View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 16) {
         //cause insertion on the left
-        ForEach(topicsInOrder,  id: \.self) { topic in
+        ForEach($topicsInOrder,  id: \.self) { topic in
           // let _ = print("**",topic)
-          if let colorEnum = selectedTopics[topic] {
+          if let colorEnum = selectedTopics[topic.wrappedValue] {
             VStack(spacing:0) {
-              let x = chmgr.tinfo[topic]?.freecount ?? 0
-              let y = chmgr.tinfo[topic]?.alloccount ?? 1
+              let x = chmgr.tinfo[topic.wrappedValue]?.freecount ?? 0
+              let y = chmgr.tinfo[topic.wrappedValue]?.alloccount ?? 1
               let pct = Double(x) / Double(y)// for now Double(dmangler.allCounts.max()!)
               let backColor = ColorManager.backgroundColor(for: colorEnum)
                
@@ -49,16 +49,16 @@ struct TopicIndexView: View {
                 switch opType {
                 case .removeTopic:
                   withAnimation(.easeInOut) { 
-                    removeThisTopic(topic)
+                    removeThisTopic(topic.wrappedValue)
                   }
                   
                 case .showDetails :
-                  presentTopic = IdentifiableString(value: topic,op:.showDetails)
+                  presentTopic = IdentifiableString(value: topic.wrappedValue,op:.showDetails)
                   
                 }
               }
                 
-                Text(topic)
+              Text(topic.wrappedValue)
                 
                 .font(.caption2)
                   .lineLimit(3)
@@ -80,7 +80,7 @@ struct TopicIndexView: View {
           Color.red
         }
       }
-        }//.background(cs == .dark ? Color.offBlack : .offWhite)
+        }
     }
   }
   

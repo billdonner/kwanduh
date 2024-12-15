@@ -178,17 +178,13 @@ struct SingleCellView: View {
   private func bottomLayer(challenge: Challenge) -> some View {
     return VStack(alignment: .center, spacing: 0) {
       switch gs.cellstate[row][col] {
-      case .playedCorrectly:
-        ZStack {
+      case .playedCorrectly: 
           textBody(challenge: challenge)
-          BorderView(color: .green)
-        }
-        .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
+            .border(Color.green,width:Double(9 - gs.boardsize))
+          .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
       case .playedIncorrectly:
-        ZStack {
           textBody(challenge: challenge)
-          BorderView(color: .red)
-        }
+            .border(Color.green,width:Double(9 - gs.boardsize))
         .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
       case .unplayed:
         if gs.playstate == .playingNow {
