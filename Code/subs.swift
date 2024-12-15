@@ -29,6 +29,103 @@ func colorize(scheme:ColorSchemeName,topics:[String]) -> [String:FreeportColor] 
 
 
 
+// Get all available colors as enum values
+ func getAllColors() -> [FreeportColor] {
+  return FreeportColor.allCases
+}
+
+// Computed properties used throughout the app
+var allColorSchemes: [[FreeportColor]] {
+    allSchemes.map { $0.colors }
+}
+
+var allSchemeNames: [String] {
+    allSchemes.map { $0.name }
+}
+func allColorsForScheme(_ schmindx: Int) -> [FreeportColor] {
+  let x = allColorSchemes[schmindx]
+  assert(x.count == colors_per_scheme, "Scheme \(schmindx) has \(x.count) colors" )
+  return x
+}
+func colorForSchemeAndTopic(scheme schmindx: Int, index topicIndex: Int) -> FreeportColor {
+  let theScheme = allColorSchemes[schmindx]
+  return theScheme[topicIndex]
+}
+func availableColorsForScheme (_ schmindx: Int) -> [FreeportColor] {
+  return allColorSchemes[schmindx]
+}
+
+
+/*
+ Rework the basic topics->mycolor dict from one scheme to another, each topic is separately processed
+ 
+ - get the current color for the topic as specified in in dict as its value ;
+ -  lookup the color in the scheme's list of MyColors, obtaining its index or fail
+ - find corresponding color for the new/to scheme
+ - use that for topic's value
+ 
+ */
+func reworkColors(topics:[String:FreeportColor],fromscheme:Int, toscheme:Int) -> [String:FreeportColor] {
+  print("Reworking colors for topics  from scheme \(fromscheme) to scheme \(toscheme)")
+  return topics.mapValues { mycolor  in
+    //find position in "fromscheme"
+    guard let  posfrom = allColorSchemes[fromscheme].firstIndex(of: mycolor) else {
+      print("did not find \(mycolor) in scheme \(fromscheme)")
+      return FreeportColor.myHotPink}
+    
+    print("found index of \(mycolor) in scheme \(fromscheme) at \(posfrom)")
+    // find color in same position in "toscheme" and return it
+    guard posfrom >= 0 && posfrom < allColorSchemes[toscheme].count
+    else { return FreeportColor.myGoldenrod
+    }
+    let  newColor = allColorSchemes[toscheme][posfrom]
+    print("transformed to \(newColor) in scheme \(toscheme)")
+    return newColor
+  }
+}
+
+
+extension FreeportColor {
+  static func < (lhs: FreeportColor, rhs: FreeportColor) -> Bool {
+    return lhs.rawValue < rhs.rawValue
+  }
+  
+    func toColor() -> Color {
+        return ColorManager.mycolors[self]?.color ?? Color.clear // Access the color using the enum case
+    }
+    
+    func toColorName() -> String {
+        return ColorManager.mycolors[self]?.name ?? "Unknown Color" // Access the name using the enum case
+    }
+}
+
+extension ColorManager {
+  // Ensure every FreeportColor has an entry in the dictionary
+  static func validateColorEntries() {
+    var missingCases: [FreeportColor] = []
+    
+    for color in FreeportColor.allCases {
+      if mycolors[color] == nil {
+        missingCases.append(color)
+      }
+    }
+    
+    // Print all missing cases if any
+    if !missingCases.isEmpty {
+      print("Missing entries for the following colors:")
+      for missingColor in missingCases {
+        print(missingColor)
+      }
+    }
+    
+    // Assert that there are no missing cases
+    assert(missingCases.isEmpty, "Missing entries for FreeportColor cases.")
+  }
+  
+}
+
+
+
 extension Color {
   static let offBlack = Color(red: 0.1, green: 0.1, blue: 0.1)
   static let offWhite = Color(red: 0.95, green: 0.95, blue: 0.95)

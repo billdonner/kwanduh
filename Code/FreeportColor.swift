@@ -1,40 +1,9 @@
 
 
 import SwiftUI
-struct RGB: Codable {
-  let red: Double
-  let green: Double
-  let blue: Double
-}
-// Function to convert SwiftUI Color to RGB
-func colorToRGB(color: Color) -> RGB {
-  // Convert to UIColor (iOS)
-  let uiColor = UIColor(color)
-  
-  // Extract RGB components
-  var red: CGFloat = 0
-  var green: CGFloat = 0
-  var blue: CGFloat = 0
-  var alpha: CGFloat = 0
-  
-  uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-  
-  // Return RGB as a struct
-  return RGB(red: Double(red) * 255.0,
-             green: Double(green) * 255.0,
-             blue: Double(blue) * 255.0)
-}
 
-/// Determines the contrasting text color (black or white) for a given background color.
-func contrastingTextColor(for rgb: RGB) -> Color {
-  let luminance = 0.299 * rgb.red + 0.587 * rgb.green + 0.114 * rgb.blue
-  return luminance > 186 ? .black : .white
-}
-func optimalTextColor(for color: Color) -> Color {
-  contrastingTextColor(for: colorToRGB(color: color))
-}
 enum FreeportColor: Int, CaseIterable, Comparable,Codable {
-  // Enum cases synthesized from color names
+ 
   case myLightYellow
   case myDeepPink
   case myLightBlue
@@ -103,13 +72,10 @@ enum FreeportColor: Int, CaseIterable, Comparable,Codable {
   case myDarkSlateGray
   case myDarkGray
   case myWhite
-  
-  static func < (lhs: FreeportColor, rhs: FreeportColor) -> Bool {
-    return lhs.rawValue < rhs.rawValue
-  }
+
 }
 
-import SwiftUI
+ 
 
 struct ColorManager {
   // Dictionary for background colors indexed by FreeportColor
@@ -184,37 +150,15 @@ struct ColorManager {
     .myWhite: (Color(red: 255/255, green: 255/255, blue: 255/255), "White") // Fall
   ]
   
-  // Ensure every FreeportColor has an entry in the dictionary
-  static func validateColorEntries() {
-    var missingCases: [FreeportColor] = []
-    
-    for color in FreeportColor.allCases {
-      if mycolors[color] == nil {
-        missingCases.append(color)
-      }
-    }
-    
-    // Print all missing cases if any
-    if !missingCases.isEmpty {
-      print("Missing entries for the following colors:")
-      for missingColor in missingCases {
-        print(missingColor)
-      }
-    }
-    
-    // Assert that there are no missing cases
-    assert(missingCases.isEmpty, "Missing entries for FreeportColor cases.")
-  }
-  
-  // Function to retrieve a background color for a FreeportColor
-  static func backgroundColor(for topicColor: FreeportColor) -> Color {
-    return mycolors[topicColor]?.color ?? Color.clear
-  }
-  
-  // Get all available colors as enum values
-  static func getAllColors() -> [FreeportColor] {
-    return FreeportColor.allCases
-  }
+}
+
+
+
+
+//MARK:- The Schemes Themselves
+struct ColorScheme {
+    let name: String
+    let colors: [FreeportColor]
 }
 
 let winterColors: [FreeportColor] = [
@@ -234,59 +178,11 @@ let fallColors: [FreeportColor] = [
 ]
 
 
-let allColorSchemes: [[FreeportColor]] = [
-  winterColors, springColors, summerColors, fallColors
+let allSchemes: [ColorScheme] = [
+    ColorScheme(name: "Winter", colors: winterColors),
+    ColorScheme(name: "Spring", colors: springColors),
+    ColorScheme(name: "Summer", colors: summerColors),
+    ColorScheme(name: "Autumn", colors: fallColors)
 ]
-func allColorsForScheme(_ schmindx: Int) -> [FreeportColor] {
-  let x = allColorSchemes[schmindx]
-  assert(x.count == colors_per_scheme, "Scheme \(schmindx) has \(x.count) colors" )
-  return x
-}
-func colorForSchemeAndTopic(scheme schmindx: Int, index topicIndex: Int) -> FreeportColor {
-  let theScheme = allColorSchemes[schmindx]
-  return theScheme[topicIndex]
-}
-func availableColorsForScheme (_ schmindx: Int) -> [FreeportColor] {
-  return allColorSchemes[schmindx]
-}
 
 
-let allSchemeNames: [String] = [ "Winter","Spring","Summer","Autumn"]//["Bleak","Winter","Spring","Summer","Autumn"]
-/*
- Rework the basic topics->mycolor dict from one scheme to another, each topic is separately processed
- 
- - get the current color for the topic as specified in in dict as its value ;
- -  lookup the color in the scheme's list of MyColors, obtaining its index or fail
- - find corresponding color for the new/to scheme
- - use that for topic's value
- 
- */
-func reworkColors(topics:[String:FreeportColor],fromscheme:Int, toscheme:Int) -> [String:FreeportColor] {
-  print("Reworking colors for topics  from scheme \(fromscheme) to scheme \(toscheme)")
-  return topics.mapValues { mycolor  in
-    //find position in "fromscheme"
-    guard let  posfrom = allColorSchemes[fromscheme].firstIndex(of: mycolor) else {
-      print("did not find \(mycolor) in scheme \(fromscheme)")
-      return FreeportColor.myHotPink}
-    
-    print("found index of \(mycolor) in scheme \(fromscheme) at \(posfrom)")
-    // find color in same position in "toscheme" and return it
-    guard posfrom >= 0 && posfrom < allColorSchemes[toscheme].count
-    else { return FreeportColor.myGoldenrod
-    }
-    let  newColor = allColorSchemes[toscheme][posfrom]
-    print("transformed to \(newColor) in scheme \(toscheme)")
-    return newColor
-  }
-}
-
-
-extension FreeportColor {
-    func toColor() -> Color {
-        return ColorManager.mycolors[self]?.color ?? Color.clear // Access the color using the enum case
-    }
-    
-    func toColorName() -> String {
-        return ColorManager.mycolors[self]?.name ?? "Unknown Color" // Access the name using the enum case
-    }
-}
