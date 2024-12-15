@@ -46,7 +46,7 @@ struct GameScreenBottomButtons : View {
  
     .debugBorder()
       .fullScreenCover(isPresented: $showingHelp ){
-        HowToPlayScreen (chmgr: chmgr, isPresented: $showingHelp)
+        HowToPlayScreen (isPresented: $showingHelp)
       }
     }
 }

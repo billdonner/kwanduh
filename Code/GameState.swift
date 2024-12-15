@@ -345,7 +345,7 @@ class GameState: Codable {
     for row in 0..<size {
       for col in 0..<size {
         cm[row][col] = colorForSchemeAndTopic(
-          scheme: scheme, index: (row * size + col) % 10
+          scheme: scheme, index: (row * size + col) %  colors_per_scheme
         ).toColor()
       }
     }
@@ -707,13 +707,13 @@ extension GameState {
 
   static func maxTopicsForBoardSize(_ size: Int) -> Int {
     switch size {
-    case 3: return 6
-    case 4: return 6
-    case 5: return 6
-    case 6: return 6
-    case 7: return 6
-    case 8: return 6
-    default: return 6
+    case 3: return 5
+    case 4: return 5
+    case 5: return 5
+    case 6: return 5
+    case 7: return 5
+    case 8: return 5
+    default: return 5
     }
   }
 
@@ -723,9 +723,9 @@ extension GameState {
     case 3: return 3
     case 4: return 3
     case 5: return 3
-    case 6: return 4
-    case 7: return 5
-    case 8: return 6
+    case 6: return 3
+    case 7: return 3
+    case 8: return 3
     default: return 3
     }
   }

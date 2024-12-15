@@ -9,8 +9,6 @@
 import SwiftUI
 
 
-let minTopicCount = 1
-let maxTopicCount = 10
 
 func dumpTopicsAndColors(_ comment:String,from selectedTopics:[String:FreeportColor]) {
   print("---> \(comment)")
@@ -104,11 +102,11 @@ struct TopicSelectorScreen: View {
           }
       )) {
           if showMinimumSelectionAlert {
-            let tpc = minTopicCount == 1 ? "topic" : "topics"
-            let msg = "Please select at least \(minTopicCount) \(tpc)."
+            let tpc = GameState.minTopicsForBoardSize(gs.boardsize) == 1 ? "topic" : "topics"
+            let msg = "Please select at least \(GameState.minTopicsForBoardSize(gs.boardsize)) \(tpc)."
             return Alert(title: Text(msg), message: nil, dismissButton: .default(Text("OK")))
           } else if showMaximumSelectionAlert {
-              return Alert(title: Text("Maximum Reached"), message: Text("You cannot select more than \(maxTopicCount) topics."), dismissButton: .default(Text("OK")))
+            return Alert(title: Text("Maximum Reached"), message: Text("You cannot select more than \(GameState.maxTopicsForBoardSize(gs.boardsize)) topics."), dismissButton: .default(Text("OK")))
           } else if showNoGimmeeAlert {
               return Alert(title: Text("No Gimmees"), message: Text("You have no gimmees left to add or remove topics."), dismissButton: .default(Text("OK")))
           } else {
@@ -124,7 +122,7 @@ struct TopicSelectorScreen: View {
     if tempGimmeeCount <= 0 {
       showNoGimmeeAlert = true
     } else
-    if tempTopicsInPlay.count >= maxTopicCount {
+    if tempTopicsInPlay.count >= GameState.maxTopicsForBoardSize(gs.boardsize) {
       showMaximumSelectionAlert = true
     } else {
       let active = flattenDictionaryValues(tempTopicsInPlay)// active colors from topics
@@ -140,32 +138,13 @@ struct TopicSelectorScreen: View {
  
     }
   }
-  
-//func removeTopic(_ topic: String) {
-//    if tempGimmeeCount <= 0 {
-//      showNoGimmeeAlert = true
-//    } else {
-////      guard  let color = tempSelectedTopics[topic] else {
-////        print("Could not get color for \(topic) in removetopic")
-////        return
-////      }
-//      // print("Remove topic \(topic) with color \(color)")
-//      tempTopicsInPlay.removeValue(forKey: topic)
-//      guard let f = tempTopicsInOrder.firstIndex(of: topic) else {
-//        print("Could not find index of \(topic) in removetopic")
-//        return
-//      }
-//      tempTopicsInOrder.remove(at:f)
-//      tempGimmeeCount -= 1
-//      //dumpTopicsAndColors("removed topic \(topic) with color \(color) scheme \(gs.currentscheme)",from:tempSelectedTopics)
-//    }
- // }
+   
   private func cancelSelection() {  // Restore the initial gimme count
     presentationMode.wrappedValue.dismiss()  // Dismiss without saving changes
   }
 
   private func finalizeSelection() {
-    if tempTopicsInPlay.count < minTopicCount {
+    if tempTopicsInPlay.count < GameState.minTopicsForBoardSize(gs.boardsize) {
       showMinimumSelectionAlert = true
     } else {
       
@@ -200,28 +179,4 @@ struct TopicSelectorView_Previews: PreviewProvider {
   }
 }
 
-
-/**
  
- // List of already selected topics
-//        List {
-//          Section(header: Text("Selected Topics")) {
-//            ForEach(tempSelectedTopics.keys.sorted(), id: \.self) { topic in
-//              if let color = tempSelectedTopics[topic] {
-//                HStack {
-//                  Text(topic)
-//                  Spacer()
-//                  Circle()
-//                    .fill(ColorManager.backgroundColor(for: color))  // Use enum to get Color
-//                    .frame(width: 20, height: 20)
-//                  Button("Remove?") {
-//                    removeTopic(topic)
-//                  }
-//                 // .disabled(tempGimmeeCount <= 0)  // Disable if gimme count is zero or less
-//                }
-//              }
-//            }
-//          }
-//        }
- 
- */

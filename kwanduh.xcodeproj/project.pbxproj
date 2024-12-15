@@ -12,6 +12,7 @@
 		881F5C6F2D0A0A4A008EDA64 /* CommonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F5C6C2D0A0A4A008EDA64 /* CommonConfiguration.swift */; };
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
+		889B19BC2D0F1786006A1565 /* playdata-micro.json in Resources */ = {isa = PBXBuildFile; fileRef = 889B19BB2D0F1786006A1565 /* playdata-micro.json */; };
 		889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
 		889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
 		889C00AD2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
@@ -54,6 +55,7 @@
 		884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		885183922CD1562700D686A6 /* kwannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		889B19BB2D0F1786006A1565 /* playdata-micro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "playdata-micro.json"; sourceTree = "<group>"; };
 		889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "CommonAssets 12032024.xcassets"; sourceTree = "<group>"; };
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +222,7 @@
 				88A31A4D2CB2CDC1005D0DF3 /* KwanduhConfiguration.swift */,
 				88F9B1C52CD1599E005E9728 /* KwannaConfiguration.swift */,
 				88A319162CA3194F005D0DF3 /* playdata-mini.json */,
+				889B19BB2D0F1786006A1565 /* playdata-micro.json */,
 				88A3198E2CA32097005D0DF3 /* playdata.json */,
 				884C9CF62CBED6740059E758 /* Info.plist */,
 				88A319F22CA8666A005D0DF3 /* Code */,
@@ -451,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
+				889B19BC2D0F1786006A1565 /* playdata-micro.json in Resources */,
 				88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,7 +581,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -592,7 +596,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanna;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -610,7 +614,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = kwanna/kwanna.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanna/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -625,7 +629,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanna;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -814,7 +818,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanduh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -846,7 +850,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.kwanduh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -901,7 +905,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -915,7 +919,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qandao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -932,7 +936,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -946,7 +950,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.59;
+				MARKETING_VERSION = 0.7.60;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qandao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

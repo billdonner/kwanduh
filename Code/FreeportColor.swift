@@ -77,18 +77,6 @@ enum FreeportColor: Int, CaseIterable, Comparable,Codable {
   case myEvergreen
   case myStorm
   case myHolly
-  case myBlack0
-  case myBlack1
-  case myBlack2
-  case myBlack3
-  case myBlack4
-  case myBlack5
-  case myBlack6
-  case myBlack7
-  case myBlack8
-  case myBlack9
-  case myBlackA
-  case myBlackB
   case myOffWhite
   case myOffBlack
   case myGold
@@ -230,22 +218,19 @@ struct ColorManager {
 }
 
 let winterColors: [FreeportColor] = [
-  .myIceBlue,.myFrost,.myMint,.myBrown,.myPrussianBlue,.myNavy,.myBerry,.myLavender,.myPine,.mySilver
+  .myIceBlue,.myFrost,.myMint,.myBrown,.myPrussianBlue
 ]
 
 let springColors: [FreeportColor] = [
-  .myLightYellow, .myDeepPink, .myLightBlue, .myPeach, .myLavender,
-  .myMint, .myLightCoral, .myAqua, .myLemon, .mySkyBlue,
+  .myLightYellow, .myDeepPink, .myLightBlue, .myPeach, .myLavender
 ]
 
 let summerColors: [FreeportColor] = [
-  .mySkyBlue, .mySunshineYellow, .myOceanBlue, .mySeafoam, .myPalmGreen,
-  .myCoral, .myLagoon, .myShell, .myCoconut, .myPineapple,
+  .mySkyBlue, .mySunshineYellow, .myOceanBlue, .mySeafoam, .myPalmGreen
 ]
 
 let fallColors: [FreeportColor] = [
-  .myBurntOrange, .myGoldenYellow, .myCrimsonRed, .myPumpkin, .myChestnut,
-  .myHarvestGold, .myAmber, .myMaroon, .myRusset, .myMossGreen,
+  .myBurntOrange, .myGoldenYellow, .myCrimsonRed, .myPumpkin, .myChestnut
 ]
 
 
@@ -254,7 +239,7 @@ let allColorSchemes: [[FreeportColor]] = [
 ]
 func allColorsForScheme(_ schmindx: Int) -> [FreeportColor] {
   let x = allColorSchemes[schmindx]
-  assert(x.count == 10, "Scheme \(schmindx) has \(x.count) colors" )
+  assert(x.count == colors_per_scheme, "Scheme \(schmindx) has \(x.count) colors" )
   return x
 }
 func colorForSchemeAndTopic(scheme schmindx: Int, index topicIndex: Int) -> FreeportColor {
