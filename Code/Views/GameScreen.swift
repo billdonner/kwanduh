@@ -11,25 +11,25 @@ import SwiftUI
 
 
 enum GameAlertType: Identifiable {
-    case mustTapAdjacentCell
-    case mustStartInCorner
-    case cantStart
-    case otherDiagonal
-    case sameSideDiagonal
-    case youWin
-    case youLose
-
-    var id: String {
-        switch self {
-        case .mustTapAdjacentCell: return "mustTapAdjacentCell"
-        case .mustStartInCorner: return "mustStartInCorner"
-        case .cantStart: return "cantStart"
-        case .otherDiagonal: return "otherDiagonal"
-        case .sameSideDiagonal: return "sameSideDiagonal"
-        case .youWin: return "youWin"
-        case .youLose: return "youLose"
-        }
+  case mustTapAdjacentCell
+  case mustStartInCorner
+  case cantStart
+  case otherDiagonal
+  case sameSideDiagonal
+  case youWin
+  case youLose
+  
+  var id: String {
+    switch self {
+    case .mustTapAdjacentCell: return "mustTapAdjacentCell"
+    case .mustStartInCorner: return "mustStartInCorner"
+    case .cantStart: return "cantStart"
+    case .otherDiagonal: return "otherDiagonal"
+    case .sameSideDiagonal: return "sameSideDiagonal"
+    case .youWin: return "youWin"
+    case .youLose: return "youLose"
     }
+  }
 }
 
 
@@ -53,11 +53,13 @@ struct GameScreen: View {
   @AppStorage("OnboardingDone") private var onboardingdone = false
   
   @State var isTouching: Bool = false
- 
+  
   @State  var isWinAlertPresented = false
-
+  @State  var isLoseAlertPresented = false
   
   @State var showSettings = false
+  @State var showSettingsList = false // a separate view
+  @State var showSettingsListAfterDismiss = false
   @State var showLeaderboard = false
   @State var showSendComment = false
   @State var showGameLog = false
@@ -139,11 +141,11 @@ struct GameScreen: View {
           isTouching: $isTouching
         )
         .layoutPriority(2)
-
+        
       }
       .debugBorder()
       .onAppear {
-       // firstMove = true
+        // firstMove = true
       }
       .onChange(of: gs.cellstate) {
         withAnimation {
@@ -161,12 +163,41 @@ struct GameScreen: View {
       }
       .fullScreenCover(isPresented: $isWinAlertPresented){
         WinAlertView(
-            title: "You Win!",
-            message: "Good job, keep going...",
-            dismissAction: {
-                isWinAlertPresented = false
-                onYouWin()
-            }
+          title: "You Win!",
+          message: "Good job, keep going...",
+          newRoundAction:    {
+            isWinAlertPresented = false
+            onYouWin()
+            let ok = startTheGame(boardsize: gs.boardsize)
+            if !ok { activeAlert = .cantStart}
+          },
+          settingsAction: {
+            showSettingsList = true
+          }
+        )
+        .background(Color.clear)
+        .transition(.opacity) // Smooth fade in/out transition
+        .animation(.easeInOut, value: isWinAlertPresented)
+      }
+      .fullScreenCover(isPresented: $isLoseAlertPresented,onDismiss:{
+        if showSettingsListAfterDismiss {
+          showSettingsList = true
+          showSettingsListAfterDismiss = false
+        }
+      }){
+        LoseAlertView(
+          title: "Lost this time",
+          message: "Keep going...",
+          newRoundAction:    {
+            isLoseAlertPresented = false
+            onYouLose()
+            let ok = startTheGame(boardsize: gs.boardsize)
+            if !ok { activeAlert = .cantStart}
+          },
+          settingsAction: {
+            showSettingsListAfterDismiss = true
+            isLoseAlertPresented = false
+          }
         )
         .background(Color.clear)
         .transition(.opacity) // Smooth fade in/out transition
@@ -200,7 +231,9 @@ struct GameScreen: View {
           isPresentingDetailView: $nowShowingQandAScreen, qarb: $qarb
         )
       }
-      
+      .sheet(isPresented: $showSettingsList) {
+        SettingsListView(showCompleteSettings:$showSettingsList, showSettings: $showSettings, showTopicSelector: $showTopicSelector, showScheme: $showScheme, showLeaderboard: $showLeaderboard, showSendComment: $showSendComment, showGameLog: $showGameLog, showFreeportSettings: $showFreeportSettings)
+      }
       .sheet(isPresented: $showSettings) {
         BoardSizeScreen(chmgr: chmgr, gs: gs, showSettings: $showSettings)
       }
@@ -223,9 +256,9 @@ struct GameScreen: View {
         FreeportSettingsScreen(gs: gs, chmgr: chmgr, lrdb: lrdb, showSettings: $showSettings)
       }
       .alert(item: $activeAlert) { alertType in
-   
+        
         alert(for: alertType)
-          
+        
       }
     }
   }
@@ -239,132 +272,306 @@ struct GameScreen: View {
   }
   
   private func alert(for type: GameAlertType) -> Alert {
-   
-      switch type {
-      case .mustTapAdjacentCell:
-        return Alert(
-          title: Text("Touch a box next to one you've already played . . ."),
-          dismissButton: .cancel(Text("OK"), action: { dismiss() })
-        )
-      case .mustStartInCorner:
-        return Alert(
-          title: Text("Start out in a corner"),
-          dismissButton: .cancel(Text("OK"), action: { dismiss() })
-        )
-      case .cantStart:
-        return Alert(
-          title: Text("You need to add at least one more topic."),
-          message: Text("The total number of questions in your topics must be at least the number of boxes in your game board."),
-          dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
-        )
-      case .otherDiagonal:
-        return  Alert(
-          title: Text("Go for the other diagonal!"),
-          dismissButton: .cancel(Text("OK"), action: { dismiss() })
-        )
+    
+    switch type {
+    case .mustTapAdjacentCell:
+      return Alert(
+        title: Text("Touch a box next to one you've already played . . ."),
+        dismissButton: .cancel(Text("OK"), action: { dismiss() })
+      )
+    case .mustStartInCorner:
+      return Alert(
+        title: Text("Start out in a corner"),
+        dismissButton: .cancel(Text("OK"), action: { dismiss() })
+      )
+    case .cantStart:
+      return Alert(
+        title: Text("You need to add at least one more topic."),
+        message: Text("The total number of questions in your topics must be at least the number of boxes required in your game board."),
+        dismissButton: .cancel(Text("OK"), action: { onCantStartNewGameAction() })
+      )
+    case .otherDiagonal:
+      return  Alert(
+        title: Text("Go for the other diagonal!"),
+        dismissButton: .cancel(Text("OK"), action: { dismiss() })
+      )
       
     case .sameSideDiagonal:
-        return  Alert(
+      return  Alert(
         title: Text("Winning path connects corners on opposite sides of a diagonal!"),
         dismissButton: .cancel(Text("OK"), action: { dismiss() })
       )
     case .youWin:
-        return Alert(
-          title: Text("You Win").font(.largeTitle),
-        message: Text("Good job, keep going...").font(.title),
+      return Alert(
+        title: Text("You Win").font(.largeTitle),
+        message: Text("Good job, keep going...").font(.largeTitle),
         dismissButton: .cancel(Text("OK"), action: { onYouWin() })
       )
     case .youLose:
-        return Alert(
+      return Alert(
         title: Text("Lost this time").font(.largeTitle),
         message: Text("but keep going...").font(.largeTitle),
         dismissButton: .cancel(Text("OK"), action: { onYouLose() })
       )
     }
   }
-   
+  
 }
 
 // Win Alert View
 struct WinAlertView: View {
-    var title: String
-    var message: String
-    var dismissAction: () -> Void
-    @State private var animateFireworks = false
+  var title: String
+  var message: String
+  var newRoundAction: () -> Void
+  var settingsAction: () -> Void
+  @State private var animateFireworks = false
+  
+  var body: some View {
+    ZStack {
+      // Semi-transparent background to allow gradient bleed
+      LinearGradient(
+        gradient: Gradient(colors: [Color.red.opacity(0.3), Color.blue.opacity(0.3)]),
+        startPoint: .top,
+        endPoint: .bottom
+      )
+      .ignoresSafeArea()
+      
+      VStack(spacing: 20) {
+        // Fireworks icon
+        Image(systemName: "fireworks")
+          .resizable()
+          .scaledToFit()
+          .frame(width: animateFireworks ? 120 : 100, height: animateFireworks ? 120 : 100)
+          .foregroundColor(.red)
+          .scaleEffect(animateFireworks ? 1.1 : 1.0)
+          .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animateFireworks)
+        
+        // Title
+        Text(title)
+          .font(.title)
+          .fontWeight(.bold)
+          .foregroundColor(.primary)
+          .padding(.top, 10)
+        
+        // Message
+        Text(message)
+          .font(.body)
+          .foregroundColor(.primary)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 16)
+        HStack {
+          // Dismiss button
+          Button(action: newRoundAction) {
+            Text("New Round")
+              .bold()
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)
+              .foregroundColor(.white)
+              .cornerRadius(10)
+          }
+          .padding(.horizontal, 20)
+          .padding(.bottom, 10)
+          // Dismiss button
+          Button(action: settingsAction) {
+            Text("Settings")
+              .bold()
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)
+              .foregroundColor(.white)
+              .cornerRadius(10)
+          }
+          .padding(.horizontal, 20)
+          .padding(.bottom, 10)
+        }
+      }
+      .padding()
+      .background(
+        RoundedRectangle(cornerRadius: 20)
+          .fill(
+            LinearGradient(
+              gradient: Gradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.8)]),
+              startPoint: .top,
+              endPoint: .bottom
+            )
+          )
+          .overlay(
+            LinearGradient(
+              gradient: Gradient(colors: [Color.red.opacity(0.1), Color.blue.opacity(0.1)]),
+              startPoint: .top,
+              endPoint: .bottom
+            )
+          )
+          .shadow(radius: 10)
+      )
+      .padding(.horizontal, 30)
+    }
+    .onAppear {
+      animateFireworks = true
+    }
+    .onDisappear {
+      animateFireworks = false
+    }
+  }
+}
+#Preview {
+  WinAlertView(title: "You Win",message: "Keep Going Anyway",newRoundAction:   {print("WinAlertView newRound button")},settingsAction: {print("WinAlertView Settings button")})
+}
+// Lose Alert View
+struct LoseAlertView: View {
+  var title: String
+  var message: String
+  var newRoundAction: () -> Void
+  var settingsAction: () -> Void
+  @State private var animateFireworks = false
+  
+  var body: some View {
+    ZStack {
+      // Semi-transparent background to allow gradient bleed
+      LinearGradient(
+        gradient: Gradient(colors: [Color.red.opacity(0.3), Color.blue.opacity(0.3)]),
+        startPoint: .top,
+        endPoint: .bottom
+      )
+      .ignoresSafeArea()
+      
+      VStack(spacing: 20) {
+        // Fireworks icon
+        Image(systemName: "drone")
+          .resizable()
+          .resizable()
+          .scaledToFit()
+          .frame(width: animateFireworks ? 120 : 100, height: animateFireworks ? 120 : 100)
+          .foregroundColor(.red)
+          .scaleEffect(animateFireworks ? 1.1 : 1.0)
+          .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animateFireworks)
+        
+        // Title
+        Text(title)
+          .font(.title)
+          .fontWeight(.bold)
+          .foregroundColor(.primary)
+          .padding(.top, 10)
+        
+        // Message
+        Text(message)
+          .font(.body)
+          .foregroundColor(.primary)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 16)
+        
+        HStack {
+          // Dismiss button
+          Button(action: newRoundAction) {
+            Text("New Round")
+              .bold()
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)
+              .foregroundColor(.white)
+              .cornerRadius(10)
+          }
+          .padding(.horizontal, 20)
+          .padding(.bottom, 10)
+          // Dismiss button
+          Button(action: settingsAction) {
+            Text("Settings")
+              .bold()
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)
+              .foregroundColor(.white)
+              .cornerRadius(10)
+          }
+          .padding(.horizontal, 20)
+          .padding(.bottom, 10)
+        }
+      }
+      .padding()
+      .background(
+        RoundedRectangle(cornerRadius: 20)
+          .fill(
+            LinearGradient(
+              gradient: Gradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.8)]),
+              startPoint: .top,
+              endPoint: .bottom
+            )
+          )
+          .overlay(
+            LinearGradient(
+              gradient: Gradient(colors: [Color.red.opacity(0.1), Color.blue.opacity(0.1)]),
+              startPoint: .top,
+              endPoint: .bottom
+            )
+          )
+          .shadow(radius: 10)
+      )
+      .padding(.horizontal, 30)
+    }
+    .onAppear {
+      animateFireworks = true
+    }
+    .onDisappear {
+      animateFireworks = false
+    }
+  }
+}
+#Preview {
+  LoseAlertView(title: "You're the biggest loser!",message: "Keep Going Anyway",newRoundAction:   {print("LoseAlertView newRound button")},settingsAction: {print("LoseAlertView Settings button")})
+}
+// A comprehensive settings list view that shows all the current action menu options
+struct SettingsListView: View {
+    @Binding var showCompleteSettings: Bool
+    @Binding var showSettings: Bool
+    @Binding var showTopicSelector: Bool
+    @Binding var showScheme: Bool
+    @Binding var showLeaderboard: Bool
+    @Binding var showSendComment: Bool
+    @Binding var showGameLog: Bool
+    @Binding var showFreeportSettings: Bool
 
     var body: some View {
-        ZStack {
-            // Semi-transparent background to allow gradient bleed
-            LinearGradient(
-                gradient: Gradient(colors: [Color.red.opacity(0.3), Color.blue.opacity(0.3)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-
-            VStack(spacing: 20) {
-                // Fireworks icon
-                Image(systemName: "fireworks")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: animateFireworks ? 120 : 100, height: animateFireworks ? 120 : 100)
-                    .foregroundColor(.red)
-                    .scaleEffect(animateFireworks ? 1.1 : 1.0)
-                    .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animateFireworks)
-
-                // Title
-                Text(title)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                    .padding(.top, 10)
-
-                // Message
-                Text(message)
-                    .font(.body)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 16)
-
-                // Dismiss button
-                Button(action: dismissAction) {
-                    Text("OK")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+        NavigationView {
+            List {
+                Button("Change Board Size") {
+                    showSettings = true
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 10)
+                Button("Select Topics") {
+                    showTopicSelector = true
+                }
+                Button("Change Color Scheme") {
+                    showScheme = true
+                }
+                Button("View Leaderboard") {
+                    showLeaderboard = true
+                }
+                Button("Send Comment") {
+                    showSendComment = true
+                }
+                Button("View Game Log") {
+                    showGameLog = true
+                }
+                Button("Freeport Settings") {
+                    showFreeportSettings = true
+                }
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.8)]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .overlay(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color.red.opacity(0.1), Color.blue.opacity(0.1)]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .shadow(radius: 10)
-            )
-            .padding(.horizontal, 30)
-        }
-        .onAppear {
-            animateFireworks = true
-        }
-        .onDisappear {
-            animateFireworks = false
+            .navigationTitle("More Settings")
+            .navigationBarItems(leading: Button("Cancel") {
+                showCompleteSettings = false
+            })
         }
     }
+}
+#Preview {
+    SettingsListView(
+        showCompleteSettings: .constant(true),
+        showSettings: .constant(false),
+        showTopicSelector: .constant(false),
+        showScheme: .constant(false),
+        showLeaderboard: .constant(false),
+        showSendComment: .constant(false),
+        showGameLog: .constant(false),
+        showFreeportSettings: .constant(false)
+    )
 }

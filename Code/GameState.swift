@@ -74,7 +74,6 @@ class GameState: Codable {
     case gamestate
     case totaltime
     case veryfirstgame
-
     case gimmees
     case currentscheme
     case doublediag

@@ -3,8 +3,8 @@ import SwiftUI
 // Function to calculate VStack spacing based on screen width
 func spacing(for width: CGFloat) -> CGFloat {
     let spacingTable: [(width: CGFloat, spacing: CGFloat)] = [
-        (320, 5),   // iPhone SE (1st generation), iPhone 5, 5S, 5C
-        (375, 5),  // iPhone 6, iPhone 6S, iPhone 7, iPhone 8, iPhone SE (2nd & 3rd generation)
+        (320, 4),   // iPhone SE (1st generation), iPhone 5, 5S, 5C
+        (375, 4),  // iPhone 6, iPhone 6S, iPhone 7, iPhone 8, iPhone SE (2nd & 3rd generation)
         (390, 15),  // iPhone 11 Pro, iPhone 12, iPhone 13, iPhone 14, iPhone 15
         (393, 27),  // iPhone 15 Pro, iphone 16
         (402,30),// iphone 16 pro

@@ -180,11 +180,11 @@ struct SingleCellView: View {
       switch gs.cellstate[row][col] {
       case .playedCorrectly: 
           textBody(challenge: challenge)
-            .border(Color.green,width:Double(9 - gs.boardsize))
+            .border(Color.green,width:Double(singleCellBorderBloatedSize - gs.boardsize))
           .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
       case .playedIncorrectly:
           textBody(challenge: challenge)
-            .border(Color.green,width:Double(9 - gs.boardsize))
+            .border(Color.red,width:Double(singleCellBorderBloatedSize - gs.boardsize))
         .singleFormat(cellSize: cellSize, cornerRadius: 10, opacity: playingNowOpacity())
       case .unplayed:
         if gs.playstate == .playingNow {

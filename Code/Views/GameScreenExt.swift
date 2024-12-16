@@ -85,7 +85,8 @@ extension GameScreen /* actions */ {
 
     if !isPossibleWinningPath(in: gs.cellstate) {
       TSLog("--->YOU LOSE")
-      activeAlert = .youLose
+      isLoseAlertPresented = true
+     // activeAlert = .youLose
       return
     }
 
@@ -186,11 +187,12 @@ extension GameScreen /* actions */ {
         "Failed to allocate \(boardsize * boardsize) challenges for topics \(gs.topicsinplay.keys.joined(separator: ","))"
       )
       print("Consider changing the topics in settings and trying again ...")
+      activeAlert = .cantStart
     } else {
     // all good, reset movenumber
       gs.movenumber = 0
+      TSLog("--->NEW GAME STARTED")
     }
-    TSLog("--->NEW GAME STARTED")
     return ok
   }
 

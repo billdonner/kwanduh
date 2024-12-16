@@ -18,3 +18,5 @@ let maxShowOtherDiag = 2
 let maxShowSameDiag = 2
 
 let colors_per_scheme = 5
+
+let singleCellBorderBloatedSize = 11 //subtract boardsize to get actual size
