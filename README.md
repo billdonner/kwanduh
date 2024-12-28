@@ -1,4 +1,5 @@
 #  KWANDUH/QANDAO - revised test app for Q20K
+- version 0.7,60.4 linked ChaMan to GameState directly now
 - version 0.7.60.3 fix border bug and sizing on SE
 - version 0.7.60.2 fix for carol
 - version 0.7.60.1 max five topics enforced, max five colors per scheme enforced, no other changes

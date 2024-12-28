@@ -13,6 +13,9 @@
 		884C9D902CCEB86A0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		884C9D922CCEB89B0059E758 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C9D8F2CCEB86A0059E758 /* CloudKitConfiguration.swift */; };
 		889B19BC2D0F1786006A1565 /* playdata-micro.json in Resources */ = {isa = PBXBuildFile; fileRef = 889B19BB2D0F1786006A1565 /* playdata-micro.json */; };
+		889B19C22D11E7D2006A1565 /* File.md in Resources */ = {isa = PBXBuildFile; fileRef = 889B19C12D11E7D2006A1565 /* File.md */; };
+		889B19C32D11E7D2006A1565 /* File.md in Resources */ = {isa = PBXBuildFile; fileRef = 889B19C12D11E7D2006A1565 /* File.md */; };
+		889B19C42D11E7D2006A1565 /* File.md in Resources */ = {isa = PBXBuildFile; fileRef = 889B19C12D11E7D2006A1565 /* File.md */; };
 		889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
 		889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
 		889C00AD2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */; };
@@ -56,6 +59,7 @@
 		885183832CD1562600D686A6 /* kwanna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		885183922CD1562700D686A6 /* kwannaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwannaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		889B19BB2D0F1786006A1565 /* playdata-micro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "playdata-micro.json"; sourceTree = "<group>"; };
+		889B19C12D11E7D2006A1565 /* File.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = File.md; sourceTree = "<group>"; };
 		889C00AA2CFF600F001AE275 /* CommonAssets 12032024.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "CommonAssets 12032024.xcassets"; sourceTree = "<group>"; };
 		88A318E92CA318C1005D0DF3 /* kwanduh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwanduh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A318F92CA318C2005D0DF3 /* kwanduhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwanduhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +237,7 @@
 				885183842CD1562600D686A6 /* kwanna */,
 				885183952CD1562700D686A6 /* kwannaTests */,
 				88A318EA2CA318C1005D0DF3 /* Products */,
+				889B19C12D11E7D2006A1565 /* File.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -454,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				889C00AC2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
+				889B19C32D11E7D2006A1565 /* File.md in Resources */,
 				889B19BC2D0F1786006A1565 /* playdata-micro.json in Resources */,
 				88F9B1CA2CD15CC9005E9728 /* playdata.json in Resources */,
 			);
@@ -470,6 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				889B19C22D11E7D2006A1565 /* File.md in Resources */,
 				88A319172CA3194F005D0DF3 /* playdata-mini.json in Resources */,
 				889C00AD2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
 			);
@@ -486,6 +493,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				889B19C42D11E7D2006A1565 /* File.md in Resources */,
 				88A319F02CA325D8005D0DF3 /* playdata.json in Resources */,
 				889C00AB2CFF600F001AE275 /* CommonAssets 12032024.xcassets in Resources */,
 			);
@@ -803,7 +811,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -835,7 +843,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = kwanduh/kwanduh.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"kwanduh/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -905,7 +913,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -936,7 +944,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = qanda/qanda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"qanda/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;

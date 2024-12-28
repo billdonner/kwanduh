@@ -14,8 +14,8 @@ struct mainApp : App {
   @AppStorage("OnboardingDone") private var onboardingdone = false
   @State var leaderboardService = LeaderboardService()
   @State var showOnboarding = false
-  @State var chmgr = ChaMan(playData: PlayData.mock )
-  @State var gs = GameState(size: starting_size,
+ // @State var chmgr = ChaMan(playData: PlayData.mock )
+  @State var gs = GameState(chmgr: ChaMan(playData: PlayData.mock ), size: starting_size,
                             topics:[:],
                             challenges:Challenge.mockChallenges)
   
@@ -26,7 +26,7 @@ struct mainApp : App {
         OuterOnboardingView(isOnboardingComplete: $onboardingdone)
       }
       else {
-        ContentView(gs: gs,chmgr: chmgr,lrdb:leaderboardService)
+        ContentView(gs: gs,lrdb:leaderboardService)
           .debugBorder()
           .onAppear {
             ////conditionalAssert(gs.checkVsChaMan(chmgr: chmgr,message:"MainApp"))

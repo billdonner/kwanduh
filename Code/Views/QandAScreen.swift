@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QandAScreen: View {
-
+//
   @Bindable var chmgr: ChaMan  //
   @Bindable var gs: GameState
   let row: Int
@@ -11,9 +11,12 @@ struct QandAScreen: View {
   @Environment(\.dismiss) var dismiss  // Environment value for dismissing the view
 
   @Environment(\.colorScheme) var colorScheme
-
-  @State var showInfo = false
   @State var gimmeeAlert = false
+  
+  
+  
+  @State var showInfo = false
+
   @State var showThumbsUp: Challenge? = nil
   @State var showThumbsDown: Challenge? = nil
 
