@@ -11,9 +11,6 @@ struct GameMove: Codable, Hashable {
   let col: Int
   let movenumber: Int
 }
-//enum DifficultyLevel: Int,Codable {
-//  case easy,normal,hard
-//}
 @Observable
 class GameState: Codable {
   var board: [[Int]]  // Array of arrays to represent the game board with challenges
@@ -31,10 +28,8 @@ class GameState: Codable {
   var onwinpath: [[Bool]]  // only set after win detected
   var gimmees: Int  // Number of "gimmee" actions available
   var doublediag: Bool
-
   @ObservationIgnored
   var chmgr: ChaMan? = nil
-  
   var difficultylevel: Int
   var lastmove: GameMove?
   var gamestart: Date  // when game started
@@ -80,8 +75,6 @@ class GameState: Codable {
     case replacedcount
     case gamenumber
     case movenumber
-    // Pointer to another structure (not encoded or observed)
-
   }
 
   // Codable conformance: decode the properties
@@ -189,56 +182,4 @@ class GameState: Codable {
   }
 
 }
-/////
 
-//
-//  GameLogScreen.swift
-//  basic
-//
-//  Created by bill donner on 8/13/24.
-//
-
-import SwiftUI
-
-
-
-//////
-///
-///
-extension GameState {
-static func documentsDirectory() -> URL {
-    FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-}
-
-func saveGameStateToFile() -> URL? {
-    let fileName = "gameState_\(UUID().uuidString.prefix(8))_\(Date().timeIntervalSince1970).json"
-    let fileURL = Self.documentsDirectory().appendingPathComponent(fileName)
-    
-    do {
-        let data = try JSONEncoder().encode(self)
-        try data.write(to: fileURL)
-
-  
-      savedGamePaths += [fileURL.path]
-   
-        saveGameState() // Save the updated paths to persistent storage
-        
-        return fileURL
-    } catch {
-        print("Failed to save game state to file: \(error)")
-        return nil
-    }
-}
-
-static func loadGameStateFromFile(at path: String) -> GameState? {
-    let fileURL = URL(fileURLWithPath: path)
-    do {
-        let data = try Data(contentsOf: fileURL)
-        let gameState = try JSONDecoder().decode(GameState.self, from: data)
-        return gameState
-    } catch {
-        print("Failed to load game state from file: \(error)")
-        return nil
-    }
-}
-}

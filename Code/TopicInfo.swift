@@ -7,15 +7,9 @@
 
 import Foundation
 
-// MARK: - TopicInfo Struct
-struct TopicInfo: Codable {
-    let name: String
-    var alloccount: Int
-    var freecount: Int
-    var replacedcount: Int
-    var rightcount: Int
-    var wrongcount: Int
-    var challengeIndices: [Int] // Indexes into stati
+
+extension TopicInfo {
+ 
 
     // MARK: - Mock Instance
     static var mock: Self = {

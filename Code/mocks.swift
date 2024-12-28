@@ -47,14 +47,14 @@ extension GameState {
  
   static var starting = {
     // when starting, a size of 1 triggers a load of gamestate
-    let x = GameState(size:1,topics:mockTopics,  challenges:Challenge.mockChallenges)
+    let x = GameState(chmgr: ChaMan.mock, size:1,topics:mockTopics,  challenges:Challenge.mockChallenges)
 //    x.movenumber = 1
 //    x.moveindex[0][0] = 1
 //    x.lastmove = .init(row: 0, col: 0)
     return x
   } ()
   static var mock = {
-    let x = GameState(size:3,topics:mockTopics,  challenges:Challenge.mockChallenges)
+    let x = GameState(chmgr: ChaMan.mock, size:3,topics:mockTopics,  challenges:Challenge.mockChallenges)
     x.movenumber = 1
     x.moveindex[0][0] = 1
     x.replaced[0][0] = [2]

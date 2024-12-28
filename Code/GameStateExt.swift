@@ -591,4 +591,40 @@ extension GameState {
     }
   }
   
+   
+  static func documentsDirectory() -> URL {
+      FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+  }
+
+  func saveGameStateToFile() -> URL? {
+      let fileName = "gameState_\(UUID().uuidString.prefix(8))_\(Date().timeIntervalSince1970).json"
+      let fileURL = Self.documentsDirectory().appendingPathComponent(fileName)
+      
+      do {
+          let data = try JSONEncoder().encode(self)
+          try data.write(to: fileURL)
+
+    
+        savedGamePaths += [fileURL.path]
+     
+          saveGameState() // Save the updated paths to persistent storage
+          
+          return fileURL
+      } catch {
+          print("Failed to save game state to file: \(error)")
+          return nil
+      }
+  }
+
+  static func loadGameStateFromFile(at path: String) -> GameState? {
+      let fileURL = URL(fileURLWithPath: path)
+      do {
+          let data = try Data(contentsOf: fileURL)
+          let gameState = try JSONDecoder().decode(GameState.self, from: data)
+          return gameState
+      } catch {
+          print("Failed to load game state from file: \(error)")
+          return nil
+      }
+  }
 }

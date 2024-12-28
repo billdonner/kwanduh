@@ -5,17 +5,17 @@
 import Foundation
 
 /// Represents the state of a game cell
-enum GameCellState: Codable {
-  case playedCorrectly
-  case playedIncorrectly
-  case unplayed
-  case blocked
-}
-/// Represents a position in the matrix
-struct Coordinate: Hashable {
-  let row: Int
-  let col: Int
-}
+//enum GameCellState: Codable {
+//  case playedCorrectly
+//  case playedIncorrectly
+//  case unplayed
+//  case blocked
+//}
+///// Represents a position in the matrix
+//struct Coordinate: Hashable {
+//  let row: Int
+//  let col: Int
+//}
 struct MatrixConfiguration {
     let maxBlockedPercentage: Int        // Max percentage of blocked cells in the matrix
     let minBlockedPercentage: Int        // Min percentage of blocked cells in the matrix

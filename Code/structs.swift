@@ -3,7 +3,18 @@ import SwiftUI
 
 typealias ColorSchemeName = Int
 
-
+/// Represents the state of a game cell
+enum GameCellState: Codable {
+  case playedCorrectly
+  case playedIncorrectly
+  case unplayed
+  case blocked
+}
+/// Represents a position in the matrix
+struct Coordinate: Hashable {
+  let row: Int
+  let col: Int
+}
 
 extension GameCellState {
   var borderColor: Color {
@@ -18,25 +29,6 @@ extension GameCellState {
           return Color.gray.opacity(0.5)
       }
   }
-}
-struct DismissableModifier: ViewModifier {
-    var onDismiss: () -> Void
-
-    func body(content: Content) -> some View {
-        ZStack {
-            content
-                .onDisappear {
-                    onDismiss()
-                }
-            // Additional layers can be added to the ZStack here if needed
-        }
-    }
-}
-
-extension View {
-    func dismissable(onDismiss: @escaping () -> Void) -> some View {
-        self.modifier(DismissableModifier(onDismiss: onDismiss))
-    }
 }
 
 
@@ -74,34 +66,6 @@ struct RGB: Codable {
   let green: Double
   let blue: Double
 }
-// Function to convert SwiftUI Color to RGB
-func colorToRGB(color: Color) -> RGB {
-  // Convert to UIColor (iOS)
-  let uiColor = UIColor(color)
-  
-  // Extract RGB components
-  var red: CGFloat = 0
-  var green: CGFloat = 0
-  var blue: CGFloat = 0
-  var alpha: CGFloat = 0
-  
-  uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-  
-  // Return RGB as a struct
-  return RGB(red: Double(red) * 255.0,
-             green: Double(green) * 255.0,
-             blue: Double(blue) * 255.0)
-}
-
-/// Determines the contrasting text color (black or white) for a given background color.
-func contrastingTextColor(for rgb: RGB) -> Color {
-  let luminance = 0.299 * rgb.red + 0.587 * rgb.green + 0.114 * rgb.blue
-  return luminance > 186 ? .black : .white
-}
-func optimalTextColor(for color: Color) -> Color {
-  contrastingTextColor(for: colorToRGB(color: color))
-}
-
 
 // MARK: - Data Models
 
@@ -121,7 +85,16 @@ struct BasicTopic: Codable {
     public var notes: String
     public var subtopics: [String]
 }
-
+// MARK: - TopicInfo Struct
+struct TopicInfo: Codable {
+  let name: String
+  var alloccount: Int
+  var freecount: Int
+  var replacedcount: Int
+  var rightcount: Int
+  var wrongcount: Int
+  var challengeIndices: [Int] // Indexes into stati
+}
 struct TopicGroup: Codable {
     public init(description: String, version: String, author: String, date: String, topics: [BasicTopic]) {
         self.description = description
@@ -249,4 +222,7 @@ enum AllocationResult: Equatable {
     case invalidDeallocIndices([Int])
     case insufficientChallenges(Int)
   }
+}
+enum FreeportColor: Int, CaseIterable, Comparable, Codable {
+    case myLightYellow, myDeepPink, myLightBlue, myRoyalBlue, myPeach, myOrange, myLavender, myMint, myLightCoral, myAqua, myLemon, mySkyBlue, mySunshineYellow, myOceanBlue, mySeafoam, myPalmGreen, myCoral, myLagoon, myShell, mySienna, myCoconut, myPineapple, myBurntOrange, myGoldenYellow, myCrimsonRed, myPumpkin, myChestnut, myHarvestGold, myAmber, myMaroon, myRusset, myMossGreen, myIceBlue, myMidnightBlue, myFrost, mySlate, mySilver, myPine, myBerry, myEvergreen, myStorm, myHolly, myOffWhite, myOffBlack, myGold, myHotPink, myDarkOrange, myDarkViolet, myDarkGreen, myCrimson, myTeal, myNavy, myGoldenrod, myForestGreen, myDeepTeal, myChocolate, myBrown, myDarkGoldenrod, myDarkRed, myOrangeRed, mySaddleBrown, myDarkOliveGreen, myPrussianBlue, myAliceBlue, mySteelBlue, myDarkSlateGray, myDarkGray, myWhite
 }
